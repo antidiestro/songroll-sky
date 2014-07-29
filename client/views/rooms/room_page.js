@@ -8,8 +8,17 @@ function youtube_parser(url){
     }
 }
 
+var playerDependency = new Deps.Dependency;
+
+var Player = {
+	el: false,
+	setup: function(){
+		Template.roomPage.player = new YT.Player('player');
+	}
+}
+
 window.onYouTubeIframeAPIReady = function(){
-	player = new YT.Player('player');
+	Player.setup();
 }
 
 Template.roomPage.helpers({
@@ -21,10 +30,25 @@ Template.roomPage.helpers({
 	}
 });
 
+Template.roomPage.rendered = function() {
+	if ( YT ) {
+		Player.setup();
+	}
+}
+
 Deps.autorun(function(){
-	var latest_video = Videos.findOne({}, {sort:{_id:-1}});
-	if (latest_video) {
-		console.log('Latest video is now '+latest_video.title);
+	if ( typeof YT !== 'undefined' ) {
+		var latest_video = Videos.findOne({}, { sort: {createdAt: -1} });
+		Template.roomPage.player.loadVideoById(latest_video.youtube_id);
+	}
+});
+
+Template.roomPage.helpers({
+	videoList: function(){
+		return Videos.find({room_id: this._id});
+	},
+	timeFormat: function(timestamp){
+		return moment(timestamp).format('HH:mm');
 	}
 });
 
