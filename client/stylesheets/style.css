@@ -1,0 +1,26 @@
+#player {
+	width: 100%;
+}
+
+.time {
+	opacity: .66;
+	font-style: italic;
+	display: inline-block;
+	width: 75px;
+}
+
+.video-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-bottom: 10px;
+}
+
+.video-list li {
+	padding: 8px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.video-list li:last-child {
+	border-bottom: 0;
+}

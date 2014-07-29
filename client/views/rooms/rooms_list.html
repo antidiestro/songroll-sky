@@ -1,0 +1,9 @@
+<template name="roomsList">
+  <ul>
+  {{#each rooms}}
+  	<li><a href="{{pathFor 'roomPage'}}">{{title}}</a></li>
+  {{/each}}
+  </ul>
+
+  <input type="button" class="btn btn-sm btn-default" value="Create new room" />
+</template>
