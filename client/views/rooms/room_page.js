@@ -8,38 +8,61 @@ function youtube_parser(url){
     }
 }
 
-var playerDependency = new Deps.Dependency;
+Template.roomPage.rendered = function(){
+	console.log('Template has been rendered');
 
-var Player = {
-	el: false,
-	setup: function(){
-		Template.roomPage.player = new YT.Player('player');
+	Template.roomPage.videoSetup = Deps.autorun(function(){
+		youtubeApiDependency.depend();
+		if ( youtubeApiReady == true ) {
+			Player.setup();
+		}
+	});
+
+	if ( typeof Template.roomPage.videoSeeker === 'undefined' || Template.roomPage.videoSeeker.stopped == true ) {
+		Template.roomPage.videoSeeker = Deps.autorun(function(){
+			contextDependency.depend();
+			youtubePlayerDependency.depend();
+			if ( typeof context !== 'undefined' && youtubePlayerReady == true ) {
+				var checkTime = Date.now();
+				var currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
+				if ( typeof currentVideo !== 'undefined' ) {
+					var startAt = currentVideo.endTime-checkTime;
+					startAt = currentVideo.duration-Math.floor(startAt/1000);
+					
+					Player.el.loadVideoById(currentVideo.youtube_id, startAt);
+				} else {
+					console.log('No video should be playing.');
+				}
+			}
+		});
 	}
 }
 
-window.onYouTubeIframeAPIReady = function(){
-	Player.setup();
+Template.roomPage.destroyed = function(){
+	console.log('Template has been destroyed');
+
+	Player.el.destroy();
+	youtubePlayerReady = false;
+	youtubePlayerDependency.changed();
+	
+	Template.roomPage.videoSetup.stop();
+
+	if ( typeof Template.roomPage.videoSeeker !== 'undefined' ) {
+		Template.roomPage.videoSeeker.stop();
+	}
 }
 
 Template.roomPage.helpers({
 	videoList: function(){
-		return Videos.find({room_id: this._id});
+		return Videos.find({room_id: this._id}, {sort: {playTime: -1}});
 	},
 	timeFormat: function(timestamp){
 		return moment(timestamp).format('HH:mm');
-	}
-});
-
-Template.roomPage.rendered = function() {
-	if ( YT ) {
-		Player.setup();
-	}
-}
-
-Deps.autorun(function(){
-	if ( typeof YT !== 'undefined' ) {
-		var latest_video = Videos.findOne({}, { sort: {createdAt: -1} });
-		Template.roomPage.player.loadVideoById(latest_video.youtube_id);
+	},
+	isPlaying: function(nowPlaying){
+		if ( nowPlaying == true ) {
+			return 'now-playing';
+		}
 	}
 });
 
@@ -61,9 +84,7 @@ Template.roomPage.events({
 			if ( id ) {
 				console.log('Cargando video con id '+id);
 				Meteor.call('getVideoInfo', id, function(e, r) {
-					console.log(r);
 					var data = {room_id: room_id, youtube_id: r.id, title: r.snippet.title, duration: moment.duration(r.contentDetails.duration).asSeconds()};
-					console.log(data);
 					Videos.insert(data);
 				});
 			}

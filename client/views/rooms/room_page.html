@@ -4,7 +4,7 @@
 	<h4>{{title}}</h4>
 	<ul class="video-list">
 		{{#each videoList}}
-			<li><span class="time"><span class="glyphicon glyphicon-time"></span> {{timeFormat createdAt}}</span> {{title}} </li>
+			<li class="{{isPlaying nowPlaying}}"><span class="time"><span class="glyphicon glyphicon-time"></span> {{timeFormat playTime}}</span> {{title}} </li>
 		{{/each}}
 	</ul>
 

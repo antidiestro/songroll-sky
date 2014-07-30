@@ -24,3 +24,7 @@
 .video-list li:last-child {
 	border-bottom: 0;
 }
+
+.now-playing {
+	font-weight: bold;
+}
