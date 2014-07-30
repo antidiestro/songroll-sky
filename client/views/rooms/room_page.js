@@ -1,20 +1,10 @@
-function youtube_parser(url){
-    var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    if (match&&match[1].length==11){
-        return match[1];
-    } else {
-        return false;
-    }
-}
-
 Template.roomPage.rendered = function(){
 	console.log('Template has been rendered');
 
 	Template.roomPage.videoSetup = Deps.autorun(function(){
 		youtubeApiDependency.depend();
 		if ( youtubeApiReady == true ) {
-			Player.setup();
+			Sky.player.setup();
 		}
 	});
 
@@ -26,10 +16,10 @@ Template.roomPage.rendered = function(){
 				var checkTime = Date.now();
 				var currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
 				if ( typeof currentVideo !== 'undefined' ) {
-					var startAt = currentVideo.endTime-checkTime;
-					startAt = currentVideo.duration-Math.floor(startAt/1000);
+					var startAt = checkTime-currentVideo.playTime;
+					startAt = Math.floor(startAt/1000);
 					
-					Player.el.loadVideoById(currentVideo.youtube_id, startAt);
+					Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 				} else {
 					console.log('No video should be playing.');
 				}
@@ -41,7 +31,7 @@ Template.roomPage.rendered = function(){
 Template.roomPage.destroyed = function(){
 	console.log('Template has been destroyed');
 
-	Player.el.destroy();
+	Sky.player.el.destroy();
 	youtubePlayerReady = false;
 	youtubePlayerDependency.changed();
 	
@@ -80,7 +70,7 @@ Template.roomPage.events({
 		var room_id = this._id;
 		var url = prompt('Ingresa una URL de un video de YouTube');
 		if ( url ) {
-			var id = youtube_parser(url);
+			var id = Sky.helpers.youtube_parser(url);
 			if ( id ) {
 				console.log('Cargando video con id '+id);
 				Meteor.call('getVideoInfo', id, function(e, r) {

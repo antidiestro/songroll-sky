@@ -1,7 +1,17 @@
 <template name="layout">
-  <div class="container">
-    <h2><a href="{{pathFor 'roomsList'}}">Songroll Sky</a> <small>Live playlists</small></h2>
-    {{> yield}}
-  </div>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="pull-right">
+				{{> loginButtons}}
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="{{pathFor 'roomsList'}}">Songroll Sky</a>
+			</div>
+		</div>
+	</nav>
+	<div style="padding-top: 60px;" class="container">
+		{{> yield}}
+	</div>
 </template>
 

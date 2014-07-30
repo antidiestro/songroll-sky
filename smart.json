@@ -3,6 +3,7 @@
     "bootstrap-3": {},
     "iron-router": {},
     "moment": {},
-    "collection-hooks": {}
+    "collection-hooks": {},
+    "twitter-api": {}
   }
 }

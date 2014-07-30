@@ -5,7 +5,8 @@
       "bootstrap-3": {},
       "iron-router": {},
       "moment": {},
-      "collection-hooks": {}
+      "collection-hooks": {},
+      "twitter-api": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -15,8 +16,8 @@
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.8.0",
-        "commit": "e38588cb4ddc841de83f03be135d65607dfe98ba"
+        "tag": "v0.8.1",
+        "commit": "74e867557fd9cb81173e048e5f81cf4a0a1160a8"
       },
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",
@@ -27,6 +28,11 @@
         "git": "https://github.com/matb33/meteor-collection-hooks.git",
         "tag": "v0.7.2",
         "commit": "261f61f07b371ae913463fba8964a9b93cab531b"
+      },
+      "twitter-api": {
+        "git": "https://github.com/Sewdn/meteor-twitter-api.git",
+        "tag": "v0.1.2",
+        "commit": "d940e1018cb56ed011948a8fc36eb721d201cb60"
       },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",
