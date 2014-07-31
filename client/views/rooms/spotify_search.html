@@ -1,0 +1,37 @@
+<template name="spotifySearch">
+	<div class="modal fade" id="spotifySearch" tabindex="-1" role="dialog" aria-labelledby="spotifySearchLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="spotifySearchLabel">Busca una canción...</h4>
+				</div>
+				<div class="modal-body">
+					<form class="search-container">
+						<span class="glyphicon glyphicon-search"></span>
+						<input type="text" class="form-control" placeholder="Escribe el nombre de una canción o artista...">
+					</form>
+					<div class="search-results">
+						{{#if isSearchingSpotify}}
+							<div class="loader">
+								<img src="/loader.gif">
+							</div>
+						{{/if}}
+						{{#each searchResults}}
+							<li>
+								{{#if image_url}}
+									<img class="album-art" src="{{image_url}}">
+								{{/if}}
+								<div class="info">
+									<div class="title">{{name}}</div>
+									<div class="artist">{{artist_name}}</div>
+									<div class="album">{{album_name}}</div>
+								</div>
+							</li>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

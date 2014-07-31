@@ -53,14 +53,28 @@ Template.roomPage.destroyed = function(){
 }
 
 Template.roomPage.helpers({
+	messageList: function(){
+		var messages = Messages.find({room_id: this._id}).fetch();
+		messages.forEach(function(item, i){
+			var user = Meteor.users.findOne({_id: item.user_id});
+			messages[i].user = user;
+			if ( user._id == Meteor.userId() ) {
+				messages[i].mine = true;
+			}
+		});
+		return messages;
+	},
 	userList: function(){
 		return Meteor.users.find({currentRoom: this._id});
 	},
-	videoList: function(){
-		return Videos.find({room_id: this._id}, {sort: {playTime: -1}});
+	proposedVideosList: function(){
+		return Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}});
 	},
 	timeFormat: function(timestamp){
 		return moment(timestamp).format('HH:mm');
+	},
+	nowPlaying: function(){
+		return Videos.findOne({room_id: this._id, nowPlaying: true});
 	},
 	isPlaying: function(nowPlaying){
 		if ( nowPlaying == true ) {
@@ -79,6 +93,17 @@ Template.roomPage.helpers({
 });
 
 Template.roomPage.events({
+	'submit #sendMessage': function(e){
+		e.preventDefault();
+		var messageInput = $(e.target).find('input[type="text"]');
+		var messageText = messageInput.val();
+		messageInput.val('');
+		Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
+	},
+	'click .vote-count': function(){
+		console.log(this._id);
+		Meteor.call('toggleVote', this._id);
+	},
 	'click #add-video': function(){
 		var room_id = this._id;
 		var url = prompt('Ingresa una URL de un video de YouTube');

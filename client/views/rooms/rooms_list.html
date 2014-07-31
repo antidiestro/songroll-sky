@@ -1,7 +1,12 @@
 <template name="roomsList">
   <ul>
   {{#each rooms}}
-  	<li><a href="{{pathFor 'roomPage'}}">{{title}}</a></li>
+  	<li>
+  		<a href="{{pathFor 'roomPage'}}">{{title}}</a>
+  		{{#if now_playing}}
+  			<span><strong>Reproduciendo:</strong> {{now_playing.title}}</span> 
+  		{{/if}}
+  	</li>
   {{/each}}
   </ul>
 

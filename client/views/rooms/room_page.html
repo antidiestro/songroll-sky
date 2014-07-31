@@ -1,23 +1,78 @@
 <template name="roomPage">
-	<h3 class="page-header"><small>Actualmente en la sala</small> {{title}}</h3>
+
+	{{> spotifySearch}}
+
+	<h3 class="page-header">
+		<div class="pull-right">
+			<button id="search-spotify" data-toggle="modal" data-target="#spotifySearch" class="btn btn-info">
+				<span class="glyphicon glyphicon-plus"></span>
+				<span>Añadir una canción</span>
+			</button>
+		</div>
+		<small>Actualmente en la sala</small><br>
+		{{title}}
+	</h3>
+	<div class="row">
+		<div class="col-sm-12">
+			<ul class="user-list">
+				{{#each userList}}
+					{{> userAvatar}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-sm-6">
 			<div id="player"></div>
 
-			<ul class="video-list">
-				{{#each videoList}}
-					<li class="{{isPlaying nowPlaying}}"><span class="time"><span class="glyphicon glyphicon-time"></span> {{timeFormat playTime}}</span> {{title}} </li>
+			<h4><small>Reproduciendo</small></h4>
+			{{#with nowPlaying}}
+				<div class="now-playing">
+					{{#if image_url}}
+						<img class="album-art" src="{{image_url}}">
+					{{/if}}
+					<div class="info">
+						<div class="title">{{title}}</div>
+						<div class="artist">{{artist_name}}</div>
+					</div>
+				</div>
+			{{/with}}
+		</div>
+		<div class="col-sm-6">
+			<ul class="messages just-in well">
+				{{#each messageList}}
+					{{> messageItem}}
 				{{/each}}
 			</ul>
 
-			<button id="add-video" class="btn btn-primary">Agregar un video</button>
-		</div>
-		<div class="col-sm-6">
-			<h4>Usuarios en la sala</h4>
+			{{#if currentUser}}
+				<form id="sendMessage">
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
+						<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
+					</div>
+				</form>
+			{{/if}}
 
-			<ul class="user-list">
-				{{#each userList}}
-					{{> userAvatar}}
+			<h4>Proposed videos</h4>
+			<ul class="proposed-videos-list">
+				{{#each proposedVideosList}}
+					<li>
+						<div class="pull-right vote-count">
+							{{#if voteCount}}
+								<span class="count">{{voteCount}}</span>
+							{{/if}}
+							<span class="glyphicon glyphicon-thumbs-up"></span>
+						</div>
+
+						{{#if image_url}}
+							<img class="album-art" src="{{image_url}}">
+						{{/if}}
+						<div class="info">
+							<div class="title">{{title}}</div>
+							<div class="artist">{{artist_name}}</div>
+						</div>
+					</li>
 				{{/each}}
 			</ul>
 		</div>
