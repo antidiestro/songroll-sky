@@ -4,6 +4,7 @@
     "iron-router": {},
     "moment": {},
     "collection-hooks": {},
-    "twitter-api": {}
+    "twitter-api": {},
+    "npm": {}
   }
 }

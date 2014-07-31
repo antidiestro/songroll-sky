@@ -6,7 +6,8 @@
       "iron-router": {},
       "moment": {},
       "collection-hooks": {},
-      "twitter-api": {}
+      "twitter-api": {},
+      "npm": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -33,6 +34,11 @@
         "git": "https://github.com/Sewdn/meteor-twitter-api.git",
         "tag": "v0.1.2",
         "commit": "d940e1018cb56ed011948a8fc36eb721d201cb60"
+      },
+      "npm": {
+        "git": "https://github.com/arunoda/meteor-npm.git",
+        "tag": "v0.2.6",
+        "commit": "177ab6118de5bf8cffb19481343d5762ff7a2aaf"
       },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",

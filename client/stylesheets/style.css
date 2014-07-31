@@ -9,7 +9,7 @@
 	width: 75px;
 }
 
-.video-list {
+.video-list, .user-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -25,6 +25,19 @@
 	border-bottom: 0;
 }
 
+.user-list li {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.user-list li img {
+	width: 32px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+
 .now-playing {
 	font-weight: bold;
 }
+
