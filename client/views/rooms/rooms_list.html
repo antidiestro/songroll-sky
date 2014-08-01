@@ -1,14 +1,25 @@
 <template name="roomsList">
-  <ul>
+
+  {{> roomCreator}}
+
+  <h2 class="rooms-list-header page-header">
+    <div class="pull-right">
+      <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span>Crear una sala</span>
+      </button>
+    </div>
+    <span>Salas de música</span>
+  </h2>
+  <ul class="rooms-list">
   {{#each rooms}}
   	<li>
   		<a href="{{pathFor 'roomPage'}}">{{title}}</a>
   		{{#if now_playing}}
-  			<span><strong>Reproduciendo:</strong> {{now_playing.title}}</span> 
+  			<small style="font-size:15px; opacity:.75; margin-left: 10px;"><span class="glyphicon glyphicon-volume-up"></span> {{now_playing.artist_name}} &mdash; {{now_playing.title}}</small> 
   		{{/if}}
   	</li>
   {{/each}}
   </ul>
 
-  <input type="button" class="btn btn-sm btn-default" value="Create new room" />
 </template>

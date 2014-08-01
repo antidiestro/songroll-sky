@@ -17,8 +17,8 @@
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.8.1",
-        "commit": "74e867557fd9cb81173e048e5f81cf4a0a1160a8"
+        "tag": "v0.8.2",
+        "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
       },
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",

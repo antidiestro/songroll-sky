@@ -1,24 +1,25 @@
 <template name="layout">
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="pull-right">
-				{{#if currentUser}}
-					<div class="user-info">
-						<img class="avatar" src="{{currentUser.avatar}}">
-						<span>{{currentUser.name}}</span>
-					</div>
-				{{/if}}
+	{{#if currentUser}}
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="pull-right">
+					{{#if currentUser}}
+						<div class="user-info">
+							<img class="avatar" src="{{currentUser.avatar}}">
+							<span>{{currentUser.name}}</span>
+						</div>
+					{{/if}}
 
-				{{> loginButtons}}
-			</div>
+					{{> loginButtons}}
+				</div>
 
-			<div class="navbar-header">
-				<a class="navbar-brand" href="{{pathFor 'roomsList'}}">Songroll Sky</a>
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{pathFor 'roomsList'}}"><img src="/logo.png"></a>
+				</div>
 			</div>
-		</div>
-	</nav>
+		</nav>
+	{{/if}}
 	<div style="padding-top: 60px;" class="container">
 		{{> yield}}
 	</div>
 </template>
-
