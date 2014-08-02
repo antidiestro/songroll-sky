@@ -4,12 +4,11 @@ Template.login.rendered = function(){
 		if ( Meteor.userId() ) {
 			var next_path = nextPath;
 			if ( next_path ) {
-				nextPathDependency = false;
+				nextPath = false;
+				Router.go(next_path);
 			} else {
-				next_path = '/';
+				Router.go('/');
 			}
-			console.log(next_path);
-			Router.go(next_path);
 		}
 	});
 }
