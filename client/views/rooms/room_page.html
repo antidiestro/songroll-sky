@@ -26,44 +26,60 @@
 					<div id="player"></div>
 				</div>
 				<div class="col-sm-5">
-					<div class="videos-control">
-						{{#with nowPlaying}}
-							<div class="now-playing">
-								{{#if timeRemaining}}
-									<div class="pull-right time-remaining">{{timeRemaining}}</div>
-								{{/if}}
-								{{#if image_url}}
-									<img class="album-art" src="{{image_url}}">
-								{{/if}}
-								<div class="info">
-									<div class="artist"><span class="glyphicon glyphicon-volume-up"></span> {{artist_name}}</div>
-									<div class="title">{{title}}</div>
+					<div class="videos-control
+					{{#if nowPlaying}}
+						is-np
+					{{/if}}
+					">
+						{{#if nowPlaying}}
+							{{#with nowPlaying}}
+								<div class="now-playing">
+									{{#if timeRemaining}}
+										<div class="pull-right time-remaining">{{timeRemaining}}</div>
+									{{/if}}
+									{{#if image_url}}
+										<img class="album-art" src="{{image_url}}">
+									{{/if}}
+									<div class="info">
+										<div class="artist"><span class="glyphicon glyphicon-volume-up"></span> {{artist_name}}</div>
+										<div class="title">{{title}}</div>
+									</div>
 								</div>
-							</div>
-						{{/with}}
-						<div class="proposed-videos">
-							<h4 class="proposed-videos-title">Videos propuestos <span>Vota por el siguiente.</span></h4>
-							<ul class="proposed-videos-list">
-								{{#each proposedVideosList}}
-									<li>
-										<div class="pull-right vote-count">
-											{{#if voteCount}}
-												<span class="count">{{voteCount}}</span>
-											{{/if}}
-											<span class="glyphicon glyphicon-thumbs-up"></span>
-										</div>
+							{{/with}}
+							<div class="proposed-videos">
+								<h4 class="proposed-videos-title">A continuación
+									{{#if proposedVideosList.count}}
+										<span>Vota por el siguiente.</span>
+									{{/if}}
+								</h4>
+								<ul class="proposed-videos-list">
+									{{#if proposedVideosList.count}}
+										{{#each proposedVideosList}}
+											<li>
+												<div class="pull-right vote-count">
+													{{#if voteCount}}
+														<span class="count">{{voteCount}}</span>
+													{{/if}}
+													<span class="glyphicon glyphicon-thumbs-up"></span>
+												</div>
 
-										{{#if image_url}}
-											<img class="album-art" src="{{image_url}}">
-										{{/if}}
-										<div class="info">
-											<div class="artist">{{artist_name}}</div>
-											<div class="title">{{title}}</div>
-										</div>
-									</li>
-								{{/each}}
-							</ul>
-						</div>
+												{{#if image_url}}
+													<img class="album-art" src="{{image_url}}">
+												{{/if}}
+												<div class="info">
+													<div class="artist">{{artist_name}}</div>
+													<div class="title">{{title}}</div>
+												</div>
+											</li>
+										{{/each}}
+									{{else}}
+										<div class="proposed-videos-empty">No hay videos propuestos para ver después. <br><a data-toggle="modal" data-target="#spotifySearch">¡Añade uno a la lista!</a></div>
+									{{/if}}
+								</ul>
+							</div>
+						{{else}}
+							no hay nada por ahora
+						{{/if}}
 					</div>
 				</div>
 			</div>

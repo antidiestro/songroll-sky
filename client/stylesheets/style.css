@@ -63,6 +63,10 @@ body {
 	height: 100%;
 	position: relative;
 	width: 100%;
+	overflow: hidden;
+}
+
+.videos-control.is-np {
 	padding-top: 110px;
 }
 
@@ -310,11 +314,12 @@ body {
 .now-playing {
 	padding: 20px;
 	padding-right: 0;
-	border-bottom: 1px solid #333;
+	border-bottom: 1px solid rgba(255,255,255,.05);
 	position: absolute;
 	width: 100%;
 	left: 0;
 	top: 0;
+	box-shadow: -5px 10px 20px rgba(0,0,0,0.5);
 }
 
 .now-playing h4 {
@@ -525,6 +530,7 @@ body {
 .proposed-videos-list li:hover {
 	opacity: 1;
 	cursor: pointer;
+	background-color: rgba(255,255,255,.05);
 }
 
 .proposed-videos-list li .album-art {
@@ -557,16 +563,16 @@ body {
 .proposed-videos-list li .vote-count {
 	font-size: 18px;
 	height: 30px;
-	margin: 5px 0;
+	margin: 1px 0;
 	line-height: 30px;
 	border-radius: 2px;
 	padding: 0 10px;
-	color: #666;
+	color: white;
+	opacity: .3;
 }
 
-.proposed-videos-list li .vote-count:hover {
-	cursor: pointer;
-	background-color: #eee;
+.proposed-videos-list li:hover .vote-count {
+	opacity: 1;
 }
 
 .proposed-videos-list li .vote-count span.count {
@@ -579,9 +585,31 @@ body {
 	vertical-align: top;
 	line-height: 30px;
 	position: relative;
-	top: 0px;
+	top: 1px;
 }
 
+.proposed-videos-empty {
+	padding-left: 20px;
+	font-size: 17px;
+	opacity: 0.7;
+	-webkit-font-smoothing: subpixel-antialiased;
+	font-weight: 300;
+	line-height: 20px;
+	margin-top: 3px;
+	color: rgba(255,255,255,.5);
+}
+
+.proposed-videos-empty a {
+	color: inherit;
+	border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.proposed-videos-empty a:hover {
+	color: white;
+	cursor: pointer;
+	border-bottom-color: rgba(255,255,255,.75);
+	text-decoration: none;
+}
 
 
 .rooms-list li {

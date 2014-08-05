@@ -155,8 +155,7 @@ Template.roomPage.events({
 		messageInput.val('');
 		Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
 	},
-	'click .vote-count': function(){
-		console.log(this._id);
+	'click .proposed-videos-list li': function(){
 		Meteor.call('toggleVote', this._id);
 	},
 	'click #add-video': function(){
