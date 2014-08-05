@@ -2,18 +2,15 @@
 
 	{{> spotifySearch}}
 
-	<h3 class="page-header">
-		<div class="pull-right">
-			<button id="search-spotify" data-toggle="modal" data-target="#spotifySearch" class="btn btn-info">
-				<span class="glyphicon glyphicon-plus"></span>
-				<span>Añadir una canción</span>
-			</button>
-		</div>
-		<small>Actualmente en la sala</small><br>
-		{{title}}
-	</h3>
-	<div class="row">
-		<div class="col-sm-12">
+	<div class="room-info">
+		<div class="container">
+			<div class="pull-right">
+				<button id="search-spotify" data-toggle="modal" data-target="#spotifySearch" class="btn btn-info">
+					<span class="glyphicon glyphicon-plus"></span>
+					<span>Añadir una canción</span>
+				</button>
+			</div>
+			<h1><span>Estás en</span> {{title}}</h1>
 			<ul class="user-list">
 				{{#each userList}}
 					{{> userAvatar}}
@@ -21,60 +18,90 @@
 			</ul>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<div id="player"></div>
 
-			<h4><small>Reproduciendo</small></h4>
-			{{#with nowPlaying}}
-				<div class="now-playing">
-					{{#if image_url}}
-						<img class="album-art" src="{{image_url}}">
-					{{/if}}
-					<div class="info">
-						<div class="title">{{title}}</div>
-						<div class="artist">{{artist_name}}</div>
+	<div class="player-container">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-7">
+					<div id="player"></div>
+				</div>
+				<div class="col-sm-5">
+					<div class="videos-control">
+						{{#with nowPlaying}}
+							<div class="now-playing">
+								<h4>Reproduciendo</h4>
+								{{#if image_url}}
+									<img class="album-art" src="{{image_url}}">
+								{{/if}}
+								<div class="info">
+									<div class="title">{{title}}</div>
+									<div class="artist">{{artist_name}}</div>
+								</div>
+							</div>
+						{{/with}}
 					</div>
 				</div>
-			{{/with}}
+			</div>
 		</div>
-		<div class="col-sm-6">
-			<ul class="messages just-in well">
-				{{#each messageList}}
-					{{> messageItem}}
-				{{/each}}
-			</ul>
+	</div>
 
-			{{#if currentUser}}
-				<form id="sendMessage">
-					<div class="form-group">
-						<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
-						<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
-					</div>
-				</form>
-			{{/if}}
+	<div class="container">
+		<h3 class="page-header">
+			
+		</h3>
+		<div class="row">
+			<div class="col-sm-12">
+				
+			</div>
+		</div>
+	</div>
 
-			<h4>Videos propuestos</h4>
-			<ul class="proposed-videos-list">
-				{{#each proposedVideosList}}
-					<li>
-						<div class="pull-right vote-count">
-							{{#if voteCount}}
-								<span class="count">{{voteCount}}</span>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+
+				<div class="chatroom-container">
+					<ul class="messages just-in well">
+						{{#each messageList}}
+							{{> messageItem}}
+						{{/each}}
+					</ul>
+					{{#if currentUser}}
+						<form id="sendMessage">
+							<div class="form-group">
+								<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
+								<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
+							</div>
+						</form>
+					{{/if}}
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<h4><small>Reproduciendo</small></h4>
+				
+				
+				<h4>Videos propuestos</h4>
+				<ul class="proposed-videos-list">
+					{{#each proposedVideosList}}
+						<li>
+							<div class="pull-right vote-count">
+								{{#if voteCount}}
+									<span class="count">{{voteCount}}</span>
+								{{/if}}
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+							</div>
+
+							{{#if image_url}}
+								<img class="album-art" src="{{image_url}}">
 							{{/if}}
-							<span class="glyphicon glyphicon-thumbs-up"></span>
-						</div>
-
-						{{#if image_url}}
-							<img class="album-art" src="{{image_url}}">
-						{{/if}}
-						<div class="info">
-							<div class="title">{{title}}</div>
-							<div class="artist">{{artist_name}}</div>
-						</div>
-					</li>
-				{{/each}}
-			</ul>
+							<div class="info">
+								<div class="title">{{title}}</div>
+								<div class="artist">{{artist_name}}</div>
+							</div>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
 		</div>
 	</div>
 	

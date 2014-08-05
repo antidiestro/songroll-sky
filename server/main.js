@@ -10,6 +10,15 @@ twitter = new OAuth.OAuth(
     'HMAC-SHA1'
 );
 
+Meteor.startup(function(){
+	console.log('Hey server! This is Songroll Sky.');
+	console.log('To kick things off, I will look for songs currently playing and set timers for when they end.');
+	var nowPlaying = Videos.find({nowPlaying: true});
+	nowPlaying.forEach(function(doc, i){
+		Sky.playNextWhenOver(doc._id);
+	});
+});
+
 Meteor.users.allow({
 	update: function (userId, doc, fields, modifier) {
 		if (userId && doc._id === userId) {
@@ -93,7 +102,7 @@ Accounts.onLogin(function(e) {
 			var account = Meteor.users.findOne({_id: user._id});
 			if ( account ) {
 				var twitter_data = JSON.parse(d);
-				Meteor.users.update({_id: account._id}, { $set: { name: twitter_data.name, username: twitter_data.screen_name } });
+				Meteor.users.update({_id: account._id}, { $set: { name: twitter_data.name, username: twitter_data.screen_name, avatar: twitter_data.profile_image_url_https } });
 			}
 		}
 	}));

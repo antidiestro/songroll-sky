@@ -1,5 +1,16 @@
+resizePlayer = function(){
+	var player = $('#player').width();
+	var height = Math.floor((player/16)*9);
+	$('#player, .player-container .col-sm-5').height(height);
+}
+
 Template.roomPage.rendered = function(){
 	console.log('Template has been rendered');
+
+	// Resize player to keep 16:9 aspect ratio
+	$(window).resize(function(){
+		resizePlayer();
+	});
 
 	if ( Meteor.isClient ) {
 		Template.roomPage.userCatcher = Deps.autorun(function(){
@@ -40,6 +51,12 @@ Template.roomPage.rendered = function(){
 
 Template.roomPage.destroyed = function(){
 	console.log('Template has been destroyed');
+
+	$(window).unbind('resize');
+
+	if ( Meteor.userId() ) {
+		Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: 0 } });
+	}
 
 	Sky.player.el.destroy();
 	youtubePlayerReady = false;

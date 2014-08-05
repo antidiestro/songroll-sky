@@ -1,6 +1,63 @@
+body {
+	padding-top: 50px;
+	padding-bottom: 30px;
+}
+
+.player-container {
+	width: 100%;
+	background-color: #101213;
+}
+
+.player-container > .container > .row > .col-sm-7 {
+	padding-right: 0;
+}
+
+.player-container > .container > .row > .col-sm-5 {
+	padding-left: 0;
+}
+
 #player {
 	width: 100%;
-	height: 312px;
+	display: block;
+}
+
+.videos-control {
+	color: whitesmoke;
+	-webkit-font-smoothing: antialiased;
+	height: 100%;
+}
+
+.room-info {
+	background-color: #13191D;
+	color: whitesmoke;
+	-webkit-font-smoothing: antialiased;
+	box-shadow: inset 0px 30px 65px rgba(255,255,255,.03);
+}
+
+.room-info h1 {
+	margin: 0;
+	line-height: 55px;
+	font-size: 16px;
+	font-family: 'montserrat';
+	font-weight: bold;
+	text-transform: uppercase;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.room-info h1 span {
+	color: rgb(94, 113, 127);
+	letter-spacing: 0;
+	margin-right: 8px;
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.room-info .user-list {
+	margin: 0;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 30px;
 }
 
 .navbar-brand:hover {
@@ -139,12 +196,19 @@
 	width: 32px;
 	border-radius: 50%;
 	cursor: pointer;
+	border: 2px solid rgb(180, 180, 180);
+}
+
+.chatroom-container {
+	position: relative;
 }
 
 .messages {
-	height: 269px;
+	height: 400px;
 	padding: 12px;
 	overflow: auto;
+	padding-bottom: 50px;
+	border-radius: 0 0 3px 3px;
 }
 
 .messages li {
@@ -200,6 +264,20 @@
 	text-align: left;
 }
 
+.now-playing {
+	padding: 20px;
+}
+
+.now-playing h4 {
+	font-size: 11px;
+	font-weight: bold;
+	opacity: .5;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	margin: 0;
+	margin-bottom: 10px;
+}
+
 .now-playing .album-art {
 	width: 75px;
 	display: inline-block;
@@ -220,7 +298,7 @@
 
 .now-playing .info .artist {
 	font-size: 15px;
-	opacity: .75;
+	opacity: .5;
 }
 
 #search-spotify {
@@ -228,17 +306,35 @@
 }
 
 #sendMessage { 
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 12px;
+}
+
+#sendMessage .form-group {
+	margin-bottom: 0;
 	position: relative;
+}
+
+#sendMessage input[type="text"] {
+	padding-right: 86px;
 }
 
 #sendMessage input[type="submit"] {
 	position: absolute;
 	right: 0;
-	top: 0;
-	height: 24px;
-	line-height: 12px;
-	margin: 5px;
+	top: 0px;
+	margin: 0;
+	height: 34px;
+	line-height: 34px;
+	padding: 0 15px;
+	border-radius: 0 3px 3px 0;
 	font-weight: bold;
+	font-size: 14px;
+	text-shadow: 0px 1px rgba(0,0,0,0.2);
+	-webkit-font-smoothing: antialiased;
 }
 
 #spotifySearch .search-container {
