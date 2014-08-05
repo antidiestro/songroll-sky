@@ -1,11 +1,47 @@
 body {
 	padding-top: 50px;
 	padding-bottom: 30px;
+	font-family: 'Lato';
+}
+
+* {
+	outline: none;
+}
+
+.btn-sky {
+	display: inline-block;
+	background-color: #27ae60;
+	border: none;
+	text-transform: uppercase;
+	font-family: 'montserrat';
+	font-size: 13px;
+	padding: 8px 16px 10px;
+	letter-spacing: 0.1px;
+	-webkit-font-smoothing: antialiased;
+	color: white;
+	font-weight: bold;
+	text-shadow: 0px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0px -2px rgba(0,0,0,0.2);
+}
+
+.btn-sky:hover {
+	box-shadow: inset 0px 50px rgba(255,255,255,.1), inset 0px -2px rgba(0,0,0,0.2);
+}
+
+.btn-sky:active {
+	padding: 10px 16px 8px;
+	box-shadow: inset 0px 50px rgba(0,0,0,.2), inset 0px 2px rgba(0,0,0,0.3);
+}
+
+.btn-sky .glyphicon {
+	font-size: 12px;
+	margin-right: 8px;
 }
 
 .player-container {
 	width: 100%;
-	background-color: #101213;
+	background-color: #191C1F;
+	box-shadow: inset 0px 180px 190px rgba(0,0,0,0.3);
 }
 
 .player-container > .container > .row > .col-sm-7 {
@@ -25,13 +61,16 @@ body {
 	color: whitesmoke;
 	-webkit-font-smoothing: antialiased;
 	height: 100%;
+	position: relative;
+	width: 100%;
+	padding-top: 110px;
 }
 
 .room-info {
-	background-color: #13191D;
+	background-color: #2c3e50;
 	color: whitesmoke;
 	-webkit-font-smoothing: antialiased;
-	box-shadow: inset 0px 30px 65px rgba(255,255,255,.03);
+	box-shadow: inset 0px -30px 55px rgba(0,0,0,0.3);
 }
 
 .room-info h1 {
@@ -199,6 +238,10 @@ body {
 	border: 2px solid rgb(180, 180, 180);
 }
 
+.user-list li img:hover {
+	border-color: white;
+}
+
 .chatroom-container {
 	position: relative;
 }
@@ -266,6 +309,12 @@ body {
 
 .now-playing {
 	padding: 20px;
+	padding-right: 0;
+	border-bottom: 1px solid #333;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
 }
 
 .now-playing h4 {
@@ -279,30 +328,48 @@ body {
 }
 
 .now-playing .album-art {
-	width: 75px;
+	width: 70px;
+	height: 70px;
 	display: inline-block;
 	vertical-align: middle;
+	border: 2px solid rgb(82, 97, 107);
 }
 
 .now-playing .info {
 	display: inline-block;
 	vertical-align: middle;
 	padding-left: 15px;
+	font-family: 'montserrat';
+	letter-spacing: -1px;
 }
 
 .now-playing .info .title {
-	font-size: 26px;
+	font-size: 20px;
 	line-height: 28px;
-	font-weight: 300;
+	font-family: 'Montserrat';
 }
 
 .now-playing .info .artist {
-	font-size: 15px;
-	opacity: .5;
+	font-size: 12px;
+	opacity: .65;
+	text-transform: uppercase;
+	letter-spacing: 0;
+}
+
+.now-playing .info .artist .glyphicon {
+	margin-right: 6px;
+}
+
+.now-playing .time-remaining {
+	line-height: 70px;
+	font-size: 23px;
+	font-weight: 200;
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+	opacity: 0.5;
 }
 
 #search-spotify {
-	margin-top: 17px;
+	margin: 10px 0;
 }
 
 #sendMessage { 
@@ -424,14 +491,45 @@ body {
 	opacity: .5;
 }
 
+.proposed-videos {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.proposed-videos-title {
+	margin: 0;
+	padding: 16px 20px;
+	padding-bottom: 10px;
+	font-family: 'montserrat';
+	font-size: 13px;
+	font-weight: bold;
+	text-transform: uppercase;
+	opacity: .75;
+}
+
+.proposed-videos-title span {
+	font-weight: normal;
+	font-size: 12px;
+	margin-left: 10px;
+	opacity: .6;
+	text-transform: none;
+}
+
 .proposed-videos-list li {
-	padding: 10px 0;
-	border-bottom: 1px solid #eee;
+	padding: 12px 0px 12px 20px;
+	border-bottom: 1px solid rgba(255,255,255,.07);
+	opacity: 0.6;
+}
+
+.proposed-videos-list li:hover {
+	opacity: 1;
+	cursor: pointer;
 }
 
 .proposed-videos-list li .album-art {
-	width: 40px;
-	height: 40px;
+	width: 32px;
+	height: 32px;
 	display: inline-block;
 	vertical-align: middle;
 }
@@ -439,20 +537,21 @@ body {
 .proposed-videos-list li .info {
 	display: inline-block;
 	vertical-align: middle;
-	padding-left: 7px;
+	padding-left: 8px;
+	font-family: 'montserrat';
 }
 
 .proposed-videos-list li .info .title {
-	font-size: 15px;
+	font-size: 13px;
 	line-height: 16px;
-	margin-bottom: 3px;
 	font-weight: 400;
 }
 
 .proposed-videos-list li .info .artist {
 	line-height: 14px;
-	font-size: 13px;
-	opacity: 0.85;
+	opacity: 0.65;
+	font-size: 10px;
+	text-transform: uppercase;
 }
 
 .proposed-videos-list li .vote-count {

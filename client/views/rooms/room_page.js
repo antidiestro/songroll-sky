@@ -4,8 +4,34 @@ resizePlayer = function(){
 	$('#player, .player-container .col-sm-5').height(height);
 }
 
+formatDuration = function(durationInSeconds){
+	var total = parseInt(durationInSeconds);
+	var minutes = Math.floor(total/60);
+	var seconds = total%60;
+
+	minutes = minutes.toString();
+	seconds = seconds.toString();
+
+	if ( minutes.length == 1 ) { minutes = '0'+minutes; }
+	if ( seconds.length == 1 ) { seconds = '0'+seconds; }
+
+	return minutes+':'+seconds;
+}
+
+updateTimeRemaining = function(){
+	var now = Date.now();
+	var endTime = currentVideo.playTime+(parseInt(currentVideo.duration)*1000);
+	var remainingTime = Math.floor((endTime-now)/1000);
+
+	Session.set('currentVideoRemainingTime', formatDuration(remainingTime));
+
+	Template.roomPage.currentVideoRemainingTimeTimeout = setTimeout(function(){ updateTimeRemaining(); }, 1000);
+}
+
 Template.roomPage.rendered = function(){
 	console.log('Template has been rendered');
+
+	Session.set('currentVideoRemainingTime', false);
 
 	// Resize player to keep 16:9 aspect ratio
 	$(window).resize(function(){
@@ -35,13 +61,17 @@ Template.roomPage.rendered = function(){
 			youtubePlayerDependency.depend();
 			if ( typeof context !== 'undefined' && youtubePlayerReady == true ) {
 				var checkTime = Date.now();
-				var currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
+				currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
 				if ( typeof currentVideo !== 'undefined' ) {
 					var startAt = checkTime-currentVideo.playTime;
 					startAt = Math.floor(startAt/1000);
-					
+					updateTimeRemaining(currentVideo);
 					Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 				} else {
+					if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
+						clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
+						Session.set('currentVideoRemainingTime', false);
+					}
 					console.log('No video should be playing.');
 				}
 			}
@@ -51,6 +81,11 @@ Template.roomPage.rendered = function(){
 
 Template.roomPage.destroyed = function(){
 	console.log('Template has been destroyed');
+
+	if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
+		clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
+		Session.set('currentVideoRemainingTime', false);
+	}
 
 	$(window).unbind('resize');
 
@@ -92,6 +127,9 @@ Template.roomPage.helpers({
 	},
 	nowPlaying: function(){
 		return Videos.findOne({room_id: this._id, nowPlaying: true});
+	},
+	timeRemaining: function(){
+		return Session.get('currentVideoRemainingTime');
 	},
 	isPlaying: function(nowPlaying){
 		if ( nowPlaying == true ) {
