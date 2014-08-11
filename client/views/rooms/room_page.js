@@ -4,6 +4,8 @@ resizePlayer = function(){
 	$('#player, .player-container .col-sm-5').height(height);
 }
 
+secondsToEnd = 0;
+
 formatDuration = function(durationInSeconds){
 	var total = parseInt(durationInSeconds);
 	var minutes = Math.floor(total/60);
@@ -19,11 +21,13 @@ formatDuration = function(durationInSeconds){
 }
 
 updateTimeRemaining = function(){
-	var now = Date.now();
-	var endTime = currentVideo.playTime+(parseInt(currentVideo.duration)*1000);
-	var remainingTime = Math.floor((endTime-now)/1000);
+	secondsToEnd = secondsToEnd-1;
 
-	Session.set('currentVideoRemainingTime', formatDuration(remainingTime));
+	if ( secondsToEnd < 0 ) {
+		secondsToEnd = 0;
+	}
+
+	Session.set('currentVideoRemainingTime', formatDuration(secondsToEnd));
 
 	Template.roomPage.currentVideoRemainingTimeTimeout = setTimeout(function(){ updateTimeRemaining(); }, 1000);
 }
@@ -60,19 +64,19 @@ Template.roomPage.rendered = function(){
 			contextDependency.depend();
 			youtubePlayerDependency.depend();
 			if ( typeof context !== 'undefined' && youtubePlayerReady == true ) {
-				var checkTime = Date.now();
 				currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
+				if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
+					clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
+					Session.set('currentVideoRemainingTime', false);
+				}
 				if ( typeof currentVideo !== 'undefined' ) {
-					var startAt = checkTime-currentVideo.playTime;
-					startAt = Math.floor(startAt/1000);
-					updateTimeRemaining(currentVideo);
-					Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
-				} else {
-					if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
-						clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
-						Session.set('currentVideoRemainingTime', false);
-					}
-					console.log('No video should be playing.');
+					Meteor.call('serverTime', function(e, checkTime){
+						var startAt = checkTime-currentVideo.playTime;
+						startAt = Math.floor(startAt/1000);
+						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
+						updateTimeRemaining();
+						Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+					});
 				}
 			}
 		});
@@ -105,6 +109,22 @@ Template.roomPage.destroyed = function(){
 }
 
 Template.roomPage.helpers({
+	sourceIcon: function(source){
+		if ( source == 'spotify' ) {
+			return 'http://www.spotify.com/favicon.ico';
+		} else if ( source == 'youtube' ) {
+			return 'http://www.youtube.com/favicon.ico';
+		}
+	},
+	isSpotifyTrack: function(){
+		return this.type == 'spotify';
+	},
+	isYouTubeVideo: function(){
+		return this.type == 'youtube';
+	},
+	countCursor: function(cursor) {
+		return cursor.length;
+	},
 	messageList: function(){
 		var messages = Messages.find({room_id: this._id}).fetch();
 		messages.forEach(function(item, i){
@@ -120,7 +140,19 @@ Template.roomPage.helpers({
 		return Meteor.users.find({currentRoom: this._id});
 	},
 	proposedVideosList: function(){
-		return Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}});
+		var proposedVideos = Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}}).fetch();
+		proposedVideos.forEach(function(item, i){
+			if ( item.voteCount > 0 ) {
+				var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: item._id});
+				if ( voteCheck ) {
+					proposedVideos[i].didVote = true;
+				}
+			}
+		});
+		return proposedVideos;
+	},
+	pastVideosList: function(){
+		return Videos.find({room_id: this._id, didPlay: true, nowPlaying: false}, {sort: {playTime: -1}, limit: 6});
 	},
 	timeFormat: function(timestamp){
 		return moment(timestamp).format('HH:mm');
@@ -164,7 +196,6 @@ Template.roomPage.events({
 		if ( url ) {
 			var id = Sky.helpers.youtube_parser(url);
 			if ( id ) {
-				console.log('Cargando video con id '+id);
 				Meteor.call('getVideoInfo', id, function(e, r) {
 					var data = {room_id: room_id, youtube_id: r.id, title: r.snippet.title, duration: moment.duration(r.contentDetails.duration).asSeconds()};
 					Videos.insert(data);

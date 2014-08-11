@@ -10,6 +10,10 @@ twitter = new OAuth.OAuth(
     'HMAC-SHA1'
 );
 
+Handlebars.registerHelper('equalsTo', function(a, b){
+	return a == b;
+});
+
 Meteor.startup(function(){
 	console.log('Hey server! This is Songroll Sky.');
 	console.log('To kick things off, I will look for songs currently playing and set timers for when they end.');
@@ -28,6 +32,9 @@ Meteor.users.allow({
 });
 
 Meteor.methods({
+	serverTime: function(){
+		return Date.now();
+	},
 	toggleVote: function(video_id){
 		var vote_check = Votes.findOne({user_id: Meteor.userId(), video_id: video_id});
 		if ( vote_check ) {
@@ -42,7 +49,7 @@ Meteor.methods({
 		if ( youtube_search.data.items.length > 0 ) {
 			var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_search.data.items[0].id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
 			var video_info = youtube_info.data.items[0];
-			var data = {room_id: room_id, youtube_id: video_info.id, title: track.name, artist_name: track.artist_name, duration: moment.duration(video_info.contentDetails.duration).asSeconds()};
+			var data = {room_id: room_id, youtube_id: video_info.id, title: track.name, artist_name: track.artist_name, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), type: 'spotify'};
 			if ( track.image_url ) {
 				data.image_url = track.image_url;
 			}
@@ -50,6 +57,12 @@ Meteor.methods({
 		} else {
 			console.log('Video not found.')
 		}
+	},
+	insertYouTubeVideo: function(video, room_id){
+		var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+video.id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
+		var video_info = youtube_info.data.items[0];
+		var data = {room_id: room_id, youtube_id: video_info.id, title: video_info.snippet.title, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), image_url: video_info.snippet.thumbnails.high.url, type: 'youtube'};
+		Videos.insert(data);
 	},
 	getVideoInfo: function(youtube_id){
 		var request = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_id+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
@@ -62,6 +75,10 @@ Meteor.methods({
 	searchSpotify: function(query){
 		var results = Meteor.http.get('https://api.spotify.com/v1/search?q='+encodeURIComponent(query)+'&type=track');
 		return JSON.parse(results.content);
+	},
+	searchYouTube: function(query){
+		var results = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q='+encodeURIComponent(query)+'&maxResults=10&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
+		return results;
 	}
 });
 

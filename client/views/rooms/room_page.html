@@ -1,16 +1,22 @@
 <template name="roomPage">
 
-	{{> spotifySearch}}
+	{{> videoSearch}}
 
 	<div class="room-info">
 		<div class="container">
 			<div class="pull-right">
-				<button id="search-spotify" data-toggle="modal" data-target="#spotifySearch" class="btn-sky">
+				<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
 					<span class="glyphicon glyphicon-plus"></span>
-					<span>Proponer un video</span>
+					<span>
+						{{#if nowPlaying}}
+							Proponer
+						{{else}}
+							Agregar
+						{{/if}}
+					</span>
 				</button>
 			</div>
-			<h1><span>Estás en</span> {{title}}</h1>
+			<h1>{{title}} <span><span class="glyphicon glyphicon-user"></span> {{userList.count}}</span></h1>
 			<ul class="user-list">
 				{{#each userList}}
 					{{> userAvatar}}
@@ -22,10 +28,14 @@
 	<div class="player-container">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-7">
+				<div class="col-sm-7
+						{{#unless nowPlaying}}
+							player-idle
+						{{/unless}}
+						">
 					<div id="player"></div>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-5" style="height: 360px;">
 					<div class="videos-control
 					{{#if nowPlaying}}
 						is-np
@@ -33,39 +43,46 @@
 					">
 						{{#if nowPlaying}}
 							{{#with nowPlaying}}
-								<div class="now-playing">
+								<div class="now-playing is-{{type}}">
 									{{#if timeRemaining}}
 										<div class="pull-right time-remaining">{{timeRemaining}}</div>
 									{{/if}}
 									{{#if image_url}}
-										<img class="album-art" src="{{image_url}}">
+										<div class="album-art" style="background-image:url({{image_url}})"></div>
 									{{/if}}
 									<div class="info">
 										<div class="artist"><span class="glyphicon glyphicon-volume-up"></span> {{artist_name}}</div>
-										<div class="title">{{title}}</div>
+										<div class="title"><img class="source" src="{{sourceIcon type}}"> {{title}} <span class="glyphicon glyphicon-volume-up"></span></div>
 									</div>
 								</div>
 							{{/with}}
 							<div class="proposed-videos">
 								<h4 class="proposed-videos-title">A continuación
-									{{#if proposedVideosList.count}}
-										<span>Vota por el siguiente.</span>
+									{{#if countCursor proposedVideosList}}
+										<span>Vota por el siguiente video:</span>
 									{{/if}}
 								</h4>
 								<ul class="proposed-videos-list">
-									{{#if proposedVideosList.count}}
+									{{#if countCursor proposedVideosList}}
 										{{#each proposedVideosList}}
-											<li>
+											<li class="
+												{{#if didVote}}
+													did-vote
+												{{/if}}
+												is-{{type}}
+											">
 												<div class="pull-right vote-count">
 													{{#if voteCount}}
 														<span class="count">{{voteCount}}</span>
 													{{/if}}
 													<span class="glyphicon glyphicon-thumbs-up"></span>
+													<span class="glyphicon glyphicon-ok"></span>
 												</div>
 
 												{{#if image_url}}
-													<img class="album-art" src="{{image_url}}">
+													<div class="album-art" style="background-image:url({{image_url}})"></div>
 												{{/if}}
+												<img class="source" src="{{sourceIcon type}}">
 												<div class="info">
 													<div class="artist">{{artist_name}}</div>
 													<div class="title">{{title}}</div>
@@ -73,12 +90,15 @@
 											</li>
 										{{/each}}
 									{{else}}
-										<div class="proposed-videos-empty">No hay videos propuestos para ver después. <br><a data-toggle="modal" data-target="#spotifySearch">¡Añade uno a la lista!</a></div>
+										<div class="proposed-videos-empty">No hay videos propuestos para ver después. <br><a data-toggle="modal" data-target="#videoSearch">¡Añade uno a la lista!</a></div>
 									{{/if}}
 								</ul>
 							</div>
 						{{else}}
-							no hay nada por ahora
+							<span class="waiting-for-videos-action glyphicon glyphicon-hand-up"></span>
+							<div class="waiting-for-videos">
+							Para comenzar,<br>agrega un video o canción<br>a la lista de reproducción.
+							</div>
 						{{/if}}
 					</div>
 				</div>
@@ -88,7 +108,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-7">
+			<div class="col-sm-7 chatroom-column">
 
 				<div class="chatroom-container">
 					<ul class="messages just-in well">
@@ -107,11 +127,30 @@
 				</div>
 			</div>
 			<div class="col-sm-5">
-				<h4><small>Reproduciendo</small></h4>
-				
-				
-				<h4>Videos propuestos</h4>
-				
+				<div class="past-videos-container">
+					<div class="past-videos-title">
+						<div class="pull-right">
+							<span class="glyphicon glyphicon-time"></span>
+						</div>
+						Sonaron anteriormente
+					</div>
+					<ul class="past-videos-list">
+						{{#each pastVideosList}}
+							<li class="is-{{type}}">
+								<div class="time">
+									{{timeFormat playTime}}
+								</div>
+								{{#if image_url}}
+									<div class="album-art" style="background-image:url({{image_url}})"></div>
+								{{/if}}
+								<div class="info">
+									<div class="title">{{title}}</div>
+									<div class="artist">{{artist_name}}</div>
+								</div>
+							</li>
+						{{/each}}
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

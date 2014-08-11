@@ -8,6 +8,10 @@ body {
 	outline: none;
 }
 
+#player, .player-container .col-sm-5 {
+	-webkit-transition: height .3s ease;
+}
+
 .btn-sky {
 	display: inline-block;
 	background-color: #27ae60;
@@ -57,6 +61,52 @@ body {
 	display: block;
 }
 
+.player-idle:before {
+	content: "";
+	width: calc(100% - 14px);
+	height: 100%;
+	display: block;
+	left: 15px;
+	background-color: #131516;
+	position: absolute;
+	background-image: url(/player_idle.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+
+.waiting-for-videos {
+	font-size: 30px;
+	text-align: center;
+	line-height: 35px;
+	position: absolute;
+	width: 100%;
+	top: 50%;
+	color: #7D8B97;
+	margin-top: -60px;
+	font-weight: 300;
+}
+
+@-webkit-keyframes handwave {
+	0%   { top: 15px; }
+	33%  { top: 30px; }
+	66%  { top: 30px; }
+	100% { top: 15px; }
+}
+
+.waiting-for-videos-action {
+	position: absolute;
+	right: 0px;
+	font-size: 34px;
+	top: 20px;
+	color: #A8B1B8;
+	-webkit-animation: handwave 2s ease infinite;
+}
+
+.chatroom-column {
+	padding-right: 0;
+}
+
 .videos-control {
 	color: whitesmoke;
 	-webkit-font-smoothing: antialiased;
@@ -88,10 +138,10 @@ body {
 	vertical-align: middle;
 }
 
-.room-info h1 span {
+.room-info h1 > span {
 	color: rgb(94, 113, 127);
 	letter-spacing: 0;
-	margin-right: 8px;
+	margin-left: 8px;
 	font-weight: normal;
 	font-size: 12px;
 }
@@ -338,6 +388,9 @@ body {
 	display: inline-block;
 	vertical-align: middle;
 	border: 2px solid rgb(82, 97, 107);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 .now-playing .info {
@@ -346,12 +399,22 @@ body {
 	padding-left: 15px;
 	font-family: 'montserrat';
 	letter-spacing: -1px;
+	width: calc(100% - 145px);
 }
 
 .now-playing .info .title {
 	font-size: 20px;
-	line-height: 28px;
+	line-height: 23px;
 	font-family: 'Montserrat';
+}
+
+.now-playing .info .title .source {
+	display: inline-block;
+	position: relative;
+	top: -2px;
+	margin-right: 3px;
+	width: 16px;
+	height: 16px;
 }
 
 .now-playing .info .artist {
@@ -359,6 +422,22 @@ body {
 	opacity: .65;
 	text-transform: uppercase;
 	letter-spacing: 0;
+	margin-bottom: 4px;
+}
+
+.now-playing .info .title .glyphicon { display: none; }
+
+.now-playing.is-youtube .info .artist { 
+	display: none;
+}
+
+.now-playing.is-youtube .info .title .glyphicon {
+	display: inline-block;
+	font-size: 12px;
+	opacity: .5;
+	margin-left: 6px;
+	position: relative;
+	top: 0px;
 }
 
 .now-playing .info .artist .glyphicon {
@@ -373,7 +452,7 @@ body {
 	opacity: 0.5;
 }
 
-#search-spotify {
+#search-video {
 	margin: 10px 0;
 }
 
@@ -409,16 +488,75 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-#spotifySearch .search-container {
+.search-providers {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 10px;
+	list-style: none;
+	font-size: 0;
+}
+
+.search-providers li {
+	display: inline-block;
+	width: 50%;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.search-providers li:first-child {
+	border-right: 1px solid #ddd;
+}
+
+.search-providers li:not(.active) {
+	border-bottom: 1px solid #ddd;
+	background-color: whitesmoke;
+	opacity: .5;
+}
+
+.search-providers li:not(.active):hover {
+	opacity: 1;
+}
+
+.search-providers li a {
+	width: 100%;
+	display: inline-block;
+	text-decoration: none !important;
+	font-size: 15px;
+	color: #555;
+	padding: 12px;
+}
+
+.search-providers li.active a {
+	font-weight: bold;
+}
+
+.search-providers li a img {
+	height: 16px;
+	vertical-align: middle;
+	margin-right: 3px;
+	position: relative;
+	top: -1px;
+}
+
+#videoSearch .modal-body {
+	padding: 0;
+}
+
+#videoSearch .tab-content {
+	padding: 15px;
+}
+
+#videoSearch .search-container {
 	position: relative;
 }
 
-#spotifySearch .search-container input {
+#videoSearch .search-container input {
 	border-radius: 40px;
 	padding-left: 35px;
 }
 
-#spotifySearch .search-container .glyphicon-search {
+#videoSearch .search-container .glyphicon-search {
 	position: absolute;
 	height: 34px;
 	line-height: 32px;
@@ -427,40 +565,40 @@ body {
 	font-size: 13px;
 }
 
-#spotifySearch .search-results {
+#videoSearch .search-results {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-#spotifySearch .search-results .loader {
+#videoSearch .search-results .loader {
 	margin-top: 15px;
 }
 
-#spotifySearch .search-results .loader img {
+#videoSearch .search-results .loader img {
 	display: block;
 	margin: 0 auto;
 }
 
-#spotifySearch .search-results li {
+#videoSearch .search-results li {
 	cursor: pointer;
 	border-bottom: 1px solid #eee;
 	padding: 20px 10px;
 }
 
-#spotifySearch .search-results li:first-child {
+#videoSearch .search-results li:first-child {
 	margin-top: 15px;
 }
 
-#spotifySearch .search-results li:last-child {
+#videoSearch .search-results li:last-child {
 	border-bottom: none;
 }
 
-#spotifySearch .search-results li:hover {
+#videoSearch .search-results li:hover {
 	background-color: #eee;
 }
 
-#spotifySearch .search-results li .album-art {
+#videoSearch .search-results li .album-art {
 	width: 70px;
 	height: 70px;
 	display: inline-block;
@@ -468,32 +606,55 @@ body {
 	margin-right: 15px;
 }
 
-#spotifySearch .search-results li .info {
+#videoSearch .search-results li .info {
 	display: inline-block;
 	vertical-align: middle;
 	width: calc(100% - 90px);
 }
 
-#spotifySearch .search-results li .info .title {
+#videoSearch .search-results li .info .title {
 	font-size: 24px;
 	font-weight: 400;
 	line-height: 28px;
 	margin-bottom: 2px;
 }
 
-#spotifySearch .search-results li .info .artist, #spotifySearch .search-results li .info .album {
+#videoSearch .search-results li .info .artist, #videoSearch .search-results li .info .album {
 	display: inline-block;
 	font-size: 13px;
 }
 
-#spotifySearch .search-results li .info .artist {
+#videoSearch .search-results li .info .artist {
 	font-weight: 600;
 	margin-right: 10px;
 	opacity: .75;
 }
 
-#spotifySearch .search-results li .info .album {
+#videoSearch .search-results li .info .album {
 	opacity: .5;
+}
+
+#videoSearch .search-results li .youtube-art {
+	display: inline-block;
+	vertical-align: middle;
+	height: 70px;
+	width: 124px;
+	margin-right: 15px;
+	background-position: center;
+	background-size: cover;
+}
+
+#videoSearch .search-results.search-results-youtube li .info {
+	width: calc(100% - 142px);
+}
+
+#videoSearch .search-results.search-results-youtube li .info .title {
+	font-size: 20px;
+	line-height: 22px;
+}
+
+#videoSearch .search-results.search-results-youtube li .info .artist {
+	font-weight: 500;
 }
 
 .proposed-videos {
@@ -527,6 +688,10 @@ body {
 	opacity: 0.6;
 }
 
+.proposed-videos-list li.did-vote {
+	opacity: 1;
+}
+
 .proposed-videos-list li:hover {
 	opacity: 1;
 	cursor: pointer;
@@ -538,13 +703,25 @@ body {
 	height: 32px;
 	display: inline-block;
 	vertical-align: middle;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.proposed-videos-list li img.source {
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	display: inline-block;
+	margin-left: 8px;
 }
 
 .proposed-videos-list li .info {
 	display: inline-block;
 	vertical-align: middle;
-	padding-left: 8px;
+	padding-left: 5px;
 	font-family: 'montserrat';
+	width: calc(100% - 100px);
 }
 
 .proposed-videos-list li .info .title {
@@ -560,6 +737,8 @@ body {
 	text-transform: uppercase;
 }
 
+.proposed-videos-list li.is-youtube .info .artist { display: none; }
+
 .proposed-videos-list li .vote-count {
 	font-size: 18px;
 	height: 30px;
@@ -571,7 +750,11 @@ body {
 	opacity: .3;
 }
 
-.proposed-videos-list li:hover .vote-count {
+.proposed-videos-list li.did-vote .vote-count {
+	color: #3CB56F;
+}
+
+.proposed-videos-list li:hover .vote-count, .proposed-videos-list li.did-vote .vote-count {
 	opacity: 1;
 }
 
@@ -579,22 +762,30 @@ body {
 	display: inline-block;
 	vertical-align: top;
 	margin-right: 4px;
+	font-family: 'Helvetica Neue', 'Arial', sans-serif;
+	font-weight: bold;
 }
 
-.proposed-videos-list li .vote-count .glyphicon-thumbs-up {
+.proposed-videos-list li .vote-count .glyphicon {
 	vertical-align: top;
 	line-height: 30px;
 	position: relative;
 	top: 1px;
 }
 
+.proposed-videos-list li .vote-count .glyphicon-ok { display: none; }
+
+.proposed-videos-list li.did-vote .vote-count .glyphicon-thumbs-up { display: none; }
+.proposed-videos-list li.did-vote .vote-count .glyphicon-ok { display: inline-block; font-size: 14px; }
+
+
 .proposed-videos-empty {
 	padding-left: 20px;
-	font-size: 17px;
+	font-size: 16px;
 	opacity: 0.7;
 	-webkit-font-smoothing: subpixel-antialiased;
 	font-weight: 300;
-	line-height: 20px;
+	line-height: 22px;
 	margin-top: 3px;
 	color: rgba(255,255,255,.5);
 }
@@ -612,8 +803,107 @@ body {
 }
 
 
+
+.past-videos-container {
+	padding: 5px;
+}
+
+
+
+.past-videos-title {
+	font-family: 'montserrat';
+	text-transform: uppercase;
+	color: #555;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 10px 0 2px;
+	margin-bottom: 5px;
+}
+
+.past-videos-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.past-videos-list li {
+	padding: 12px 0;
+	border-top: 1px solid #eee;
+	opacity: 1;
+	color: #777;
+}
+
+.past-videos-list li img.source {
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	display: inline-block;
+	margin-right: 3px;
+	opacity: .75;
+	position: relative;
+	top: -1px;
+}
+
+.past-videos-list li .album-art {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	vertical-align: middle;
+	opacity: .75;
+	margin-right: 7px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.past-videos-list li .info {
+	display: inline-block;
+	vertical-align: middle;
+	font-family: 'montserrat';
+	width: calc(100% - 122px);
+}
+
+.past-videos-list li .info .title {
+	font-size: 14px;
+	line-height: 16px;
+	font-family: 'Lato';
+	margin-right: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-bottom: 3px;
+}
+
+.past-videos-list li .info .artist {
+	line-height: 14px;
+	opacity: 0.65;
+	font-size: 11px;
+	text-transform: uppercase;
+}
+
+.past-videos-list li.is-youtube .info .artist { display: none; }
+
+.past-videos-list li .time {
+	float: right;
+	display: inline-block;
+	vertical-align: middle;
+	font-family: 'Helvetica Neue';
+	line-height: 32px;
+	font-weight: 300;
+	font-size: 17px;
+}
+
+.past-videos-list li .time .glyphicon {
+	font-size: 12px;
+	margin-right: 1px;
+}
+
 .rooms-list li {
 	font-size: 24px;
 	font-weight: 300;
 	margin-bottom: 15px;
+}
+
+.is-youtube .album-art {
+	background-size: 185% auto !important;
 }
