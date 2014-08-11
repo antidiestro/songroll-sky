@@ -36,7 +36,7 @@ function cleanVideoName(video_title, track, artist){
 	var track_name = track;
 	var artist_name = artist;
 
-	var remove = ["-", "~", "|", "(", ")", "[", "]", "'", "¿", "?", "!", "¡"];
+	var remove = ["official video", "original mix", "-", "~", "|", "(", ")", "[", "]", "'", "¿", "?", "!", "¡"];
 
 	remove.forEach(function(char){
 		track_name = track_name.replace(char, '');
@@ -55,11 +55,7 @@ function cleanVideoName(video_title, track, artist){
 
 	final_title = final_title.trim();
 
-	if ( final_title.toLowerCase() == 'official video' || final_title.toLowerCase() == 'original mix' ) {
-		final_title = '';
-	}
-
-	return final_title.trim();
+	return final_title;
 }
 
 Meteor.methods({
