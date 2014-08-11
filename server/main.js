@@ -31,6 +31,37 @@ Meteor.users.allow({
 	}
 });
 
+function cleanVideoName(video_title, track, artist){
+	var final_title = video_title;
+	var track_name = track;
+	var artist_name = artist;
+
+	var remove = ["-", "~", "|", "(", ")", "[", "]", "'", "¿", "?", "!", "¡"];
+
+	remove.forEach(function(char){
+		track_name = track_name.replace(char, '');
+		artist_name = artist_name.replace(char, '');
+	});
+
+	var track_regex = new RegExp(track_name, 'gi');
+	var artist_regex = new RegExp(artist_name, 'gi');
+
+	remove.forEach(function(char){
+		final_title = final_title.replace(char, '');
+	});
+
+	final_title = final_title.replace(track_regex, '');
+	final_title = final_title.replace(artist_regex, '');
+
+	final_title = final_title.trim();
+
+	if ( final_title.toLowerCase() == 'official video' || final_title.toLowerCase() == 'original mix' ) {
+		final_title = '';
+	}
+
+	return final_title.trim();
+}
+
 Meteor.methods({
 	serverTime: function(){
 		return Date.now();
@@ -49,7 +80,7 @@ Meteor.methods({
 		if ( youtube_search.data.items.length > 0 ) {
 			var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_search.data.items[0].id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
 			var video_info = youtube_info.data.items[0];
-			var data = {room_id: room_id, youtube_id: video_info.id, title: track.name, artist_name: track.artist_name, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), type: 'spotify'};
+			var data = {room_id: room_id, youtube_id: video_info.id, title: track.name, artist_name: track.artist_name, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), type: 'track', source: 'spotify'};
 			if ( track.image_url ) {
 				data.image_url = track.image_url;
 			}
@@ -59,10 +90,33 @@ Meteor.methods({
 		}
 	},
 	insertYouTubeVideo: function(video, room_id){
-		var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+video.id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
+		var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails%2CtopicDetails&id='+video.id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
 		var video_info = youtube_info.data.items[0];
-		var data = {room_id: room_id, youtube_id: video_info.id, title: video_info.snippet.title, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), image_url: video_info.snippet.thumbnails.high.url, type: 'youtube'};
-		Videos.insert(data);
+		var data = {room_id: room_id, youtube_id: video_info.id, title: video_info.snippet.title, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), image_url: video_info.snippet.thumbnails.high.url, type: 'video', source: 'youtube'};
+		
+		var thisVideo = Videos.insert(data);
+
+		if ( video_info.topicDetails ) {
+			if ( video_info.topicDetails.topicIds ) {
+				video_info.topicDetails.topicIds.forEach(function(topic, i){
+					var topicCheck = Meteor.http.get('https://www.googleapis.com/freebase/v1/search?query='+topic+'&filter=(all%20type:/music/recording)');
+					if ( topicCheck.data.result.length > 0 ) {
+						var topicInfo = Meteor.http.get('https://www.googleapis.com/freebase/v1/topic'+topic);
+						var trackName = topicInfo.data.property['/type/object/name'].values[0].text;
+						var artistName = topicInfo.data.property['/music/recording/artist'].values[0].text;
+						
+						var spotifySearch = Meteor.http.get('https://api.spotify.com/v1/search?q=track:'+encodeURIComponent(trackName)+'%20artist:'+encodeURIComponent(artistName)+'&type=track&limit=1');
+
+						if ( spotifySearch.data.tracks.items.length > 0 )  {
+							var trackInfo = spotifySearch.data.tracks.items[0];
+							var cleanVideoTitle = cleanVideoName(video_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
+							console.log(trackInfo);
+							Videos.update({_id: thisVideo}, { $set: { title: trackInfo.name, artist_name: trackInfo.artists[0].name, subtitle: cleanVideoTitle, image_url: trackInfo.album.images[1].url, type: 'track' } });
+						}
+					}
+				});
+			}
+		} 
 	},
 	getVideoInfo: function(youtube_id){
 		var request = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_id+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');

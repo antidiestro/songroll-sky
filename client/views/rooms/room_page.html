@@ -43,7 +43,7 @@
 					">
 						{{#if nowPlaying}}
 							{{#with nowPlaying}}
-								<div class="now-playing is-{{type}}">
+								<div class="now-playing type-{{type}} source-{{source}}">
 									{{#if timeRemaining}}
 										<div class="pull-right time-remaining">{{timeRemaining}}</div>
 									{{/if}}
@@ -51,8 +51,11 @@
 										<div class="album-art" style="background-image:url({{image_url}})"></div>
 									{{/if}}
 									<div class="info">
-										<div class="artist"><span class="glyphicon glyphicon-volume-up"></span> {{artist_name}}</div>
-										<div class="title"><img class="source" src="{{sourceIcon type}}"> {{title}} <span class="glyphicon glyphicon-volume-up"></span></div>
+										<div class="artist">{{artist_name}}</div>
+										<div class="title"><img class="source" src="{{sourceIcon source}}"> {{title}}</div>
+										{{#if subtitle}}
+											<div class="sub">({{subtitle}})</div>
+										{{/if}}
 									</div>
 								</div>
 							{{/with}}
@@ -69,7 +72,8 @@
 												{{#if didVote}}
 													did-vote
 												{{/if}}
-												is-{{type}}
+												type-{{type}}
+												source-{{source}}
 											">
 												<div class="pull-right vote-count">
 													{{#if voteCount}}
@@ -79,13 +83,18 @@
 													<span class="glyphicon glyphicon-ok"></span>
 												</div>
 
+												<img class="source" src="{{sourceIcon source}}">
+
 												{{#if image_url}}
 													<div class="album-art" style="background-image:url({{image_url}})"></div>
 												{{/if}}
-												<img class="source" src="{{sourceIcon type}}">
 												<div class="info">
 													<div class="artist">{{artist_name}}</div>
-													<div class="title">{{title}}</div>
+													<div class="title">{{title}} 
+													{{#if subtitle}}
+														<span class="sub">({{subtitle}})</span>
+													{{/if}}
+													</div>
 												</div>
 											</li>
 										{{/each}}
@@ -132,11 +141,11 @@
 						<div class="pull-right">
 							<span class="glyphicon glyphicon-time"></span>
 						</div>
-						Sonaron anteriormente
+						Anteriormente
 					</div>
 					<ul class="past-videos-list">
 						{{#each pastVideosList}}
-							<li class="is-{{type}}">
+							<li class="type-{{type}} source-{{source}}">
 								<div class="time">
 									{{timeFormat playTime}}
 								</div>
@@ -144,8 +153,12 @@
 									<div class="album-art" style="background-image:url({{image_url}})"></div>
 								{{/if}}
 								<div class="info">
-									<div class="title">{{title}}</div>
 									<div class="artist">{{artist_name}}</div>
+									<div class="title">{{title}} 
+									{{#if subtitle}}
+										<span class="sub">({{subtitle}})</span>
+									{{/if}}
+									</div>
 								</div>
 							</li>
 						{{/each}}

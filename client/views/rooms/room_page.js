@@ -117,10 +117,10 @@ Template.roomPage.helpers({
 		}
 	},
 	isSpotifyTrack: function(){
-		return this.type == 'spotify';
+		return this.source == 'spotify';
 	},
 	isYouTubeVideo: function(){
-		return this.type == 'youtube';
+		return this.source == 'youtube';
 	},
 	countCursor: function(cursor) {
 		return cursor.length;

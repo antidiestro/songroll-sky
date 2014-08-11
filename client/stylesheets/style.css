@@ -408,6 +408,11 @@ body {
 	font-family: 'Montserrat';
 }
 
+.now-playing .info .sub {
+	margin-top: 0px;
+	opacity: .65;
+}
+
 .now-playing .info .title .source {
 	display: inline-block;
 	position: relative;
@@ -427,11 +432,11 @@ body {
 
 .now-playing .info .title .glyphicon { display: none; }
 
-.now-playing.is-youtube .info .artist { 
+/*.now-playing.is-youtube .info .artist { 
 	display: none;
-}
+}*/
 
-.now-playing.is-youtube .info .title .glyphicon {
+.now-playing.source-youtube .info .title .glyphicon {
 	display: inline-block;
 	font-size: 12px;
 	opacity: .5;
@@ -713,7 +718,7 @@ body {
 	height: 16px;
 	vertical-align: middle;
 	display: inline-block;
-	margin-left: 8px;
+	margin-right: 8px;
 }
 
 .proposed-videos-list li .info {
@@ -721,13 +726,18 @@ body {
 	vertical-align: middle;
 	padding-left: 5px;
 	font-family: 'montserrat';
-	width: calc(100% - 100px);
+	width: calc(100% - 140px);
 }
 
 .proposed-videos-list li .info .title {
 	font-size: 13px;
 	line-height: 16px;
 	font-weight: 400;
+}
+
+.proposed-videos-list li .info .title .sub {
+	margin-left: 4px;
+	opacity: .5;
 }
 
 .proposed-videos-list li .info .artist {
@@ -737,7 +747,7 @@ body {
 	text-transform: uppercase;
 }
 
-.proposed-videos-list li.is-youtube .info .artist { display: none; }
+/*.proposed-videos-list li.is-youtube .info .artist { display: none; }*/
 
 .proposed-videos-list li .vote-count {
 	font-size: 18px;
@@ -874,6 +884,11 @@ body {
 	margin-bottom: 3px;
 }
 
+.past-videos-list li .info .title .sub {
+	margin-left: 4px;
+	opacity: .75;
+}
+
 .past-videos-list li .info .artist {
 	line-height: 14px;
 	opacity: 0.65;
@@ -881,7 +896,7 @@ body {
 	text-transform: uppercase;
 }
 
-.past-videos-list li.is-youtube .info .artist { display: none; }
+/*.past-videos-list li.is-youtube .info .artist { display: none; }*/
 
 .past-videos-list li .time {
 	float: right;
@@ -904,6 +919,6 @@ body {
 	margin-bottom: 15px;
 }
 
-.is-youtube .album-art {
+.type-video .album-art {
 	background-size: 185% auto !important;
 }
