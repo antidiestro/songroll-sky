@@ -29,6 +29,10 @@ updateTimeRemaining = function(){
 
 	Session.set('currentVideoRemainingTime', formatDuration(secondsToEnd));
 
+	if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
+		clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
+	}
+
 	Template.roomPage.currentVideoRemainingTimeTimeout = setTimeout(function(){ updateTimeRemaining(); }, 1000);
 }
 

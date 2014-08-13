@@ -32,30 +32,77 @@ Meteor.users.allow({
 });
 
 function cleanVideoName(video_title, track, artist){
-	var final_title = video_title;
-	var track_name = track;
-	var artist_name = artist;
+	var finalVideoTitle = video_title;
 
-	var remove = ["official video", "original mix", "-", "~", "|", "(", ")", "[", "]", "'", "¿", "?", "!", "¡"];
+	var trackName = track;
+	var artistName = artist;
 
-	remove.forEach(function(char){
-		track_name = track_name.replace(char, '');
-		artist_name = artist_name.replace(char, '');
+	// Always remove these characters from track name, artist name and final video title.
+	var removeChars = ["-", "—", "~", "|", "(", ")", "[", "]", "'", "¿", "?", "!", "¡", ",", '"', "feat.", "feat", "ft.", "ft"];
+
+	// Always remove these strings from the video title (case insensitive).
+	var removeStrings = ["official video", "official audio", "lyrics video", "cover art", "video oficial", "original mix", "feat.", "feat", "ft.", "ft"];
+
+	// Remove these strings, only if they are not part of the artist's or track's name.
+	var removeIfMissing = ["lyrics", "audio", "official", "video", "oficial", "music", "hd"];
+
+	// Build RegExp objects to check against video title.
+	var removeRegex = [];
+
+	var trackNameSplit = trackName.split('-');
+	if ( trackNameSplit.length == 1 ) {
+		trackNameSplit = trackName.split('—');  // caution, this is an "em dash"
+	}
+
+	trackNameSplit.forEach(function(trackNamePart){
+		var trackNamePartFiltered = trackNamePart;
+		removeChars.forEach(function(char){
+			trackNamePartFiltered = trackNamePartFiltered.replace(char, '');
+		});
+		console.log(trackNamePartFiltered.trim());
+		var regex = new RegExp(trackNamePartFiltered.trim(), 'gi');
+		removeRegex.push(regex);
 	});
 
-	var track_regex = new RegExp(track_name, 'gi');
-	var artist_regex = new RegExp(artist_name, 'gi');
-
-	remove.forEach(function(char){
-		final_title = final_title.replace(char, '');
+	// Remove characters from artist name for later comparison.
+	removeChars.forEach(function(char){
+		artistName = artistName.replace(char, '');
 	});
 
-	final_title = final_title.replace(track_regex, '');
-	final_title = final_title.replace(artist_regex, '');
+	var artistNameRegex = new RegExp(artistName, 'gi');
+	removeRegex.push(artistNameRegex);
 
-	final_title = final_title.trim();
+	// Remove characters from final video title
+	removeChars.forEach(function(char){
+		while ( finalVideoTitle.toLowerCase().indexOf(char) != -1 ) {
+			finalVideoTitle = finalVideoTitle.replace(char, ' ');
+		}
+	});
 
-	return final_title;
+	// Remove strings from video title
+	removeStrings.forEach(function(string){
+		var stringRegex = new RegExp(string, 'gi');
+		finalVideoTitle = finalVideoTitle.replace(stringRegex, ' ');
+	});
+
+	// Remove strings if missing from video title
+	removeIfMissing.forEach(function(string){
+		if ( trackName.toLowerCase().indexOf(string) == -1 && artistName.toLowerCase().indexOf(string) == -1 ) {
+			var stringRegex = new RegExp(string, 'gi');
+			finalVideoTitle = finalVideoTitle.replace(stringRegex, ' ');
+		}
+	});
+
+	removeRegex.forEach(function(regex){
+		finalVideoTitle = finalVideoTitle.replace(regex, ' ');
+	});
+
+	finalVideoTitle = finalVideoTitle.replace(/\s+/g, " ");
+	finalVideoTitle = finalVideoTitle.trim();
+
+	console.log(finalVideoTitle);
+
+	return finalVideoTitle;
 }
 
 Meteor.methods({
@@ -106,7 +153,6 @@ Meteor.methods({
 						if ( spotifySearch.data.tracks.items.length > 0 )  {
 							var trackInfo = spotifySearch.data.tracks.items[0];
 							var cleanVideoTitle = cleanVideoName(video_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
-							console.log(trackInfo);
 							Videos.update({_id: thisVideo}, { $set: { title: trackInfo.name, artist_name: trackInfo.artists[0].name, subtitle: cleanVideoTitle, image_url: trackInfo.album.images[1].url, type: 'track' } });
 						}
 					}

@@ -30,9 +30,9 @@
 									</div>
 								{{/if}}
 								{{#each spotifySearchResults}}
-									<li>
+									<li id="spotify-{{id}}">
 										{{#if image_url}}
-											<img class="album-art" src="{{image_url}}">
+											<img  class="album-art" src="{{thumb_url}}">
 										{{/if}}
 										<div class="info">
 											<div class="title">{{name}}</div>

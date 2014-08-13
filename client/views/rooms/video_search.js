@@ -12,6 +12,7 @@ Template.videoSearch.helpers({
 				spotify_results[i].artist_name = item.artists[0].name;
 				spotify_results[i].album_name = item.album.name;
 				if ( item.album.images[1] ) {
+					spotify_results[i].thumb_url = item.album.images[0].url;
 					spotify_results[i].image_url = item.album.images[1].url;
 				}
 			});
