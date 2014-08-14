@@ -123,11 +123,22 @@ Meteor.methods({
 		if ( youtube_search.data.items.length > 0 ) {
 			var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_search.data.items[0].id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
 			var video_info = youtube_info.data.items[0];
-			var data = {room_id: room_id, youtube_id: video_info.id, title: track.name, artist_name: track.artist_name, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), type: 'track', source: 'spotify'};
+			var data = {
+				room_id: room_id, 
+				youtube_id: video_info.id, 
+				title: track.name, 
+				artist_name: track.artist_name, 
+				duration: moment.duration(video_info.contentDetails.duration).asSeconds(), 
+				type: 'track', 
+				source: 'spotify', 
+				spotify_id: track.id,
+				spotify_artist_id: track.artists[0].id,
+				isAnalyzed: true
+			};
 			if ( track.image_url ) {
 				data.image_url = track.image_url;
 			}
- 			Videos.insert(data);
+ 			var thisVideo = Videos.insert(data);
 		} else {
 			console.log('Video not found.')
 		}
@@ -135,7 +146,16 @@ Meteor.methods({
 	insertYouTubeVideo: function(video, room_id){
 		var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails%2CtopicDetails&id='+video.id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
 		var video_info = youtube_info.data.items[0];
-		var data = {room_id: room_id, youtube_id: video_info.id, title: video_info.snippet.title, duration: moment.duration(video_info.contentDetails.duration).asSeconds(), image_url: video_info.snippet.thumbnails.high.url, type: 'video', source: 'youtube'};
+		var data = {
+			room_id: room_id, 
+			youtube_id: video_info.id, 
+			title: video_info.snippet.title, 
+			duration: moment.duration(video_info.contentDetails.duration).asSeconds(), 
+			image_url: video_info.snippet.thumbnails.high.url, 
+			type: 'video', 
+			source: 'youtube',
+			isAnalyzed: false
+		};
 		
 		var thisVideo = Videos.insert(data);
 
@@ -153,12 +173,27 @@ Meteor.methods({
 						if ( spotifySearch.data.tracks.items.length > 0 )  {
 							var trackInfo = spotifySearch.data.tracks.items[0];
 							var cleanVideoTitle = cleanVideoName(video_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
-							Videos.update({_id: thisVideo}, { $set: { title: trackInfo.name, artist_name: trackInfo.artists[0].name, subtitle: cleanVideoTitle, image_url: trackInfo.album.images[1].url, type: 'track' } });
+
+							var dataToUpdate = {
+								title: trackInfo.name, 
+								artist_name: trackInfo.artists[0].name, 
+								subtitle: cleanVideoTitle, 
+								image_url: trackInfo.album.images[1].url, 
+								type: 'track', 
+								spotify_id: trackInfo.id,
+								spotify_artist_id: trackInfo.artists[0].id
+							}
+
+							Videos.update({_id: thisVideo}, { $set: dataToUpdate });
 						}
 					}
 				});
 			}
-		} 
+		}
+
+		Videos.update({_id: thisVideo}, { $set: { isAnalyzed: true } });
+
+		Sky.generateRecommendations(thisVideo);
 	},
 	getVideoInfo: function(youtube_id){
 		var request = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_id+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
