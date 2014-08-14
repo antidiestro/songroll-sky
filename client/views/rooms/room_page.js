@@ -39,6 +39,9 @@ updateTimeRemaining = function(){
 Template.roomPage.rendered = function(){
 	console.log('Template has been rendered');
 
+	youtubePlayerReady = false;
+	youtubePlayerDependency.changed();
+
 	Session.set('currentVideoRemainingTime', false);
 
 	// Resize player to keep 16:9 aspect ratio
@@ -74,12 +77,19 @@ Template.roomPage.rendered = function(){
 					Session.set('currentVideoRemainingTime', false);
 				}
 				if ( typeof currentVideo !== 'undefined' ) {
+					var videoInPlayer = ''; 
+					if ( typeof Sky.player.el.getVideoData() !== 'undefined' ) {
+						videoInPlayer = Sky.player.el.getVideoData().video_id;
+					}
+					console.log('YouTube has video '+videoInPlayer);
 					Meteor.call('serverTime', function(e, checkTime){
 						var startAt = checkTime-currentVideo.playTime;
 						startAt = Math.floor(startAt/1000);
 						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
 						updateTimeRemaining();
-						Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+						if ( videoInPlayer != currentVideo.youtube_id ) {
+							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+						}
 					});
 				}
 			}
@@ -101,9 +111,10 @@ Template.roomPage.destroyed = function(){
 		Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: 0 } });
 	}
 
-	Sky.player.el.destroy();
 	youtubePlayerReady = false;
 	youtubePlayerDependency.changed();
+
+	Sky.player.el.destroy();
 	
 	Template.roomPage.videoSetup.stop();
 
@@ -113,6 +124,10 @@ Template.roomPage.destroyed = function(){
 }
 
 Template.roomPage.helpers({
+	isGeneratingRecommendations: function(){
+		var room = Rooms.findOne({_id: context._id});
+		return room.generatingRecommendations;
+	},
 	sourceIcon: function(source){
 		if ( source == 'spotify' ) {
 			return 'http://www.spotify.com/favicon.ico';
