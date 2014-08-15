@@ -31,7 +31,7 @@ Meteor.users.allow({
 	}
 });
 
-function cleanVideoName(video_title, track, artist){
+cleanVideoName = function(video_title, track, artist){
 	var finalVideoTitle = video_title;
 
 	var trackName = track;
@@ -154,46 +154,11 @@ Meteor.methods({
 			image_url: video_info.snippet.thumbnails.high.url, 
 			type: 'video', 
 			source: 'youtube',
-			isAnalyzed: false
+			isAnalyzed: false,
+			youtube_info: video_info
 		};
-		
-		var thisVideo = Videos.insert(data);
 
-		if ( video_info.topicDetails ) {
-			if ( video_info.topicDetails.topicIds ) {
-				video_info.topicDetails.topicIds.forEach(function(topic, i){
-					var topicCheck = Meteor.http.get('https://www.googleapis.com/freebase/v1/search?query='+topic+'&filter=(all%20type:/music/recording)');
-					if ( topicCheck.data.result.length > 0 ) {
-						var topicInfo = Meteor.http.get('https://www.googleapis.com/freebase/v1/topic'+topic);
-						var trackName = topicInfo.data.property['/type/object/name'].values[0].text;
-						var artistName = topicInfo.data.property['/music/recording/artist'].values[0].text;
-						
-						var spotifySearch = Meteor.http.get('https://api.spotify.com/v1/search?q=track:'+encodeURIComponent(trackName)+'%20artist:'+encodeURIComponent(artistName)+'&type=track&limit=1');
-
-						if ( spotifySearch.data.tracks.items.length > 0 )  {
-							var trackInfo = spotifySearch.data.tracks.items[0];
-							var cleanVideoTitle = cleanVideoName(video_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
-
-							var dataToUpdate = {
-								title: trackInfo.name, 
-								artist_name: trackInfo.artists[0].name, 
-								subtitle: cleanVideoTitle, 
-								image_url: trackInfo.album.images[1].url, 
-								type: 'track', 
-								spotify_id: trackInfo.id,
-								spotify_artist_id: trackInfo.artists[0].id
-							}
-
-							Videos.update({_id: thisVideo}, { $set: dataToUpdate });
-						}
-					}
-				});
-			}
-		}
-
-		Videos.update({_id: thisVideo}, { $set: { isAnalyzed: true } });
-
-		Sky.generateRecommendations(thisVideo);
+		Videos.insert(data);
 	},
 	getVideoInfo: function(youtube_id){
 		var request = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_id+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
@@ -208,7 +173,7 @@ Meteor.methods({
 		return JSON.parse(results.content);
 	},
 	searchYouTube: function(query){
-		var results = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q='+encodeURIComponent(query)+'&maxResults=10&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
+		var results = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q='+encodeURIComponent(query)+'&maxResults=20&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
 		return results;
 	}
 });
@@ -256,3 +221,89 @@ Accounts.onLogin(function(e) {
 	}));
 
 });
+
+
+// Collection handlers
+
+Votes.after.insert(function(userId, doc){
+	var videoVoteCount = Votes.find({video_id: doc.video_id}).count();
+	Videos.update({_id: doc.video_id}, { $set: { voteCount: videoVoteCount } });
+});
+
+Votes.after.remove(function(userId, doc){
+	var videoVoteCount = Votes.find({video_id: doc.video_id}).count();
+	Videos.update({_id: doc.video_id}, { $set: { voteCount: videoVoteCount } });
+});
+
+Messages.before.insert(function(userId, doc){
+	var now = Date.now();
+	doc.createdAt = now;
+});
+
+Rooms.before.insert(function(userId, doc){
+	doc.generatingRecommendations = false;
+});
+
+Videos.before.insert(function(userId, doc){
+	var now = Date.now();
+	doc.createdAt = now;
+	doc.didPlay = false;
+	doc.voteCount = 0;
+	doc.nowPlaying = false;
+});
+
+Videos.after.insert(function(userId, doc){
+	console.log('Hey there, I have received '+doc.title);
+
+	var now = Date.now();
+
+	// Is there another video playing right now in this room?
+	var currentVideo = Videos.find({room_id: doc.room_id, nowPlaying: true}).fetch();
+	if ( currentVideo.length == 0 ) {
+		Sky.playVideo(doc);
+	}
+
+	if ( doc.type == 'video' && doc.source == 'youtube' ) {
+		console.log('It seems like it is a YouTube video. We will try to identify if it is a song');
+
+		Meteor.setTimeout(function(){
+			// If it is a YouTube video, do the Spotify treatment
+			if ( doc.youtube_info.topicDetails ) {
+				if ( doc.youtube_info.topicDetails.topicIds ) {
+					doc.youtube_info.topicDetails.topicIds.forEach(function(topic, i){
+						var topicCheck = Meteor.http.get('https://www.googleapis.com/freebase/v1/search?query='+topic+'&filter=(all%20type:/music/recording)');
+						if ( topicCheck.data.result.length > 0 ) {
+							var topicInfo = Meteor.http.get('https://www.googleapis.com/freebase/v1/topic'+topic);
+							var trackName = topicInfo.data.property['/type/object/name'].values[0].text;
+							var artistName = topicInfo.data.property['/music/recording/artist'].values[0].text;
+							
+							var spotifySearch = Meteor.http.get('https://api.spotify.com/v1/search?q=track:'+encodeURIComponent(trackName)+'%20artist:'+encodeURIComponent(artistName)+'&type=track&limit=1');
+
+							if ( spotifySearch.data.tracks.items.length > 0 )  {
+								var trackInfo = spotifySearch.data.tracks.items[0];
+								var cleanVideoTitle = cleanVideoName(doc.youtube_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
+
+								var dataToUpdate = {
+									title: trackInfo.name, 
+									artist_name: trackInfo.artists[0].name, 
+									subtitle: cleanVideoTitle, 
+									image_url: trackInfo.album.images[1].url, 
+									type: 'track', 
+									spotify_id: trackInfo.id,
+									spotify_artist_id: trackInfo.artists[0].id
+								}
+
+								Videos.update({_id: doc._id}, { $set: dataToUpdate });
+							}
+						}
+					});
+				}
+			}
+
+			Videos.update({_id: doc._id}, { $set: { isAnalyzed: true } });
+
+			Sky.generateRecommendations(doc._id);
+		}, 0);
+	}
+});
+

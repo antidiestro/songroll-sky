@@ -99,7 +99,9 @@
 												{{/if}}
 												<div class="info">
 													<div class="artist">
-														<span>{{artist_name}}</span>
+														{{#if artist_name}}
+															<span>{{artist_name}}</span>
+														{{/if}}
 														{{#if isSongrollRecommendation}}
 														<div class="recommended">Recomendación</div>
 														{{/if}}
