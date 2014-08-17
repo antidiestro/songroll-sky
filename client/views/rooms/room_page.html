@@ -1,182 +1,259 @@
+<template name="roomsPageTitle">
+	<a href="/" class="crumb">Salas</a>
+	<span>{{title}}</span>
+</template>
+
+<template name="roomsPageButtons">
+	<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
+		<span class="glyphicon glyphicon-plus"></span>
+		<span>Proponer un video</span>
+	</button>
+</template>
+
+
 <template name="roomPage">
 
 	{{> videoSearch}}
 
-	<div class="room-info">
-		<div class="container">
-			<div class="pull-right">
-				<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
-					<span class="glyphicon glyphicon-plus"></span>
-					<span>
-						{{#if nowPlaying}}
-							Proponer
-						{{else}}
-							Agregar
-						{{/if}}
-					</span>
-				</button>
+	<div class="full-height-container">
+
+		<div id="room-videos" class="
+				{{#unless nowPlaying}}
+					player-idle
+				{{/unless}}
+				">
+			<div class="player-container">
+				<div id="player"></div>
 			</div>
-			<h1>{{title}} <span><span class="glyphicon glyphicon-user"></span> {{userList.count}}</span></h1>
-			<ul class="user-list">
-				{{#each userList}}
-					{{> userAvatar}}
-				{{/each}}
-			</ul>
+			<div class="now-playing">
+				{{#if nowPlaying}}
+					{{#with nowPlaying}}
+						<div class="now-playing-video type-{{type}} source-{{source}}">
+							{{#if timeRemaining}}
+								<div class="pull-right time-remaining">{{timeRemaining}}</div>
+							{{/if}}
+							{{#if image_url}}
+								<div class="album-art" style="background-image:url({{image_url}})">
+									<img class="source" src="{{sourceIcon source}}">
+								</div>
+							{{/if}}
+							<div class="info">
+								<div class="artist">{{artist_name}}</div>
+								<div class="title">{{title}}</div>
+								{{#if subtitle}}
+									<div class="sub">({{subtitle}})</div>
+								{{/if}}
+							</div>
+						</div>
+					{{/with}}
+				{{else}}
+					<div class="waiting-for-videos">
+						<div>Para comenzar,<br>agrega un video o canción<br>a la lista de reproducción.</div>
+						<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
+							<span class="glyphicon glyphicon-plus"></span>
+							<span>
+								{{#if nowPlaying}}
+									Proponer un video
+								{{else}}
+									Agregar un video
+								{{/if}}
+							</span>
+						</button>
+					</div>
+				{{/if}}
+			</div>
+			<div class="coming-up">
+				{{#if hasMoreOptions}}
+					<div class="more-options">
+						<span class="glyphicon glyphicon-chevron-right"></span>
+					</div>
+				{{/if}}
+
+				{{#if nowPlaying}}
+					<div class="proposed-videos">
+						<div class="proposed-videos-title">
+							{{#if isGeneratingRecommendations}}
+								<div class="generating-recommendations">
+									<span>Creando recomendaciones...</span>
+									<img class="loader" src="/cyan_loader.gif">
+								</div>
+							{{/if}}
+							{{#if countCursor proposedVideosList}}
+								<span class="title">A continuación</span>
+								<span class="lab">Elige el siguiente video a reproducir</span>
+							{{/if}}
+						</div>
+						<ul class="proposed-videos-list">
+							{{#if countCursor proposedVideosList}}
+								{{#each proposedVideosList}}
+									<li class="
+										{{#if didVote}}
+											did-vote
+										{{/if}}
+										type-{{type}}
+										source-{{source}}
+									">
+										{{#if voteCount}}
+										<div class="vote-count">
+											<span class="glyphicon glyphicon-thumbs-up"></span>
+											<span class="count">{{voteCount}}</span>
+										</div>
+										{{/if}}
+
+										{{#if image_url}}
+											<div class="album-art" style="background-image:url({{image_url}})">
+												<img class="source" src="{{sourceIcon source}}">
+											</div>
+										{{/if}}
+
+										<div class="info">
+											<div class="artist">
+												{{#if artist_name}}
+													<span>{{artist_name}}</span>
+												{{/if}}
+											</div>
+											<div class="title">{{title}} 
+											{{#if subtitle}}
+												<span class="sub">({{subtitle}})</span>
+											{{/if}}
+											</div>
+											{{#if isSongrollRecommendation}}
+												<div class="recommended">Recomendación</div>
+											{{/if}}
+										</div>
+									</li>
+								{{/each}}
+							{{else}}
+								<div class="proposed-videos-empty">
+									<strong>¡No hay videos propuestos!</strong><br>
+									<span>Espera que se generen las recomendaciones o <a data-toggle="modal" data-target="#videoSearch">propone un video</a>.</span>
+								</div>
+							{{/if}}
+						</ul>
+					</div>
+				{{/if}}
+			</div>
 		</div>
+
+		<div id="room-chat">
+			<div class="room-users">
+				<ul class="user-list">
+					<li class="user-count">
+						<span class="glyphicon glyphicon-user"></span>
+						<span class="count">{{roomUserCount}}</span>
+					</li>
+					{{#each userList}}
+						{{> userAvatar}}
+					{{/each}}
+				</ul>
+			</div>
+			<form id="sendMessage">
+				<img src="/topic-50.png" class="message-icon">
+				<input type="text" placeholder="Escribe tu mensaje...">
+				<button type="submit">
+					<span class="glyphicon glyphicon-send"></span>
+				</button>
+			</form>
+
+			<div class="room-messages">
+				<ul class="message-list">
+					{{#each messageList}}
+						{{> messageItem}}
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+
 	</div>
 
-	<div class="player-container">
+	<div class="hidden">
+
+		<div class="room-info">
+			<div class="container">
+				<h1>{{title}} <span><span class="glyphicon glyphicon-user"></span> {{roomUserCount}}</span></h1>
+				<ul class="user-list">
+					<li>
+
+					</li>
+					{{#each userList}}
+						{{> userAvatar}}
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+
+		<div class="player-container">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-7
+							{{#unless nowPlaying}}
+								player-idle
+							{{/unless}}
+							">
+						<div id="player"></div>
+					</div>
+					<div class="col-sm-5" style="height: 360px;">
+						<div class="videos-control
+						{{#if nowPlaying}}
+							is-np
+						{{/if}}
+						">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-7
-						{{#unless nowPlaying}}
-							player-idle
-						{{/unless}}
-						">
-					<div id="player"></div>
+				<div class="col-sm-7 chatroom-column">
+
+					<div class="chatroom-container">
+						<ul class="messages just-in well">
+							{{#each messageList}}
+								{{> messageItem}}
+							{{/each}}
+						</ul>
+						{{#if currentUser}}
+							<form id="sendMessage">
+								<div class="form-group">
+									<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
+									<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
+								</div>
+							</form>
+						{{/if}}
+					</div>
 				</div>
-				<div class="col-sm-5" style="height: 360px;">
-					<div class="videos-control
-					{{#if nowPlaying}}
-						is-np
-					{{/if}}
-					">
-						{{#if nowPlaying}}
-							{{#with nowPlaying}}
-								<div class="now-playing type-{{type}} source-{{source}}">
-									{{#if timeRemaining}}
-										<div class="pull-right time-remaining">{{timeRemaining}}</div>
-									{{/if}}
+				<div class="col-sm-5">
+					<div class="past-videos-container">
+						<div class="past-videos-title">
+							<div class="pull-right">
+								<span class="glyphicon glyphicon-time"></span>
+							</div>
+							Anteriormente
+						</div>
+						<ul class="past-videos-list">
+							{{#each pastVideosList}}
+								<li class="type-{{type}} source-{{source}}">
+									<div class="time">
+										{{timeFormat playTime}}
+									</div>
 									{{#if image_url}}
 										<div class="album-art" style="background-image:url({{image_url}})"></div>
 									{{/if}}
 									<div class="info">
 										<div class="artist">{{artist_name}}</div>
-										<div class="title"><img class="source" src="{{sourceIcon source}}"> {{title}}</div>
+										<div class="title">{{title}} 
 										{{#if subtitle}}
-											<div class="sub">({{subtitle}})</div>
+											<span class="sub">({{subtitle}})</span>
 										{{/if}}
-									</div>
-								</div>
-							{{/with}}
-							<div class="proposed-videos">
-								<h4 class="proposed-videos-title">A continuación
-									{{#if countCursor proposedVideosList}}
-										<span>Vota por el siguiente video:</span>
-									{{/if}}
-								</h4>
-								<ul class="proposed-videos-list">
-									{{#if isGeneratingRecommendations}}
-										<div class="proposed-videos-empty">
-											<img class="loader" src="/loader-dark.gif">
-											<div class="text">
-												Songroll está generando recomendaciones para este video. <br>
-												Mientras tanto, <a data-toggle="modal" data-target="#videoSearch">¡añade uno a la lista!</a>
-											</div>
 										</div>
-									{{/if}}
-									{{#if countCursor proposedVideosList}}
-										{{#each proposedVideosList}}
-											<li class="
-												{{#if didVote}}
-													did-vote
-												{{/if}}
-												type-{{type}}
-												source-{{source}}
-											">
-												<div class="pull-right vote-count">
-													{{#if voteCount}}
-														<span class="count">{{voteCount}}</span>
-													{{/if}}
-													<span class="glyphicon glyphicon-thumbs-up"></span>
-													<span class="glyphicon glyphicon-ok"></span>
-												</div>
-
-												<img class="source" src="{{sourceIcon source}}">
-
-												{{#if image_url}}
-													<div class="album-art" style="background-image:url({{image_url}})"></div>
-												{{/if}}
-												<div class="info">
-													<div class="artist">
-														{{#if artist_name}}
-															<span>{{artist_name}}</span>
-														{{/if}}
-														{{#if isSongrollRecommendation}}
-														<div class="recommended">Recomendación</div>
-														{{/if}}
-													</div>
-													<div class="title">{{title}} 
-													{{#if subtitle}}
-														<span class="sub">({{subtitle}})</span>
-													{{/if}}
-													</div>
-												</div>
-											</li>
-										{{/each}}
-									{{/if}}
-								</ul>
-							</div>
-						{{else}}
-							<span class="waiting-for-videos-action glyphicon glyphicon-hand-up"></span>
-							<div class="waiting-for-videos">
-							Para comenzar,<br>agrega un video o canción<br>a la lista de reproducción.
-							</div>
-						{{/if}}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-7 chatroom-column">
-
-				<div class="chatroom-container">
-					<ul class="messages just-in well">
-						{{#each messageList}}
-							{{> messageItem}}
-						{{/each}}
-					</ul>
-					{{#if currentUser}}
-						<form id="sendMessage">
-							<div class="form-group">
-								<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
-								<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
-							</div>
-						</form>
-					{{/if}}
-				</div>
-			</div>
-			<div class="col-sm-5">
-				<div class="past-videos-container">
-					<div class="past-videos-title">
-						<div class="pull-right">
-							<span class="glyphicon glyphicon-time"></span>
-						</div>
-						Anteriormente
-					</div>
-					<ul class="past-videos-list">
-						{{#each pastVideosList}}
-							<li class="type-{{type}} source-{{source}}">
-								<div class="time">
-									{{timeFormat playTime}}
-								</div>
-								{{#if image_url}}
-									<div class="album-art" style="background-image:url({{image_url}})"></div>
-								{{/if}}
-								<div class="info">
-									<div class="artist">{{artist_name}}</div>
-									<div class="title">{{title}} 
-									{{#if subtitle}}
-										<span class="sub">({{subtitle}})</span>
-									{{/if}}
 									</div>
-								</div>
-							</li>
-						{{/each}}
-					</ul>
+								</li>
+							{{/each}}
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>

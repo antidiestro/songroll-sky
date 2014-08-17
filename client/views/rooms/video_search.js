@@ -1,4 +1,7 @@
 Template.videoSearch.helpers({
+	isSearching: function(){
+		return Session.get('isSearching');
+	},
 	isSearchingSpotify: function(){
 		return Session.get('spotifySearching');
 	},
@@ -12,7 +15,7 @@ Template.videoSearch.helpers({
 				spotify_results[i].artist_name = item.artists[0].name;
 				spotify_results[i].album_name = item.album.name;
 				if ( item.album.images[1] ) {
-					spotify_results[i].thumb_url = item.album.images[0].url;
+					spotify_results[i].thumb_url = item.album.images[2].url;
 					spotify_results[i].image_url = item.album.images[1].url;
 				}
 			});
@@ -23,7 +26,6 @@ Template.videoSearch.helpers({
 		var youtube_results = Session.get('youtubeResults');
 		if ( youtube_results ) {
 			youtube_results.forEach(function(item,i){
-				console.log(youtube_results);
 				youtube_results[i].title = item.snippet.title;
 				youtube_results[i].author_name = item.snippet.channelTitle;
 				youtube_results[i].image_url = item.snippet.thumbnails.high.url;
@@ -34,6 +36,13 @@ Template.videoSearch.helpers({
 })
 
 Template.videoSearch.events({
+	'change input[name="searchProvider"]': function(e){
+		if ( $(e.target).val() == 'spotify' ) {
+			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Busca el nombre de una canción o artista...');
+		} else if ( $(e.target).val() == 'youtube' ) {
+			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Busca un video o pega un enlace de YouTube...');
+		}
+	},
 	'show.bs.modal #videoSearch': function(){
 		// Session.set('spotifyResults', []);
 	},
@@ -48,6 +57,28 @@ Template.videoSearch.events({
 		Meteor.call('insertYouTubeVideo', this, context._id);
 		$('#videoSearch').modal('hide');
 	},
+	'submit #form-search-video': function(e){
+		e.preventDefault();
+		var query = $('#form-search-video input[name="query"]').val();
+		var provider = $('#form-search-video input[name="searchProvider"]:checked').val();
+
+		Session.set('youtubeResults', false);
+		Session.set('spotifyResults', false);
+
+		Session.set('isSearching', true);
+
+		if ( provider == 'spotify' ) {
+			Meteor.call('searchSpotify', query, function(e, r){
+				Session.set('isSearching', false);
+				Session.set('spotifyResults', r.tracks.items);
+			});
+		} else if ( provider == 'youtube' ) {
+			Meteor.call('searchYouTube', query, function(e, r){
+				Session.set('isSearching', false);
+				Session.set('youtubeResults', r.data.items);
+			});
+		}
+	},
 	'submit #form-search-spotify': function(e){
 		e.preventDefault();
 		var query = $('#form-search-spotify input').val();
@@ -55,18 +86,15 @@ Template.videoSearch.events({
 		Meteor.call('searchSpotify', query, function(e, r){
 			Session.set('spotifySearching', false);
 			Session.set('spotifyResults', r.tracks.items);
-			console.log(r);
 		});
 	},
 	'submit #form-search-youtube': function(e){
 		e.preventDefault();
 		var query = $('#form-search-youtube input').val();
-		console.log(query);
 		Session.set('youtubeSearching', true);
 		Meteor.call('searchYouTube', query, function(e, r){
 			Session.set('youtubeSearching', false);
 			Session.set('youtubeResults', r.data.items);
-			console.log(r);
 		});
 	}
 })

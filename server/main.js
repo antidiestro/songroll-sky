@@ -225,6 +225,29 @@ Accounts.onLogin(function(e) {
 
 // Collection handlers
 
+Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
+	if ( modifier.$set ) {
+		if ( typeof modifier.$set.currentRoom !== 'undefined' ) {
+			if ( this.previous.currentRoom != modifier.$set.currentRoom ) {
+				var pastRoom = Rooms.findOne({_id: this.previous.currentRoom});
+				var nextRoom = Rooms.findOne({_id: modifier.$set.currentRoom});
+
+				if ( pastRoom ) {
+					var pastRoomCount = Meteor.users.find({currentRoom: pastRoom._id}).count();
+					Rooms.update({_id: pastRoom._id}, { $set: { userCount: pastRoomCount } });
+				}
+
+				if ( nextRoom ) {
+					var nextRoomCount = Meteor.users.find({currentRoom: nextRoom._id}).count();
+					Rooms.update({_id: nextRoom._id}, { $set: { userCount: nextRoomCount } });
+				}
+
+				console.log('User is in room '+this.previous.currentRoom+', changing to room '+modifier.$set.currentRoom);
+			}
+		}
+	}
+});
+
 Votes.after.insert(function(userId, doc){
 	var videoVoteCount = Votes.find({video_id: doc.video_id}).count();
 	Videos.update({_id: doc.video_id}, { $set: { voteCount: videoVoteCount } });
@@ -242,6 +265,7 @@ Messages.before.insert(function(userId, doc){
 
 Rooms.before.insert(function(userId, doc){
 	doc.generatingRecommendations = false;
+	doc.userCount = 0;
 });
 
 Videos.before.insert(function(userId, doc){

@@ -1,23 +1,22 @@
 <template name="layout">
+	<div id="backdrop"></div>
+
 	{{#if currentUser}}
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="pull-right">
-					{{#if currentUser}}
-						<div class="user-info">
-							<img class="avatar" src="{{currentUser.avatar}}">
-							<span>{{currentUser.name}}</span>
-						</div>
-					{{/if}}
-
-					{{> loginButtons}}
-				</div>
-
-				<div class="navbar-header">
-					<a class="navbar-brand" href="{{pathFor 'roomsList'}}"><img src="/logo.png"></a>
-				</div>
+		<div id="sky-header">
+			<div class="user pull-right">
+				<img class="avatar" src="{{currentUser.avatar}}">
 			</div>
-		</nav>
+			<div class="buttons-bar pull-right">
+				{{> yield region='pageButtons'}}
+			</div>
+			<div class="logo">
+				<a href="{{pathFor 'roomsList'}}"><img src="/logo_iso.png"></a>
+			</div>
+			<div class="title-bar">
+				{{> yield region='pageTitle'}}
+			</div>
+		</div>
 	{{/if}}
+
 	{{> yield}}
 </template>

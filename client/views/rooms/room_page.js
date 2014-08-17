@@ -1,7 +1,7 @@
 resizePlayer = function(){
 	var player = $('#player').width();
 	var height = Math.floor((player/16)*9);
-	$('#player, .player-container .col-sm-5').height(height);
+	// $('#player, .player-container .col-sm-5').height(height);
 }
 
 secondsToEnd = 0;
@@ -36,6 +36,14 @@ updateTimeRemaining = function(){
 	Template.roomPage.currentVideoRemainingTimeTimeout = setTimeout(function(){ updateTimeRemaining(); }, 1000);
 }
 
+toggleScrollProposedRemainder = function(){
+	if ( $('.coming-up').scrollLeft() <= 0 ) {
+		$('.coming-up').find('.more-options').fadeIn('fast');
+	} else {
+		$('.coming-up').find('.more-options').fadeOut('fast');
+	}
+}
+
 Template.roomPage.rendered = function(){
 	console.log('Template has been rendered');
 
@@ -43,6 +51,10 @@ Template.roomPage.rendered = function(){
 	youtubePlayerDependency.changed();
 
 	Session.set('currentVideoRemainingTime', false);
+
+	$('.coming-up').scroll(function(){
+		toggleScrollProposedRemainder();
+	});
 
 	// Resize player to keep 16:9 aspect ratio
 	$(window).resize(function(){
@@ -124,6 +136,25 @@ Template.roomPage.destroyed = function(){
 }
 
 Template.roomPage.helpers({
+	hasMoreOptions: function(){
+		var proposedVideos = Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}}).fetch();
+		windowWidthDependency.depend();
+		if ( windowWidth >= 1280 ) {
+			if ( proposedVideos.length > 3 ) {
+				return true;
+				toggleScrollProposedRemainder();
+			} else {
+				return false;
+			}
+		} else {
+			if ( proposedVideos.length > 2 ) {
+				return true;
+				toggleScrollProposedRemainder();
+			} else {
+				return false;
+			}
+		}
+	},
 	isGeneratingRecommendations: function(){
 		var room = Rooms.findOne({_id: context._id});
 		return room.generatingRecommendations;
@@ -143,6 +174,10 @@ Template.roomPage.helpers({
 	},
 	countCursor: function(cursor) {
 		return cursor.length;
+	},
+	roomUserCount: function(){
+		var room = Rooms.findOne({_id: context._id});
+		return room.userCount;
 	},
 	messageList: function(){
 		var messages = Messages.find({room_id: this._id}).fetch();

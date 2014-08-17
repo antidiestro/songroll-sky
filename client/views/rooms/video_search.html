@@ -3,10 +3,64 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<a class="close-this" data-dismiss="modal">&times;</a>
 					<h4 class="modal-title" id="videoSearchLabel">Agregar un video o canción...</h4>
 				</div>
 				<div class="modal-body">
+					<form id="form-search-video">
+						<span class="glyphicon glyphicon-search"></span>
+						<div class="search-provider">
+							<div class="provider">
+								<input type="radio" checked name="searchProvider" value="spotify" id="search-provider-spotify">
+								<label for="search-provider-spotify"><img src="http://www.spotify.com/favicon.ico"></label>
+							</div>
+							<div class="provider">
+								<input type="radio" name="searchProvider" value="youtube" id="search-provider-youtube">
+								<label for="search-provider-youtube"><img src="http://www.youtube.com/favicon.ico"></label>
+							</div>
+						</div>
+						<input name="query" type="text" placeholder="Busca el nombre de una canción o artista...">
+					</form>
+					<div class="search-results">
+						{{#if isSearching}}
+							<div class="loader"><img src="/loader-dark.gif"></div>
+						{{/if}}
+
+						{{#if spotifySearchResults}}
+							<ul class="search-results-spotify">
+								{{#each spotifySearchResults}}
+									<li id="spotify-{{id}}">
+										{{#if image_url}}
+											<img  class="album-art" src="{{thumb_url}}">
+										{{/if}}
+										<div class="info">
+											<div class="artist">{{artist_name}}</div>
+											<div class="title">{{name}}</div>
+										</div>
+									</li>
+								{{/each}}
+							</ul>
+						{{/if}}
+
+						{{#if youtubeSearchResults}}
+							<ul class="search-results-youtube">
+								{{#each youtubeSearchResults}}
+									<li>
+										<div class="youtube-art" style="background-image:url({{image_url}});"></div>
+										<div class="info">
+											<div class="title">{{title}}</div>
+											<div class="uploader">
+												<span>Subido por</span>
+												<strong>{{author_name}}</strong>
+											</div>
+										</div>
+									</li>
+								{{/each}}
+							</ul>
+						{{/if}}
+					</div>
+				</div>
+				<!-- <div class="modal-body">
 					<ul class="search-providers" role="tablist">
 						<li class="active"><a href="#tab-spotify" role="tab" data-toggle="tab">
 							<img src="http://www.spotify.com/favicon.ico">
@@ -66,7 +120,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

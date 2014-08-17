@@ -1,7 +1,21 @@
-body {
+/*body {
 	padding-top: 50px;
 	padding-bottom: 30px;
 	font-family: 'Lato';
+	background-size: cover;
+	background-color: #131516;
+	color: white;
+}
+
+#backdrop {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	background-color: #01090C;
+	opacity: .5;
 }
 
 * {
@@ -444,9 +458,6 @@ body {
 
 .now-playing .info .title .glyphicon { display: none; }
 
-/*.now-playing.is-youtube .info .artist { 
-	display: none;
-}*/
 
 .now-playing.source-youtube .info .title .glyphicon {
 	display: inline-block;
@@ -763,7 +774,6 @@ body {
 	margin-right: 6px;
 }
 
-/*.proposed-videos-list li.is-youtube .info .artist { display: none; }*/
 
 .proposed-videos-list li .vote-count {
 	font-size: 18px;
@@ -925,7 +935,6 @@ body {
 	text-transform: uppercase;
 }
 
-/*.past-videos-list li.is-youtube .info .artist { display: none; }*/
 
 .past-videos-list li .time {
 	float: right;
@@ -950,4 +959,4 @@ body {
 
 .type-video .album-art {
 	background-size: 185% auto !important;
-}
+}*/

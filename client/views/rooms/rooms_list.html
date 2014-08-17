@@ -1,3 +1,15 @@
+<template name="roomsListTitle">
+  <span class="crumb">Songroll</span>
+  <span>Todas las salas</span>
+</template>
+
+<template name="roomsListButtons">
+  <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn-sky">
+    <span class="glyphicon glyphicon-plus"></span>
+    <span>Crear una sala</span>
+  </button>
+</template>
+
 <template name="roomsList">
 
   {{> roomCreator}}
@@ -5,10 +17,7 @@
   <div class="container">
     <h2 class="rooms-list-header page-header">
       <div class="pull-right">
-        <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn btn-success">
-          <span class="glyphicon glyphicon-plus"></span>
-          <span>Crear una sala</span>
-        </button>
+        
       </div>
       <span>Salas de música</span>
     </h2>
