@@ -169,12 +169,10 @@ Meteor.methods({
 		return results;
 	},
 	searchSpotify: function(query){
-		var results = Meteor.http.get('https://api.spotify.com/v1/search?q='+encodeURIComponent(query)+'&type=track');
-		return JSON.parse(results.content);
+		return Sky.api.spotify.search(query);
 	},
 	searchYouTube: function(query){
-		var results = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q='+encodeURIComponent(query)+'&maxResults=20&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
-		return results;
+		return Sky.api.youTube.search(query);
 	}
 });
 

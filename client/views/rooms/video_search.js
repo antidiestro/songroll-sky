@@ -75,7 +75,7 @@ Template.videoSearch.events({
 		} else if ( provider == 'youtube' ) {
 			Meteor.call('searchYouTube', query, function(e, r){
 				Session.set('isSearching', false);
-				Session.set('youtubeResults', r.data.items);
+				Session.set('youtubeResults', r.items);
 			});
 		}
 	},
@@ -94,7 +94,7 @@ Template.videoSearch.events({
 		Session.set('youtubeSearching', true);
 		Meteor.call('searchYouTube', query, function(e, r){
 			Session.set('youtubeSearching', false);
-			Session.set('youtubeResults', r.data.items);
+			Session.set('youtubeResults', r.items);
 		});
 	}
 })
