@@ -1,8 +1,5 @@
-Meteor.subscribe('messages');
-Meteor.subscribe('rooms');
-Meteor.subscribe('users');
-Meteor.subscribe('videos');
-Meteor.subscribe('votes');
+Meteor.subscribe('userData');
+Meteor.subscribe('indexRooms');
 
 windowWidth = $(window).width();
 windowWidthDependency = new Deps.Dependency;

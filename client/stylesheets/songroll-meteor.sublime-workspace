@@ -1,0 +1,744 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fs",
+				"font-size"
+			],
+			[
+				"gly",
+				"glyphicon"
+			],
+			[
+				"bordercol",
+				"border-color"
+			],
+			[
+				"c",
+				"collection"
+			],
+			[
+				"roomdes",
+				"roomDescription"
+			],
+			[
+				"toggl",
+				"toggleScrollProposedRemainder"
+			],
+			[
+				"window",
+				"windowWidthDependency"
+			],
+			[
+				"wi",
+				"windowWidth"
+			],
+			[
+				"NE",
+				"nextRoom"
+			],
+			[
+				"pas",
+				"pastRoom"
+			],
+			[
+				"nex",
+				"nextRoom"
+			],
+			[
+				"user",
+				"userCount"
+			],
+			[
+				"curre",
+				"currentRoom"
+			],
+			[
+				"cure",
+				"currentRoom"
+			],
+			[
+				"recome",
+				"recommendationsArray"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"recom",
+				"recommendationsCount"
+			],
+			[
+				"item",
+				"item"
+			],
+			[
+				"recomm",
+				"recommendationsArray"
+			],
+			[
+				"vote",
+				"voteCount"
+			],
+			[
+				"is",
+				"isSongrollRecommendation"
+			],
+			[
+				"rec",
+				"recommendationsCount"
+			],
+			[
+				"track",
+				"trackCheck"
+			],
+			[
+				"spotify",
+				"spotify_artist_id"
+			],
+			[
+				"gener",
+				"generateRecommendations"
+			],
+			[
+				"trackNa",
+				"trackNamePartFiltered"
+			],
+			[
+				"trac",
+				"trackNamePart"
+			],
+			[
+				"arti",
+				"artistNameRegex"
+			],
+			[
+				"remove",
+				"removeRegex"
+			],
+			[
+				"final",
+				"finalVideoTitle"
+			],
+			[
+				"fin",
+				"finalVideoTitle"
+			],
+			[
+				"video",
+				"video_title"
+			],
+			[
+				"ma",
+				"margin-right"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"you",
+				"youtube_results"
+			],
+			[
+				"seconds",
+				"secondsToEnd"
+			],
+			[
+				"player-",
+				"player-idle"
+			],
+			[
+				"res",
+				"resizePlayer"
+			],
+			[
+				"pla",
+				"playTime"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"nextp",
+				"nextPathDependency"
+			],
+			[
+				"next",
+				"nextPathDependency"
+			],
+			[
+				"context",
+				"contextDependency"
+			],
+			[
+				"yout",
+				"youtubePlayerReady"
+			],
+			[
+				"youtube",
+				"youtubePlayerDependency"
+			],
+			[
+				"now",
+				"nowPlaying"
+			],
+			[
+				"dura",
+				"durationInMilliseconds"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"inl",
+				"inline-block"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/renemoraales/meteor/songroll-sky/client/views/application/layout.html",
+			"settings":
+			{
+				"buffer_size": 574,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "sky.less",
+			"settings":
+			{
+				"buffer_size": 21067,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 67.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instl",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"packag",
+				"Package Control: Add Channel"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 457.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/rooms_list.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/stylesheets/sky.less",
+		"/Users/renemoraales/meteor/songroll-sky/lib/sky.js",
+		"/Users/renemoraales/meteor/songroll-sky/server/main.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/room_page.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/messages/messages.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/room_page.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/messages/message_item.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/main.js",
+		"/Users/renemoraales/meteor/songroll-sky/lib/router.js",
+		"/Users/renemoraales/meteor/songroll-sky/server/publications.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/users/user_avatar.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/rooms_list.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/room_creator.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/room_creator.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/video_search.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/rooms/video_search.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/stylesheets/nprogress.css",
+		"/Users/renemoraales/meteor/songroll-sky/.meteor/local/build/programs/client/app/client/views/rooms/room_page.js",
+		"/Users/renemoraales/meteor/songroll-sky/collections/rooms.js",
+		"/Users/renemoraales/meteor/songroll-sky/.meteor/local/build/programs/ctl/node_modules/npm/node_modules/retry/lib/retry_operation.js",
+		"/Users/renemoraales/meteor/songroll-sky/README.md",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/application/layout.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/main.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/application/layout.js",
+		"/Users/renemoraales/meteor/songroll-sky/lib/app.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/stylesheets/style.css",
+		"/Users/renemoraales/devel/comparador_leadgen/config/database.yml",
+		"/Users/renemoraales/devel/comparador_leadgen/config/mailer.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/database.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/newrelic.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/sidekiq.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/varnish.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/api_config.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/crm_analytics.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/sidekiq_app.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/zendesk_api.yml.example",
+		"/Users/renemoraales/devel/comparador_leadgen/config/zendesk_contacto.yml.example",
+		"/Users/renemoraales/devel/comparador/config/database.yml",
+		"/Users/renemoraales/devel/comparador/config/elasticsearch.yml",
+		"/Users/renemoraales/devel/comparador/config/faye.yml",
+		"/Users/renemoraales/devel/comparador/config/mailer.yml",
+		"/Users/renemoraales/devel/comparador/config/memcached.yml",
+		"/Users/renemoraales/devel/comparador/config/newrelic.yml",
+		"/Users/renemoraales/devel/comparador/config/redis.yml",
+		"/Users/renemoraales/devel/comparador/config/sidekiq.yml",
+		"/Users/renemoraales/devel/comparador/config/varnish.yml",
+		"/Users/renemoraales/devel/comparador/config/zmq.yml",
+		"/Users/renemoraales/devel/comparador/config/sidekiq_app.yml",
+		"/Users/renemoraales/devel/comparador/config/zendesk_contacto.yml",
+		"/Users/renemoraales/devel/comparador/public/y_key_bc403737a986f421.html",
+		"/Users/renemoraales/devel/comparador/config/multicalculo.yml",
+		"/Users/renemoraales/devel/comparador/config/zmq.yml.example",
+		"/Users/renemoraales/devel/comparador/circle.yml",
+		"/Users/renemoraales/devel/comparador/.gitignore",
+		"/Users/renemoraales/devel/comparador/config/database.yml.example",
+		"/Users/renemoraales/devel/comparador/db/migrate/archived/20111012134811_crear_proveedores_y_servicios_telefonia_movil.rb",
+		"/Users/renemoraales/meteor/songroll-sky/.meteor/local/build/programs/server/npm/minifiers/main/node_modules/uglify-js/lib/mozilla-ast.js",
+		"/Users/renemoraales/meteor/songroll-sky/packages/moment/lib/moment/test/moment/string_prototype.js",
+		"/Users/renemoraales/meteor/songroll-sky/smart.json",
+		"/Users/renemoraales/meteor/songroll-sky/.meteor/local/build/programs/client/app/lib/app.js",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/users/user_avatar.html",
+		"/Users/renemoraales/meteor/songroll-sky/client/views/loading.html",
+		"/Users/renemoraales/meteor/songroll-sky/.meteor/release",
+		"/Users/renemoraales/rails_projects/reactor/app/assets/javascripts/reactor.js",
+		"/Users/renemoraales/rails_projects/reactor/README.rdoc",
+		"/Users/renemoraales/rails_projects/reactor/Rakefile",
+		"/Users/renemoraales/rails_projects/reactor/config/initializers/session_store.rb",
+		"/Users/renemoraales/rails_projects/reactor/db/migrate/20140609011548_create_spreads.rb",
+		"/Users/renemoraales/rails_projects/reactor/config.ru",
+		"/Volumes/C/GTA/KPS.gta.san.andreas.NFO",
+		"/Users/renemoraales/rails_projects/reactor-api/app/controllers/application_controller.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/spec/models/user_spec.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/models/user.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20140212211204_updating_campaigns_shipment_fields_to_use_array.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/auth/user_menu.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/controllers/auth_controller.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/javascripts/auth.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20140211170859_add_url_name_to_company.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20130712161008_agregar_campos_usuarios.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/application.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/new_admin/_menu.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/workers/marketing_external.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/mailer.yml",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/javascripts/snap.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/mailers/tarjeta_credito_mailer.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/tarjeta_credito_responsive.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20140422184129_delete_table_active_admin_comments.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/environments/test.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/javascripts/bundle_admin.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/cache/twitter-bootstrap-rails-1d708748f9b6/app/assets/javascripts/twitter/bootstrap_ujs.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/boot.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/public/tiny_mce/themes/advanced/source_editor.htm",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/layouts/shared/_header.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/brasil/tarjeta_prepago/_header.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/auth.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/layouts/brasil/tarjeta_credito/comparaonline/responsive_neutral.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/Rakefile",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/shared/_social_networks.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/tmp/cache/sass/aa1aaed79a05488a77cf5e02b8d8ed74136e34c6/_shared.scssc",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/spec/spec_helper.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/sidekiq.yml",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/grid_responsive.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/new_admin/distribution/shipments/response.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/assets/javascripts/respond.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/cache/rspec-expectations-2.14.2.gem",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/hstore.sql",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/tmp/cache/sass/0568bf87dde4a8b519ae3c36c722613081e2a185/_header.css.scssc",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/cache/comparador_frontend-5257e52ed3a3/app/assets/stylesheets/modules/_header.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/cache/comparador_frontend-9d8c0a810e21/app/assets/stylesheets/modules/_header.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/_carousel.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/brasil/tarjeta_prepago/index.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/brasil/tarjeta_credito/index.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/brasil/consorcio_inmobiliario/index.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/public/index.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/my_comparaonline/index.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20140114202030_insert_panamericano_to_empresa.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/initializers/inflections.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/config/i18n-js.yml",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/layouts/_head.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/models/brazil/health_insurance_dependent.rb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/tmp/cache/sass/bb12d9f08fa799aab4d7d0a739a51e92ede4502a/header.css.scssc",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/shared/header.css.scss",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/javascripts/helper.js",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/vendor/cache/twitter-bootstrap-rails-1d708748f9b6/vendor/toolkit/twitter/bootstrap/responsive-utilities.less",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/views/layouts/brasil/tarjeta_credito/comparaonline/responsive.html.erb",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/app/assets/stylesheets/grid_tarjeta_prepago_brasil_paso3.css",
+		"/Users/renemoraales/rails_projects/comparador_leadgen/db/migrate/20140116210419_update_parametro_in_campana_bradesco.rb"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 106.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"logout",
+			"message-list",
+			"generateRecommendations",
+			"generatingRecommendations",
+			"generateRecommendations",
+			"helvetica",
+			"#29d",
+			"context",
+			"nth-child",
+			"scrolltop",
+			"spotifysearchresults",
+			"timeout",
+			"album-art",
+			"message",
+			"console.log",
+			"coming-up",
+			".title",
+			".info",
+			"50%",
+			"/*",
+			"//",
+			"search",
+			"room_id",
+			"video_info",
+			"thiSviDEO",
+			"video_info.",
+			"duration",
+			"meteor.",
+			".artist",
+			"generaterecom",
+			"deps.autorun",
+			"playvideo",
+			"UPDATETIMEREMAINING",
+			"currentVideoREMAININGTIMETIMEOUT",
+			"console.log",
+			"source",
+			".source",
+			"glyphi",
+			"album-art",
+			".is-youtube",
+			".album-art",
+			"album-art",
+			".info .title",
+			"#spotifySearch",
+			"spotifysearch",
+			"search",
+			"spotify",
+			"search",
+			"date.now()",
+			"console",
+			"proposed-videos",
+			"list li",
+			"now-playing",
+			".messages",
+			".mesages",
+			"nowPlaying",
+			"sort",
+			"image-image",
+			"350",
+			".reactor-item {",
+			"reactor-item",
+			"user-name",
+			".image",
+			"action-spread",
+			"actions",
+			"infinitescroll",
+			"preventDefault",
+			".ready",
+			"body.co-responsive",
+			"https://comparaonline.s3.amazonaws.com/mailing/cp20140617/",
+			"reactor.css.scss"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"#EE007C",
+			"videoInfo",
+			"doc.youtube_info.",
+			"#videoSearch",
+			"past-videos",
+			"images/"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/renemoraales/meteor/songroll-sky/client/views/application/layout.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								200,
+								200
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "sky.less",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21067,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4879,
+								4879
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LESS/LESS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3938.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "songroll-meteor.sublime-project",
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"room_page",
+				"client/views/rooms/room_page.html"
+			],
+			[
+				"yml.example",
+				"config/mailer.yml.example"
+			],
+			[
+				"sty",
+				"client/stylesheets/style.css"
+			],
+			[
+				"main",
+				"client/main.html"
+			],
+			[
+				"spotify",
+				"client/views/rooms/spotify_search.html"
+			],
+			[
+				"reactor",
+				"app/assets/javascripts/reactor.js"
+			],
+			[
+				"reactorcss",
+				"app/assets/stylesheets/reactor.css.scss"
+			],
+			[
+				"user_men",
+				"app/views/auth/user_menu.html.erb"
+			],
+			[
+				"menu_shel",
+				"app/views/layouts/shared/_menu_shelves.html.erb"
+			],
+			[
+				"tarjeta_cred",
+				"app/assets/javascripts/tarjeta_credito_brasil.js"
+			],
+			[
+				"bundle_pub",
+				"app/assets/javascripts/bundle_public.js"
+			],
+			[
+				"header.hm",
+				"app/views/layouts/shared/_header.html.erb"
+			],
+			[
+				"header.h",
+				"app/views/brasil/tarjeta_credito/_header.html.erb"
+			],
+			[
+				"head_resp",
+				"app/views/layouts/brasil/tarjeta_credito/comparaonline/_head_responsive.html.erb"
+			],
+			[
+				"shared/head",
+				"app/views/layouts/shared/_header.html.erb"
+			],
+			[
+				"responsive",
+				"app/views/layouts/brasil/tarjeta_credito/comparaonline/responsive.html.erb"
+			],
+			[
+				"header.css",
+				"app/assets/stylesheets/shared/header.css.scss"
+			],
+			[
+				"inedx",
+				"app/views/brasil/tarjeta_credito/index.html.erb"
+			],
+			[
+				"_header",
+				"app/views/layouts/shared/_header.html.erb"
+			],
+			[
+				"head",
+				"app/views/brasil/tarjeta_credito/_header.html.erb"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 241.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

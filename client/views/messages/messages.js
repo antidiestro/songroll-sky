@@ -10,7 +10,7 @@ Template.messageItem.rendered = function(){
 
 	$('.message-list li').each(function(){
 		var user_id = $(this).attr('data-user-id');
-		if ( $(this).prev().attr('data-user-id') == user_id ) {
+		if ( user_id && $(this).prev().attr('data-user-id') == user_id ) {
 			$(this).prev().addClass('hide-info');
 		}
 	});

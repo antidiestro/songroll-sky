@@ -5,6 +5,8 @@
     "moment": {},
     "collection-hooks": {},
     "twitter-api": {},
-    "npm": {}
+    "npm": {},
+    "publish-with-relations": {},
+    "auto-nprogress": {}
   }
 }

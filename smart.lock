@@ -7,7 +7,9 @@
       "moment": {},
       "collection-hooks": {},
       "twitter-api": {},
-      "npm": {}
+      "npm": {},
+      "publish-with-relations": {},
+      "auto-nprogress": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -40,10 +42,25 @@
         "tag": "v0.2.6",
         "commit": "177ab6118de5bf8cffb19481343d5762ff7a2aaf"
       },
+      "publish-with-relations": {
+        "git": "https://github.com/erundook/meteor-publish-with-relations.git",
+        "tag": "v0.1.5",
+        "commit": "98213e9f056b139597c99fb9ec2884ae6be76d91"
+      },
+      "auto-nprogress": {
+        "git": "https://github.com/settinghead/meteor-auto-nprogress.git",
+        "tag": "v0.2.8",
+        "commit": "4c0ded2017177d2d62ad3b1950d08f7d57828daf"
+      },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",
         "tag": "v0.2.0",
         "commit": "4a2d53e35ba036b0c189c7ceca34be494d4c6c97"
+      },
+      "nprogress": {
+        "git": "https://github.com/zhouzhuojie/meteor-nprogress.git",
+        "tag": "v0.0.5",
+        "commit": "bb88a057166e0f1386ab8bc0a1e080b48aa59159"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

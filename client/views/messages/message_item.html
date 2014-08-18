@@ -1,10 +1,14 @@
 <template name="messageItem">
-	<li class="{{#if mine}}my-message{{/if}}" data-user-id="{{user._id}}">
-		<div class="text">{{text}}</div>
-		<div class="info">
-			<img src="{{user.avatar}}" class="avatar">
-			<strong>{{user.name}}</strong>
-			<em class="time">{{timeFormat createdAt}}</em>
-		</div>
+	<li class="{{#if mine}}my-message{{/if}} {{#if isRoomMessage}}room-message{{/if}}" data-user-id="{{user._id}}">
+		{{#if isRoomMessage}}
+			{{text}}
+		{{else}}
+			<div class="text">{{text}}</div>
+			<div class="info">
+				<img src="{{user.avatar}}" class="avatar">
+				<strong>{{user.name}}</strong>
+				<em class="time">{{timeFormat createdAt}}</em>
+			</div>
+		{{/if}}
 	</li>
 </template>

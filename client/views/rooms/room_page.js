@@ -183,9 +183,11 @@ Template.roomPage.helpers({
 		var messages = Messages.find({room_id: this._id}).fetch();
 		messages.forEach(function(item, i){
 			var user = Meteor.users.findOne({_id: item.user_id});
-			messages[i].user = user;
-			if ( user._id == Meteor.userId() ) {
-				messages[i].mine = true;
+			if ( user ) {
+				messages[i].user = user;
+				if ( user._id == Meteor.userId() ) {
+					messages[i].mine = true;
+				}
 			}
 		});
 		return messages;

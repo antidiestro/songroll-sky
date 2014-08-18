@@ -126,7 +126,11 @@
 							{{else}}
 								<div class="proposed-videos-empty">
 									<strong>¡No hay videos propuestos!</strong><br>
-									<span>Espera que se generen las recomendaciones o <a data-toggle="modal" data-target="#videoSearch">propone un video</a>.</span>
+									{{#if hasRecommendations}}
+										<span>Espera que se generen las recomendaciones o <a data-toggle="modal" data-target="#videoSearch">propone un video</a>.</span>
+									{{else}}
+										<span>Sé el primero en <a data-toggle="modal" data-target="#videoSearch">proponer un video</a> para reproducir a continuación.</span>
+									{{/if}}
 								</div>
 							{{/if}}
 						</ul>
@@ -166,97 +170,4 @@
 
 	</div>
 
-	<div class="hidden">
-
-		<div class="room-info">
-			<div class="container">
-				<h1>{{title}} <span><span class="glyphicon glyphicon-user"></span> {{roomUserCount}}</span></h1>
-				<ul class="user-list">
-					<li>
-
-					</li>
-					{{#each userList}}
-						{{> userAvatar}}
-					{{/each}}
-				</ul>
-			</div>
-		</div>
-
-		<div class="player-container">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-7
-							{{#unless nowPlaying}}
-								player-idle
-							{{/unless}}
-							">
-						<div id="player"></div>
-					</div>
-					<div class="col-sm-5" style="height: 360px;">
-						<div class="videos-control
-						{{#if nowPlaying}}
-							is-np
-						{{/if}}
-						">
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-7 chatroom-column">
-
-					<div class="chatroom-container">
-						<ul class="messages just-in well">
-							{{#each messageList}}
-								{{> messageItem}}
-							{{/each}}
-						</ul>
-						{{#if currentUser}}
-							<form id="sendMessage">
-								<div class="form-group">
-									<input class="form-control" type="text" placeholder="Escribe tu mensaje...">
-									<input type="submit" value="Enviar" class="btn btn-sm btn-primary">
-								</div>
-							</form>
-						{{/if}}
-					</div>
-				</div>
-				<div class="col-sm-5">
-					<div class="past-videos-container">
-						<div class="past-videos-title">
-							<div class="pull-right">
-								<span class="glyphicon glyphicon-time"></span>
-							</div>
-							Anteriormente
-						</div>
-						<ul class="past-videos-list">
-							{{#each pastVideosList}}
-								<li class="type-{{type}} source-{{source}}">
-									<div class="time">
-										{{timeFormat playTime}}
-									</div>
-									{{#if image_url}}
-										<div class="album-art" style="background-image:url({{image_url}})"></div>
-									{{/if}}
-									<div class="info">
-										<div class="artist">{{artist_name}}</div>
-										<div class="title">{{title}} 
-										{{#if subtitle}}
-											<span class="sub">({{subtitle}})</span>
-										{{/if}}
-										</div>
-									</div>
-								</li>
-							{{/each}}
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
 </template>

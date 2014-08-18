@@ -14,6 +14,72 @@ body {
 	outline: none;
 }
 
+#splash {
+	width: 770px;
+	height: 120px;
+	position: absolute;
+	top: 50%;
+	left: 100px;
+	margin-top: -55px;
+
+	.logo {
+		width: 120px;
+		height: 120px;
+		padding: 15px;
+		background-color: #EE007C;
+		display: inline-block;
+		vertical-align: middle;
+
+		img {
+			height: 100%;
+			opacity: 0.4;
+		}
+	}
+
+	.text {
+		display: inline-block;
+		width: 640px;
+		vertical-align: middle;
+		position: relative;
+		padding-left: 30px;
+
+		h1 {
+			margin: 0;
+			font-weight: 100;
+			opacity: 0.9;
+			font-size: 28px;
+			display: inline-block;
+			vertical-align: middle;
+
+			strong {
+				font-weight: 400;
+			}
+		}
+
+		#login-buttons {
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 30px;
+		}
+	}
+
+	#login-buttons-twitter {
+		.btn-sky;
+		background-color: #27C7DD;
+		cursor: pointer;
+		font-size: 0;
+
+		&:before {
+
+		}
+
+		&:after {
+			content: "Entrar con Twitter";
+			font-size: 13px;
+		}
+	}
+}
+
 .form-section {
 	font-size: 0;
 	margin-bottom: 12px;
@@ -294,11 +360,33 @@ body {
 		padding: 10px 15px;
 		margin-left: 20px;
 		background-color: #242632;
+		cursor: pointer;
+		position: relative;
 
 		img.avatar {
 			border-radius: 50%;
 			width: 40px;
 			border: 2px solid whitesmoke;
+		}
+
+		.logout {
+			position: absolute;
+			width: 36px;
+			height: 36px;
+			line-height: 38px;
+			text-align: center;
+			background-color: rgba(28, 31, 40, 0.83);
+			left: 17px;
+			border-radius: 50%;
+			top: 12px;
+			opacity: 0;
+			transition: opacity .3s ease;
+		}
+
+		&:hover {
+			.logout {	
+				opacity: 1;
+			}
 		}
 	}
 
@@ -341,6 +429,116 @@ body {
 	}
 }
 
+.rooms-list {
+	padding: 20px;
+	text-align: center;
+	letter-spacing: 11px;
+
+	.room-item {
+		letter-spacing: normal;
+		text-align: left;
+		display: inline-block;
+		vertical-align: top;
+		width: 330px;
+		border: 2px solid #3D3F4D;
+		color: inherit;
+		text-decoration: none;
+		border-radius: 2px;
+		background-color: #1C1F28;
+		height: 210px;
+		overflow: hidden;
+		position: relative;
+		font-size: 14px;
+		margin-bottom: 15px;
+
+		&:hover {
+			border-color: #686974;
+		}
+
+		.now-playing {
+			padding: 10px;
+			background-color: #0F1014;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			box-shadow: 0px -26px 35px #1C1F28;
+
+			.album-art {
+				width: 45px;
+				height: 45px;
+				border-radius: 50%;
+				background-size: cover;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.info {
+				display: inline-block;
+				vertical-align: middle;
+				padding-left: 8px;
+				width: ~"calc(100% - 50px)";
+
+				.artist {
+					font-size: 11px;
+					font-weight: 600;
+					text-transform: uppercase;
+					opacity: .5;
+				}
+
+				.title {
+					opacity: .8;
+					font-size: 16px;
+					font-weight: 300;
+					letter-spacing: 0.3px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+
+		.room-info {
+			padding: 20px;
+
+			.title {
+				font-size: 21px;
+				line-height: 25px;
+				font-weight: 500;
+				opacity: .9;
+				position: relative;
+
+				.user-count {
+					float: right;
+					background-color: #2EB0B6;
+					font-family: 'Helvetica Neue';
+					font-size: 14px;
+					height: 25px;
+					line-height: 25px;
+					padding: 0 8px;
+					border-radius: 3px;
+					color: #1C1E27;
+					font-weight: bold;
+					position: relative;
+					right: -4px;
+					-webkit-font-smoothing: antialiased;
+
+					.glyphicon {
+						font-size: 12px;
+					}
+				}
+			}
+
+			.description {
+				opacity: .75;
+				font-weight: 300;
+				font-size: 13px;
+				padding-top: 6px;
+			}
+		}
+	}
+}
+
 #room-videos {
 	position: absolute;
 	width: 60%;
@@ -359,6 +557,7 @@ body {
 	}
 
 	.now-playing {
+		background-color: #242632;
 		padding: 15px 20px 15px 15px;
 
 		.now-playing-video {
@@ -516,7 +715,7 @@ body {
 				.proposed-videos-empty {
 					font-size: 18px;
 					text-align: left;
-					opacity: .6;
+					color: #A2A3A7;
 					font-weight: 100;
 					padding: 22px 6px;
 
@@ -530,6 +729,13 @@ body {
 						color: inherit;
 						border-bottom: 2px dotted rgba(255,255,255,0.6);
 						font-weight: 300;
+						text-decoration: none;
+						cursor: pointer;
+
+						&:hover {
+							color: white;
+							border-color: white;
+						}
 					}
 				}
 
@@ -641,7 +847,7 @@ body {
 						top: 0;
 						background-color: #1C1F28;
 						padding: 4px 8px 6px;
-						font-family: 'Helvetica Neue';
+						font-family: 'Helvetica Neue', 'Arial', sans-serif;
 						border-radius: 0 0 0 2px;
 
 						.glyphicon {
@@ -747,7 +953,22 @@ body {
 		padding: 20px;
 		list-style: none;
 
+		.room-message {
+			width: 100%;
+			color: #484A5A;
+			font-size: 11px;
+			border-bottom: 1px solid #252630;
+			text-transform: uppercase;
+			text-align: center;
+			font-weight: 600;
+			line-height: normal;
+			border-radius: 2px;
+			padding: 5px 0;
+		}
+
 		li {
+			margin-bottom: 10px;
+
 			.text {
 				background-color: #1C1F28;
 				color: #CBCADF;
@@ -799,9 +1020,7 @@ body {
 			}
 
 			&.hide-info {
-				.text {
-					margin-bottom: 2px;
-				}
+				margin-bottom: 2px;
 
 				.info {
 					display: none;

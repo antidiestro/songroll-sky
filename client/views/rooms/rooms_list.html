@@ -14,23 +14,31 @@
 
   {{> roomCreator}}
 
-  <div class="container">
-    <h2 class="rooms-list-header page-header">
-      <div class="pull-right">
-        
+  <div class="rooms-list">
+  {{#each rooms}}
+  	<a href="{{pathFor 'roomPage'}}" class="room-item">
+      <div class="room-info">
+        <div class="title">
+          <div class="user-count">
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="count">{{userCount}}</span>
+          </div>
+          <span>{{title}}</span>
+        </div>
+        <div class="description">{{description}}</div>
       </div>
-      <span>Salas de música</span>
-    </h2>
-    <ul class="rooms-list">
-    {{#each rooms}}
-    	<li>
-    		<a href="{{pathFor 'roomPage'}}">{{title}}</a>
-    		{{#if now_playing}}
-    			<small style="font-size:15px; opacity:.75; margin-left: 10px;"><span class="glyphicon glyphicon-volume-up"></span> {{now_playing.artist_name}} &mdash; {{now_playing.title}}</small> 
-    		{{/if}}
-    	</li>
-    {{/each}}
-    </ul>
+
+      {{#if now_playing}}
+        <div class="now-playing">
+          <div class="album-art" style="background-image:url({{now_playing.image_url}})"></div>
+          <div class="info">
+            <div class="artist">{{now_playing.artist_name}}</div>
+            <div class="title">{{now_playing.title}}</div>
+          </div>
+        </div>
+      {{/if}}
+  	</a>
+  {{/each}}
   </div>
 
 </template>
