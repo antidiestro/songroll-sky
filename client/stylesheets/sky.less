@@ -634,16 +634,9 @@ body {
 	}
 
 	.coming-up {
-		padding: 15px;
 		padding-bottom: 3px;
 		background-color: #1C1F28;
 		height: 145px;
-		overflow-y: hidden;
-		overflow-x: auto;
-
-		&::-webkit-scrollbar { 
-		    display: none; 
-		}
 
 		.more-options {
 			position: fixed;
@@ -662,6 +655,9 @@ body {
 
 		.proposed-videos {
 			.proposed-videos-title {
+				padding: 15px;
+				padding-bottom: 0;
+				height: 35px;
 				font-size: 14px;
 				text-transform: uppercase;
 				font-family: 'Montserrat';
@@ -678,7 +674,6 @@ body {
 					color: #1C1F28;
 					padding: 0 5px 0 8px;
 					border-radius: 20px;
-					margin-right: 20px;
 
 					.loader {
 						position: relative;
@@ -706,11 +701,18 @@ body {
 			.proposed-videos-list {
 				list-style: none;
 				margin: 0;
-				padding: 0;
-				padding-top: 15px;
+				padding: 15px 15px 13px;
 				width: 100%;
 				font-size: 0;
 				white-space: nowrap;
+				padding-right: 30px;
+				overflow-x: auto;
+				overflow-y: hidden;
+				-webkit-overflow-scrolling: touch;
+
+				&::-webkit-scrollbar {
+					display: none;
+				}
 
 				.proposed-videos-empty {
 					font-size: 18px;
@@ -742,13 +744,13 @@ body {
 				li {
 					display: inline-block;
 					vertical-align: top;
-					border: 2px solid #242632;
+					border: 2px solid #343541;
 					border-radius: 2px;
 					padding: 0 10px;
+					padding-right: 30px;
 					font-size: 14px;
 					margin-right: 10px;
-					margin-bottom: 10px;
-					width: ~"calc(50% - 5px)";
+					width: auto;
 					height: 82px;
 					line-height: 78px;
 					cursor: pointer;
@@ -762,8 +764,6 @@ body {
 							color: #1C1F28;
 						}
 					}
-
-
 
 					// &:nth-child(2n) {
 					// 	margin-right: 0;
@@ -796,7 +796,8 @@ body {
 						vertical-align: middle;
 						padding-left: 10px;
 						line-height: normal;
-						width: ~"calc(100% - 50px)";
+						width: auto;
+						max-width: 260px;
 
 						.artist {
 							font-size: 11px;
@@ -845,7 +846,7 @@ body {
 						position: absolute;
 						right: 0;
 						top: 0;
-						background-color: #1C1F28;
+						background-color: #343541;
 						padding: 4px 8px 6px;
 						font-family: 'Helvetica Neue', 'Arial', sans-serif;
 						border-radius: 0 0 0 2px;
@@ -907,6 +908,12 @@ body {
 	right: 0;
 	top: 0;
 	background-color: #0F1014;
+
+	.room-messages {
+		height: ~"calc(100% - 96px)";
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
 
 	.room-users {
 		background-color: #242632;
@@ -1002,6 +1009,7 @@ body {
 				font-size: 12px;
 				padding-top: 14px;
 				padding-left: 6px;
+				line-height: 25px;
 
 				.avatar {
 					border-radius: 50%;
@@ -1024,6 +1032,30 @@ body {
 
 				.info {
 					display: none;
+				}
+			}
+
+			&.my-message {
+				text-align: right;
+
+				&:not(.hide-info) {
+					.text {
+						&:after {
+							left: auto;
+							right: 8px;
+						}
+					}
+				}
+
+				.text {
+					text-align: left;
+				}
+
+				.info {
+					.avatar {
+						float: right;
+						margin-left: 10px;
+					}
 				}
 			}
 		}
@@ -1291,19 +1323,5 @@ body {
 				}
 			}
 		}
-	}
-}
-
-@media only screen and (min-width: 1280px) {
-	#room-videos .coming-up .proposed-videos .proposed-videos-list li {
-		width: ~"calc(33.3% - 7px)";
-
-		// &:nth-child(2n) {
-		// 	margin-right: 10px;
-		// }
-
-		// &:nth-child(3n) {
-		// 	margin-right: 0;
-		// }
 	}
 }

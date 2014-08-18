@@ -5,7 +5,7 @@ Template.messageItem.helpers({
 })
 
 Template.messageItem.rendered = function(){
-	var messagesContainer = $('.messages');
+	var messagesContainer = $('.room-messages');
 	messagesContainer.scrollTop(messagesContainer.prop('scrollHeight'));
 
 	$('.message-list li').each(function(){

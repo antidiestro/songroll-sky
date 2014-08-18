@@ -100,7 +100,7 @@ Template.roomPage.rendered = function(){
 						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
 						updateTimeRemaining();
 						if ( videoInPlayer != currentVideo.youtube_id ) {
-							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+							// Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 						}
 					});
 				}

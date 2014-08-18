@@ -144,8 +144,7 @@ Meteor.methods({
 		}
 	},
 	insertYouTubeVideo: function(video, room_id){
-		var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails%2CtopicDetails&id='+video.id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
-		var video_info = youtube_info.data.items[0];
+		var video_info = Sky.api.youTube.videoInfo(video.id.videoId);
 		var data = {
 			room_id: room_id, 
 			youtube_id: video_info.id, 
@@ -272,7 +271,6 @@ Videos.after.insert(function(userId, doc){
 	}
 
 	if ( doc.type == 'video' && doc.source == 'youtube' ) {
-		console.log('It seems like it is a YouTube video. We will try to identify if it is a song');
 
 		Meteor.setTimeout(function(){
 			// If it is a YouTube video, do the Spotify treatment

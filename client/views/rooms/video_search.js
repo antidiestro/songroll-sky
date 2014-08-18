@@ -42,6 +42,10 @@ Template.videoSearch.events({
 		} else if ( $(e.target).val() == 'youtube' ) {
 			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Busca un video o pega un enlace de YouTube...');
 		}
+
+		if ( $.trim($('#form-search-video').find('input[name="query"]').val()) != "" ) {
+			$('#form-search-video').submit();
+		}
 	},
 	'show.bs.modal #videoSearch': function(){
 		// Session.set('spotifyResults', []);
