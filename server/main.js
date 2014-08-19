@@ -23,14 +23,6 @@ Meteor.startup(function(){
 	});
 });
 
-Meteor.users.allow({
-	update: function (userId, doc, fields, modifier) {
-		if (userId && doc._id === userId) {
-			return true;
-		}
-	}
-});
-
 cleanVideoName = function(video_title, track, artist){
 	var finalVideoTitle = video_title;
 
@@ -157,6 +149,9 @@ Meteor.methods({
 		}
 		
 		var thisVideo = Videos.insert(data);
+		if ( Meteor.userId() ) {
+			Votes.insert({user_id: Meteor.userId(), video_id: thisVideo});
+		}
 	},
 	insertYouTubeVideo: function(video, room_id){
 		var videoInfo = Sky.api.youTube.videoInfo(video.id.videoId);
@@ -172,7 +167,10 @@ Meteor.methods({
 			youtube_info: videoInfo
 		};
 
-		Videos.insert(data);
+		var thisVideo = Videos.insert(data);
+		if ( Meteor.userId() ) {
+			Votes.insert({user_id: Meteor.userId(), video_id: thisVideo});
+		}
 	},
 	searchSpotify: function(query){
 		return Sky.api.spotify.search(query);

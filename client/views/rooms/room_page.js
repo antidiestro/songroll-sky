@@ -100,7 +100,7 @@ Template.roomPage.rendered = function(){
 						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
 						updateTimeRemaining();
 						if ( videoInPlayer != currentVideo.youtube_id ) {
-							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+							// Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 						}
 					});
 				}
@@ -248,6 +248,12 @@ Template.roomPage.events({
 		Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
 	},
 	'click .proposed-videos-list li': function(){
-		Meteor.call('toggleVote', this._id);
+		var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: this._id});
+
+		if ( voteCheck ) {
+			Votes.remove({_id: voteCheck._id});
+		} else {
+			Votes.insert({user_id: Meteor.userId(), video_id: this._id});
+		}
 	}
 });
