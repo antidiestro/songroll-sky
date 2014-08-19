@@ -118,29 +118,45 @@ Meteor.methods({
 		}
 	},
 	insertSpotifySong: function(track, room_id){
-		var query = track.name+' '+track.artist_name;
-		var youtubeSearch = Sky.api.youTube.search(query, 1);
-		if ( youtubeSearch.items.length > 0 ) {
-			var videoInfo = Sky.api.youTube.videoInfo(youtubeSearch.items[0].id.videoId);
-			var data = {
-				room_id: room_id, 
-				youtube_id: videoInfo.id, 
-				title: track.name, 
-				artist_name: track.artist_name, 
-				duration: moment.duration(videoInfo.contentDetails.duration).asSeconds(), 
-				type: 'track', 
-				source: 'spotify', 
-				spotify_id: track.id,
-				spotify_artist_id: track.artists[0].id,
-				isAnalyzed: true
-			};
-			if ( track.image_url ) {
-				data.image_url = track.image_url;
-			}
- 			var thisVideo = Videos.insert(data);
+		var videoInfo;
+		var cacheCheck = Cache.Spotify.findOne({spotify_id: track.id});
+
+		if ( cacheCheck && cacheCheck.youtube_id ) {
+			videoInfo = Sky.api.youTube.videoInfo(cacheCheck.youtube_id);
 		} else {
-			console.log('Video not found.')
+			var query = track.name+' '+track.artist_name;
+			var youtubeSearch = Sky.api.youTube.search(query, 1);
+			if ( youtubeSearch.items.length > 0 ) {
+				videoInfo = Sky.api.youTube.videoInfo(youtubeSearch.items[0].id.videoId);
+				if ( cacheCheck ) {
+					Cache.Spotify.update({_id: cacheCheck._id}, { $set: { youtube_id: youtubeSearch.items[0].id.videoId } });
+				} else {
+					Cache.Spotify.insert({spotify_id: track.id, youtube_id: youtubeSearch.items[0].id.videoId, cacheData: track});
+				}
+			} else {
+				console.log('Video not found.');
+				return;
+			}
 		}
+
+		var data = {
+			room_id: room_id, 
+			youtube_id: videoInfo.id, 
+			title: track.name, 
+			artist_name: track.artist_name, 
+			duration: moment.duration(videoInfo.contentDetails.duration).asSeconds(), 
+			type: 'track', 
+			source: 'spotify', 
+			spotify_id: track.id,
+			spotify_artist_id: track.artists[0].id,
+			isAnalyzed: true
+		};
+
+		if ( track.image_url ) {
+			data.image_url = track.image_url;
+		}
+		
+		var thisVideo = Videos.insert(data);
 	},
 	insertYouTubeVideo: function(video, room_id){
 		var videoInfo = Sky.api.youTube.videoInfo(video.id.videoId);
