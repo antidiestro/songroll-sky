@@ -6,7 +6,6 @@
 standard-app-packages
 insecure
 bootstrap-3
-iron-router
 http
 moment
 collection-hooks
@@ -18,3 +17,4 @@ npm
 less
 publish-with-relations
 auto-nprogress
+iron-router

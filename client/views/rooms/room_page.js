@@ -100,7 +100,7 @@ Template.roomPage.rendered = function(){
 						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
 						updateTimeRemaining();
 						if ( videoInPlayer != currentVideo.youtube_id ) {
-							// Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 						}
 					});
 				}
@@ -176,8 +176,12 @@ Template.roomPage.helpers({
 		return cursor.length;
 	},
 	roomUserCount: function(){
-		var room = Rooms.findOne({_id: context._id});
-		return room.userCount;
+		if ( context ) {
+			var room = Rooms.findOne({_id: context._id});
+			return room.userCount;
+		} else {
+			return 0;
+		}
 	},
 	messageList: function(){
 		var messages = Messages.find({room_id: this._id}).fetch();

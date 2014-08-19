@@ -1,12 +1,14 @@
 {
   "packages": {
     "bootstrap-3": {},
-    "iron-router": {},
     "moment": {},
     "collection-hooks": {},
     "twitter-api": {},
     "npm": {},
     "publish-with-relations": {},
-    "auto-nprogress": {}
+    "auto-nprogress": {},
+    "iron-router": {
+      "version": "0.8.2"
+    }
   }
 }
