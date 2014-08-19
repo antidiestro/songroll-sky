@@ -245,18 +245,5 @@ Template.roomPage.events({
 	},
 	'click .proposed-videos-list li': function(){
 		Meteor.call('toggleVote', this._id);
-	},
-	'click #add-video': function(){
-		var room_id = this._id;
-		var url = prompt('Ingresa una URL de un video de YouTube');
-		if ( url ) {
-			var id = Sky.helpers.youtube_parser(url);
-			if ( id ) {
-				Meteor.call('getVideoInfo', id, function(e, r) {
-					var data = {room_id: room_id, youtube_id: r.id, title: r.snippet.title, duration: moment.duration(r.contentDetails.duration).asSeconds()};
-					Videos.insert(data);
-				});
-			}
-		}
 	}
 });

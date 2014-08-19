@@ -118,17 +118,16 @@ Meteor.methods({
 		}
 	},
 	insertSpotifySong: function(track, room_id){
-		var query = encodeURIComponent(track.name+' '+track.artist_name);
-		var youtube_search = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q='+query+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
-		if ( youtube_search.data.items.length > 0 ) {
-			var youtube_info = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_search.data.items[0].id.videoId+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE')
-			var video_info = youtube_info.data.items[0];
+		var query = track.name+' '+track.artist_name;
+		var youtubeSearch = Sky.api.youTube.search(query, 1);
+		if ( youtubeSearch.items.length > 0 ) {
+			var videoInfo = Sky.api.youTube.videoInfo(youtubeSearch.items[0].id.videoId);
 			var data = {
 				room_id: room_id, 
-				youtube_id: video_info.id, 
+				youtube_id: videoInfo.id, 
 				title: track.name, 
 				artist_name: track.artist_name, 
-				duration: moment.duration(video_info.contentDetails.duration).asSeconds(), 
+				duration: moment.duration(videoInfo.contentDetails.duration).asSeconds(), 
 				type: 'track', 
 				source: 'spotify', 
 				spotify_id: track.id,
@@ -144,28 +143,20 @@ Meteor.methods({
 		}
 	},
 	insertYouTubeVideo: function(video, room_id){
-		var video_info = Sky.api.youTube.videoInfo(video.id.videoId);
+		var videoInfo = Sky.api.youTube.videoInfo(video.id.videoId);
 		var data = {
 			room_id: room_id, 
-			youtube_id: video_info.id, 
-			title: video_info.snippet.title, 
-			duration: moment.duration(video_info.contentDetails.duration).asSeconds(), 
-			image_url: video_info.snippet.thumbnails.high.url, 
+			youtube_id: videoInfo.id, 
+			title: videoInfo.snippet.title, 
+			duration: moment.duration(videoInfo.contentDetails.duration).asSeconds(), 
+			image_url: videoInfo.snippet.thumbnails.high.url, 
 			type: 'video', 
 			source: 'youtube',
 			isAnalyzed: false,
-			youtube_info: video_info
+			youtube_info: videoInfo
 		};
 
 		Videos.insert(data);
-	},
-	getVideoInfo: function(youtube_id){
-		var request = Meteor.http.get('https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2CcontentDetails&id='+youtube_id+'&maxResults=1&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
-		return request.data.items[0];
-	},
-	findVideo: function(query){
-		var results = Meteor.http.get('https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=pulp&key=AIzaSyCjkQ_YauVPcAHM541qjYVtWOX7kjYFSlE');
-		return results;
 	},
 	searchSpotify: function(query){
 		return Sky.api.spotify.search(query);
@@ -273,42 +264,7 @@ Videos.after.insert(function(userId, doc){
 	if ( doc.type == 'video' && doc.source == 'youtube' ) {
 
 		Meteor.setTimeout(function(){
-			// If it is a YouTube video, do the Spotify treatment
-			if ( doc.youtube_info.topicDetails ) {
-				if ( doc.youtube_info.topicDetails.topicIds ) {
-					doc.youtube_info.topicDetails.topicIds.forEach(function(topic, i){
-						var topicCheck = Meteor.http.get('https://www.googleapis.com/freebase/v1/search?query='+topic+'&filter=(all%20type:/music/recording)');
-						if ( topicCheck.data.result.length > 0 ) {
-							var topicInfo = Meteor.http.get('https://www.googleapis.com/freebase/v1/topic'+topic);
-							var trackName = topicInfo.data.property['/type/object/name'].values[0].text;
-							var artistName = topicInfo.data.property['/music/recording/artist'].values[0].text;
-							
-							var spotifySearch = Meteor.http.get('https://api.spotify.com/v1/search?q=track:'+encodeURIComponent(trackName)+'%20artist:'+encodeURIComponent(artistName)+'&type=track&limit=1');
-
-							if ( spotifySearch.data.tracks.items.length > 0 )  {
-								var trackInfo = spotifySearch.data.tracks.items[0];
-								var cleanVideoTitle = cleanVideoName(doc.youtube_info.snippet.title, trackInfo.name, trackInfo.artists[0].name);
-
-								var dataToUpdate = {
-									title: trackInfo.name, 
-									artist_name: trackInfo.artists[0].name, 
-									subtitle: cleanVideoTitle, 
-									image_url: trackInfo.album.images[1].url, 
-									type: 'track', 
-									spotify_id: trackInfo.id,
-									spotify_artist_id: trackInfo.artists[0].id
-								}
-
-								Videos.update({_id: doc._id}, { $set: dataToUpdate });
-							}
-						}
-					});
-				}
-			}
-
-			Videos.update({_id: doc._id}, { $set: { isAnalyzed: true } });
-
-			Sky.generateRecommendations(doc._id);
+			Sky.api.spotify.checkVideoForMusic(doc);
 		}, 0);
 	}
 
