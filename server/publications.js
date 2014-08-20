@@ -2,6 +2,10 @@ Meteor.publish('userData', function () {
     return Meteor.users.find({_id: this.userId});
 });
 
+Meteor.publish('userFavorites', function(){
+	return Favorites.find({user_id: this.userId});
+});
+
 Meteor.publish('indexRooms', function(){
 	Meteor.publishWithRelations({
 		handle: this,

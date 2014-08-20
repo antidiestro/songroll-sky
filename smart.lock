@@ -11,7 +11,9 @@
       "auto-nprogress": {},
       "iron-router": {
         "version": "0.8.2"
-      }
+      },
+      "server-eval": {},
+      "kadira": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -53,6 +55,16 @@
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.8.2",
         "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
+      },
+      "server-eval": {
+        "git": "https://github.com/gandev-de/meteor-server-eval.git",
+        "tag": "v0.5.0",
+        "commit": "0652e70de0b359305f7e04b9131dfc755e1cf27a"
+      },
+      "kadira": {
+        "git": "https://github.com/meteorhacks/kadira.git",
+        "tag": "v2.4.13",
+        "commit": "1f3c1a427084af5a2eca2e299eb65bc01387df8a"
       },
       "nprogress": {
         "git": "https://github.com/zhouzhuojie/meteor-nprogress.git",

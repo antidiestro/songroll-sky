@@ -36,8 +36,9 @@
 								<div class="action action-skip {{#if isSkipping}}active{{/if}}">
 									<span class="glyphicon glyphicon-fast-forward"></span>
 								</div>
-								<div class="action">
+								<div class="action action-favorite {{#unless isAnalyzed}}not-analyzed{{/unless}} {{#if isFavorite}}active{{/if}}">
 									<span class="glyphicon glyphicon-heart-empty"></span>
+									<span class="glyphicon glyphicon-heart"></span>
 								</div>
 							</div>
 							{{#if image_url}}

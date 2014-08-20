@@ -100,7 +100,7 @@ Template.roomPage.rendered = function(){
 						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
 						updateTimeRemaining();
 						if ( videoInPlayer != currentVideo.youtube_id ) {
-							// Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
 						}
 					});
 				}
@@ -234,6 +234,17 @@ Template.roomPage.helpers({
 		if ( nowPlaying == true ) {
 			return 'now-playing';
 		}
+	},
+	isFavorite: function(){
+		if ( this.isAnalyzed ) {
+			if ( this.spotify_id ) {
+				var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id});
+				if ( favoriteCheck ) { return true; }
+			} else {
+				var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), youtube_id: this.youtube_id});
+				if ( favoriteCheck ) { return true; }
+			}
+		}
 	}
 });
 
@@ -270,6 +281,25 @@ Template.roomPage.events({
 			Skips.remove({_id: skipCheck._id});
 		} else {
 			Skips.insert({user_id: Meteor.userId(), video_id: this._id});
+		}
+	},
+	'click .action-favorite': function(){
+		console.log('User wants to favorite video ID '+this._id);
+
+		if ( this.spotify_id ) {
+			var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id});
+			if ( favoriteCheck ) {
+				Favorites.remove({_id: favoriteCheck._id});
+			} else {
+				Favorites.insert({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id});
+			}
+		} else {
+			var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), youtube_id: this.youtube_id});
+			if ( favoriteCheck ) {
+				Favorites.remove({_id: favoriteCheck._id});
+			} else {
+				Favorites.insert({user_id: Meteor.userId(), youtube_id: this.youtube_id});
+			}
 		}
 	}
 });

@@ -17,3 +17,5 @@ less
 publish-with-relations
 auto-nprogress
 iron-router
+server-eval
+kadira
