@@ -44,6 +44,12 @@ Meteor.publish('room', function(room_id){
 						key: 'video_id',
 						collection: Votes,
 						filter: { user_id: this.userId }
+					},
+					{
+						reverse: true,
+						key: 'video_id',
+						collection: Skips,
+						filter: { user_id: this.userId }
 					}
 				]
 			},

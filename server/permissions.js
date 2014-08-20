@@ -14,6 +14,28 @@ Messages.allow({
 	}
 });
 
+Skips.allow({
+	insert: function (userId, vote){
+		var voteCheck = Skips.findOne({user_id: userId, video_id: vote.video_id});
+		if ( voteCheck ) {
+			return false;
+		} else {
+			if ( userId && vote.user_id === userId ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	},
+	remove: function(userId, vote){
+		if ( userId && vote.user_id === userId ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+});
+
 Votes.allow({
 	insert: function (userId, vote){
 		var voteCheck = Votes.findOne({user_id: userId, video_id: vote.video_id});

@@ -563,6 +563,53 @@ body {
 		.now-playing-video {
 			font-size: 0;
 
+			.video-actions {
+				font-size: 14px;
+				line-height: 75px;
+				padding-right: 17px;
+				display: inline-block;
+				vertical-align: middle;
+
+				.action {
+					display: inline-block;
+					vertical-align: middle;
+					background-color: #1C1F28;
+					color: #A2A39F;
+					line-height: normal;
+					font-size: 20px;
+					border-radius: 100px;
+					text-align: center;
+					width: 50px;
+					line-height: 50px;
+					height: 50px;
+					margin-right: 3px;
+
+					&:hover {
+						cursor: pointer;
+						background-color: #15171D;
+					}
+
+					.glyphicon-heart-empty, .glyphicon-heart {
+						top: 6px;
+						font-size: 24px;
+						left: -1px;
+					}
+
+					.glyphicon-fast-forward {
+						font-size: 19px;
+						top: 3px;
+						left: -1px;
+					}
+
+					&.action-skip {
+						&.active {
+							background-color: #2EB0B6;
+							color: #093638;
+						}
+					}
+				}
+			}
+
 			.time-remaining {
 				line-height: 75px;
 				font-family: 'Helvetica Neue', 'Arial', sans-serif;
@@ -599,7 +646,7 @@ body {
 				display: inline-block;
 				vertical-align: middle;
 				font-size: 14px;
-				width: ~"calc(100% - 175px)";
+				width: ~"calc(100% - 310px)";
 				padding-left: 20px;
 				transition: width .3s ease;
 
@@ -628,7 +675,7 @@ body {
 
 			&.type-video {
 				.album-art { width: 133px; }
-				.info { width: ~"calc(100% - 233px)" }
+				.info { width: ~"calc(100% - 360px)" }
 			}
 		}
 	}
@@ -719,7 +766,7 @@ body {
 					text-align: left;
 					color: #A2A3A7;
 					font-weight: 100;
-					padding: 22px 6px;
+					padding: 0px 6px;
 
 					strong {
 						font-weight: 500;
@@ -940,8 +987,8 @@ body {
 
 				&.user-count {
 					background-color: #0F1014;
-					padding: 5px 10px;
-					border-radius: 3px;
+					padding: 5px 15px 6px;
+					border-radius: 33px;
 					color: #C4C3D7;
 					font-size: 15px;
 					font-family: 'Helvetica Neue', 'Arial', sans-serif;

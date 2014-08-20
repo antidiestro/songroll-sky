@@ -242,6 +242,16 @@ Votes.after.remove(function(userId, doc){
 	Videos.update({_id: doc.video_id}, { $set: { voteCount: videoVoteCount } });
 });
 
+Skips.after.insert(function(userId, doc){
+	var skipsCount = Skips.find({video_id: doc.video_id}).count();
+	var video = Videos.findOne({_id: doc.video_id});
+	var userCount = Meteor.users.find({currentRoom: video.room_id}).count();
+	if ( skipsCount > (userCount/2) ) {
+		Sky.playNext(video._id);
+		Skips.remove({video_id: doc.video_id});
+	}
+});
+
 Messages.before.insert(function(userId, doc){
 	var now = Date.now();
 	doc.createdAt = now;

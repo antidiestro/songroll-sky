@@ -60,67 +60,6 @@
 						{{/if}}
 					</div>
 				</div>
-				<!-- <div class="modal-body">
-					<ul class="search-providers" role="tablist">
-						<li class="active"><a href="#tab-spotify" role="tab" data-toggle="tab">
-							<img src="http://www.spotify.com/favicon.ico">
-							<span>Buscar canción en Spotify</span>
-						</a></li>
-						<li><a href="#tab-youtube" role="tab" data-toggle="tab">
-							<img src="http://www.youtube.com/favicon.ico">
-							<span>Buscar video en YouTube</span>
-						</a></li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane active" id="tab-spotify">
-							<form id="form-search-spotify" class="search-container">
-								<span class="glyphicon glyphicon-search"></span>
-								<input type="text" class="form-control" placeholder="Escribe el nombre de una canción o artista...">
-							</form>
-							<div class="search-results search-results-spotify">
-								{{#if isSearchingSpotify}}
-									<div class="loader">
-										<img src="/loader.gif">
-									</div>
-								{{/if}}
-								{{#each spotifySearchResults}}
-									<li id="spotify-{{id}}">
-										{{#if image_url}}
-											<img  class="album-art" src="{{thumb_url}}">
-										{{/if}}
-										<div class="info">
-											<div class="title">{{name}}</div>
-											<div class="artist">{{artist_name}}</div>
-											<div class="album">{{album_name}}</div>
-										</div>
-									</li>
-								{{/each}}
-							</div>
-						</div>
-						<div class="tab-pane" id="tab-youtube">
-							<form id="form-search-youtube" class="search-container">
-								<span class="glyphicon glyphicon-search"></span>
-								<input type="text" class="form-control" placeholder="Busca un video o pega un enlace de YouTube...">
-							</form>
-							<div class="search-results search-results-youtube">
-								{{#if isSearchingYouTube}}
-									<div class="loader">
-										<img src="/loader.gif">
-									</div>
-								{{/if}}
-								{{#each youtubeSearchResults}}
-									<li>
-										<div class="youtube-art" style="background-image:url({{image_url}});"></div>
-										<div class="info">
-											<div class="title">{{title}}</div>
-											<div class="artist">{{author_name}}</div>
-										</div>
-									</li>
-								{{/each}}
-							</div>
-						</div>
-					</div>
-				</div> -->
 			</div>
 		</div>
 	</div>

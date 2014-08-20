@@ -218,7 +218,14 @@ Template.roomPage.helpers({
 		return moment(timestamp).format('HH:mm');
 	},
 	nowPlaying: function(){
-		return Videos.findOne({room_id: this._id, nowPlaying: true});
+		var nowPlaying = Videos.findOne({room_id: this._id, nowPlaying: true});
+		if ( nowPlaying ) {
+			var skipCheck = Skips.findOne({video_id: nowPlaying._id, user_id: Meteor.userId()});
+			if ( skipCheck ) {
+				nowPlaying.isSkipping = true;
+			}
+		}
+		return nowPlaying;
 	},
 	timeRemaining: function(){
 		return Session.get('currentVideoRemainingTime');
@@ -254,6 +261,15 @@ Template.roomPage.events({
 			Votes.remove({_id: voteCheck._id});
 		} else {
 			Votes.insert({user_id: Meteor.userId(), video_id: this._id});
+		}
+	},
+	'click .action-skip': function(){
+		var skipCheck = Skips.findOne({user_id: Meteor.userId(), video_id: this._id});
+
+		if ( skipCheck ) {
+			Skips.remove({_id: skipCheck._id});
+		} else {
+			Skips.insert({user_id: Meteor.userId(), video_id: this._id});
 		}
 	}
 });
