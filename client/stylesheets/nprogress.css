@@ -4,15 +4,24 @@
 }
 
 #nprogress .bar {
-  background: #EE007C;
+	background: #EE007C;
 }
 
 /* Fancy blur effect */
 #nprogress .peg {
-  box-shadow: 0 0 10px #EE007C, 0 0 5px #EE007C;
+	box-shadow: 0 0 10px #EE007C, 0 0 5px #EE007C;
+}
+
+#nprogress .spinner {
+	left: 10px;
+	right: auto;
+	top: 10px;
 }
 
 #nprogress .spinner-icon {
-  border-top-color: #EE007C;
-  border-left-color: #EE007C;
+	border-top-color: #A2125D;
+	border-left-color: #A2125D;
+	width: 40px;
+	border-width: 6px;
+	height: 40px;
 }

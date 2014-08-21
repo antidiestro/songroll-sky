@@ -14,6 +14,26 @@ body {
 	outline: none;
 }
 
+.tooltip {
+	&.tooltip.top .tooltip-arrow { border-top-color: #7C7D8B; }
+	&.tooltip.right .tooltip-arrow { border-right-color: #7C7D8B; }
+	&.tooltip.bottom .tooltip-arrow { border-bottom-color: #7C7D8B; }
+	&.tooltip.left .tooltip-arrow { border-left-color: #7C7D8B; }
+
+	.tooltip-inner {
+		background-color: #7C7D8B;
+		color: #0A0C14;
+		font-weight: bold;
+		font-size: 11px;
+		text-transform: uppercase;
+		padding: 5px 9px 4px;
+	}
+}
+
+html.nprogress-busy #sky-header .logo a img {
+	opacity: 0;
+}
+
 #splash {
 	width: 770px;
 	height: 120px;
@@ -351,13 +371,14 @@ body {
 			img {
 				height: 40px;
 				opacity: .4;
+				transition: opacity .15s ease;
 			}
 		}
 	}
 
 	.user {
 		height: 60px;
-		padding: 10px 15px;
+		line-height: 60px;
 		margin-left: 20px;
 		background-color: #242632;
 		position: relative;
@@ -367,48 +388,63 @@ body {
 			width: 40px;
 			border: 2px solid whitesmoke;
 			display: inline-block;
-			vertical-align: top;
+			vertical-align: middle;
 		}
 
 		.user-menu {
 			display: inline-block;
 			white-space: nowrap;
-			line-height: 40px;
-			vertical-align: top;
+			line-height: normal;
+			vertical-align: middle;
 			box-sizing: border-box;
+			overflow: hidden;
 
-			.user-menu-container {
-				padding-left: 10px;
-				padding-right: 5px;
-			}
+			// .user-menu-container {
+			// 	padding-left: 10px;
+			// 	padding-right: 20px;
+			// }
 
 			.name {
 				font-size: 13px;
 				color: #E7E8E9;
 				text-transform: uppercase;
 				font-weight: 600;
-				margin-right: 15px;
+				padding: 0 15px;
+				display: inline-block;
+				vertical-align: middle;
 			}
 
 			a {
 				color: #737483;
 				text-transform: uppercase;
 				font-size: 13px;
-				margin: 0 7px;
+				padding: 0 7px;
 				font-weight: 600;
+				display: inline-block;
+				vertical-align: middle;
 
 				&:hover {
 					text-decoration: none;
 					color: #9F9EB1;
 				}
+
+				.glyphicon {
+					margin-right: 2px;
+					width: 13px;
+				}
 			}
 
 			.logout {
+				font-size: 14px;
 				cursor: pointer;
 				display: inline-block;
 				vertical-align: middle;
 				opacity: .5;
-				margin-left: 15px;
+				padding: 0 15px;
+
+				.glyphicon {
+					width: 14px;
+				}
 
 				&:hover {
 					opacity: .8;
@@ -1241,8 +1277,14 @@ body {
 }
 
 #videoSearch {
+	.modal-body {
+		padding: 0;
+	}
+
 	form#form-search-video {
 		position: relative;
+		margin: 20px;
+		margin-bottom: 0;
 
 		.glyphicon-search {
 			position: absolute;
@@ -1356,7 +1398,7 @@ body {
 			list-style: none;
 
 			li {
-				padding: 15px 10px;
+				padding: 20px 25px;
 				border-bottom: 1px solid #2E313A;
 				cursor: pointer;
 
@@ -1434,7 +1476,7 @@ body {
 							font-size: 11px;
 							text-transform: uppercase;
 							margin-top: 5px;
-							opacity: .5;
+							opacity: .3;
 
 							span {
 								opacity: .6;
@@ -1458,6 +1500,7 @@ body {
 	.favorites-item {
 		padding: 20px 0;
 		border-bottom: 1px solid rgba(255,255,255,.1);
+		font-size: 0;
 
 		.album-art {
 			height: 75px;
@@ -1473,10 +1516,11 @@ body {
 		.info {
 			display: inline-block;
 			vertical-align: middle;
-			padding-left: 12px;
 			font-size: 20px;
 			font-weight: 300;
 			color: #E0E0E2;
+			width: 495px;
+			white-space: nowrap;
 
 			.artist {
 				font-size: 12px;
@@ -1484,63 +1528,60 @@ body {
 				font-weight: 500;
 				text-transform: uppercase;
 			}
+
+			.artist, .title {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding-right: 20px;
+			}
 		}
 
 		.actions-container {
-			height: 75px;
-			line-height: 75px;
+			width: 75px;
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 14px;
 
 			.actions {
-				width: 200px;
-				text-align: right;
-				line-height: normal;
-				vertical-align: middle;
-				display: inline-block;
-
 				a {
 					display: inline-block;
-					border: 2px solid #393B45;
-					border-radius: 2px;
-					color: #7C7E85;
-					padding: 5px 8px;
-					font-size: 12px;
+					color: white;
 					font-weight: 600;
+					margin-right: 6px;
+					opacity: 0.15;
+					font-size: 23px;
 
 					&:hover {
 						text-decoration: none;
-						border-color: #4B4C55;
-						color: #95969B;
-
-						img {
-							opacity: .75;
-						}
+						opacity: 0.6;
 					}
 
-					img {
-						height: 16px;
+					.fa {
 						display: inline-block;
 						vertical-align: middle;
-						opacity: .5;
+						text-align: center;
 					}
 
 					span {
 						display: inline-block;
 						vertical-align: middle;
-						padding-left: 2px;
-					}
-
-					&:last-child {
-						margin-top: 5px;
+						padding-right: 3px;
 					}
 				}
+			}
+
+			.time {
+				display: none;
+			}
+		}
+
+		&:hover {
+			.actions-container {
+				opacity: 1;
 			}
 		}
 
 		&.type-video {
-			.actions-container {
-				height: 42px;
-				line-height: 42px;
-			}
 			.album-art {
 				height: 42px;
 			}

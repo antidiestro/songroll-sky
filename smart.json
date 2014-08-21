@@ -11,6 +11,7 @@
       "version": "0.8.2"
     },
     "server-eval": {},
-    "kadira": {}
+    "kadira": {},
+    "font-awesome": {}
   }
 }

@@ -2,15 +2,18 @@ Template.layout.events = {
 	'click .logout': function(){
 		Meteor.logout();
 	},
-	'mouseenter #sky-header > .user': function(){
-		if ( Template.layout.hideUserMenu ) {
-			clearTimeout(Template.layout.hideUserMenu);
+	'click #sky-header > .user img.avatar': function(){
+		if ( $('#sky-header > .user').is('.open') ) {
+			$('#sky-header > .user').removeClass('open').find('.user-menu').animate({width: 0});
+		} else {
+			var width = $('#sky-header > .user .user-menu').css('width', 'auto').width();
+			$('#sky-header > .user .user-menu').css('width', 0);
+			$('#sky-header > .user').addClass('open').find('.user-menu').animate({width: width});
 		}
-		$('#sky-header .user .user-menu').animate({width: 'show', paddingLeft: 10});
 	},
 	'mouseleave #sky-header > .user': function(){
-		Template.layout.hideUserMenu = setTimeout(function(){
-			$('#sky-header .user .user-menu').animate({width: 'hide', paddingLeft: 0});
-		}, 2500);
+		// Template.layout.hideUserMenu = setTimeout(function(){
+		// 	$('#sky-header > .user').removeClass('open').find('.user-menu').animate({width: 'hide', opacity: 0});
+		// }, 1000);
 	}
 }

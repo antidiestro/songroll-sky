@@ -217,13 +217,11 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
 				if ( pastRoom ) {
 					var pastRoomCount = Meteor.users.find({currentRoom: pastRoom._id}).count();
 					Rooms.update({_id: pastRoom._id}, { $set: { userCount: pastRoomCount } });
-					Messages.insert({text: doc.name+' ha abandonado la sala.', room_id: pastRoom._id, isRoomMessage: true});
 				}
 
 				if ( nextRoom ) {
 					var nextRoomCount = Meteor.users.find({currentRoom: nextRoom._id}).count();
 					Rooms.update({_id: nextRoom._id}, { $set: { userCount: nextRoomCount } });
-					Messages.insert({text: doc.name+' se ha unido a la sala.', room_id: nextRoom._id, isRoomMessage: true});
 				}
 
 				console.log('User is in room '+this.previous.currentRoom+', changing to room '+modifier.$set.currentRoom);
@@ -257,13 +255,14 @@ Messages.before.insert(function(userId, doc){
 	doc.createdAt = now;
 });
 
+Favorites.before.insert(function(userId, doc){
+	var now = Date.now();
+	doc.createdAt = now;
+});
+
 Rooms.before.insert(function(userId, doc){
 	doc.generatingRecommendations = false;
 	doc.userCount = 0;
-});
-
-Rooms.after.insert(function(userId, doc){
-	Messages.insert({text: 'Se ha creado la sala '+doc.title+'.', room_id: doc._id, isRoomMessage: true});
 });
 
 Videos.before.insert(function(userId, doc){
@@ -290,12 +289,6 @@ Videos.after.insert(function(userId, doc){
 		Meteor.setTimeout(function(){
 			Sky.api.spotify.checkVideoForMusic(doc);
 		}, 0);
-	}
-
-	var user = Meteor.users.findOne({_id: userId});
-
-	if ( user && !doc.isSongrollRecommendation ) {
-		Messages.insert({text: user.name+' ha propuesto "'+doc.title+'".', room_id: doc.room_id, isRoomMessage: true});
 	}
 });
 

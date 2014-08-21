@@ -7,21 +7,22 @@
 	<div class="favorites-container">
 	{{#each favorites}}
 		<div class="favorites-item {{#unless spotify_id}}type-video{{/unless}}">
-			<div class="pull-right actions-container">
+			<div class="actions-container">
 				<div class="actions">
 					{{#if spotify_id}}
-						<a target="_blank" class="listen-spotify" href="http://open.spotify.com/track/{{spotify_id}}">
-							<img src="http://www.spotify.com/favicon.ico">
-							<span>Escuchar en Spotify</span>
+						<a data-toggle="tooltip" data-placement="top" title="Escuchar en Spotify" target="_blank" class="listen-spotify" href="http://open.spotify.com/track/{{spotify_id}}">
+							<i class="fa fa-spotify"></i>
 						</a>
 					{{/if}}
-					<a target="_blank" class="watch-youtube" href="http://www.youtube.com/watch?v={{youtube_id}}">
-						<img src="http://www.youtube.com/favicon.ico">
-						<span>Ver en YouTube</span>
+					<a  data-toggle="tooltip" data-placement="top" title="Ver en YouTube" target="_blank" class="watch-youtube" href="http://www.youtube.com/watch?v={{youtube_id}}">
+						<i class="fa fa-youtube-play"></i>
 					</a>
 				</div>
+				<div class="time">
+					<span>{{createdAt}}</span>
+					<span class="glyphicon glyphicon-time"></span>
+				</div>
 			</div>
-			<div class="album-art" style="background-image:url({{image_url}});"></div>
 			<div class="info">
 				{{#if artist_name}}
 					<div class="artist">{{artist_name}}</div>
@@ -31,6 +32,7 @@
 					<div class="subtitle">{{subtitle}}</div>
 				{{/if}}
 			</div>
+			<div class="album-art" style="background-image:url({{image_url}});"></div>
 		</div>
 	{{/each}}
 	</div>

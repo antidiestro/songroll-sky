@@ -288,19 +288,21 @@ Template.roomPage.events({
 	'click .action-favorite': function(){
 		console.log('User wants to favorite video ID '+this._id);
 
+		var now = Date.now();
+
 		if ( this.spotify_id ) {
 			var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id});
 			if ( favoriteCheck ) {
 				Favorites.remove({_id: favoriteCheck._id});
 			} else {
-				Favorites.insert({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id});
+				Favorites.insert({user_id: Meteor.userId(), spotify_id: this.spotify_id, youtube_id: this.youtube_id, createdAt: now});
 			}
 		} else {
 			var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), youtube_id: this.youtube_id});
 			if ( favoriteCheck ) {
 				Favorites.remove({_id: favoriteCheck._id});
 			} else {
-				Favorites.insert({user_id: Meteor.userId(), youtube_id: this.youtube_id});
+				Favorites.insert({user_id: Meteor.userId(), youtube_id: this.youtube_id, createdAt: now});
 			}
 		}
 	}

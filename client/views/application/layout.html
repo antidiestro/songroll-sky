@@ -5,13 +5,17 @@
 		<div id="sky-header">
 			<div class="user pull-right">
 				<img class="avatar" src="{{currentUser.avatar}}">
-				<div style="display: none;" class="user-menu">
-					<div class="user-menu-container">
-						<span class="name">{{currentUser.name}}</span>
-						<a href="#">Mis Salas</a>
-						<a href="{{pathFor 'userFavorites'}}">Mis Favoritos</a>
-						<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
-					</div>
+				<div class="user-menu">
+					<span class="name">{{currentUser.name}}</span>
+					<a href="#">
+						<span class="glyphicon glyphicon-th-large"></span>
+						<span>Mis Salas</span>
+					</a>
+					<a href="{{pathFor 'userFavorites'}}">
+						<span class="glyphicon glyphicon-heart"></span>
+						<span>Mis Favoritos</span>
+					</a>
+					<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
 				</div>
 			</div>
 			<div class="buttons-bar pull-right">

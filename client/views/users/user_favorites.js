@@ -1,6 +1,10 @@
+Template.userFavorites.rendered = function(){
+	$('.actions a:not(.tooltip-active)').addClass('tooltip-active').tooltip();
+}
+
 Template.userFavorites.helpers({
 	favorites: function(){
-		var favorites = Favorites.find({user_id: Meteor.userId()}).fetch();
+		var favorites = Favorites.find({user_id: Meteor.userId()}, { sort: { createdAt: -1 } }).fetch();
 		favorites.forEach(function(item,i){
 			var youtubeCache = Cache.YouTube.findOne({youtube_id: item.youtube_id});
 			if ( youtubeCache ) {
