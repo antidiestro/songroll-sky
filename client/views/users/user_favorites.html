@@ -1,0 +1,37 @@
+<template name="userFavoritesTitle">
+	<a href="/" class="crumb">{{currentUser.name}}</a>
+	<span>Favoritos</span>
+</template>
+
+<template name="userFavorites">
+	<div class="favorites-container">
+	{{#each favorites}}
+		<div class="favorites-item {{#unless spotify_id}}type-video{{/unless}}">
+			<div class="pull-right actions-container">
+				<div class="actions">
+					{{#if spotify_id}}
+						<a target="_blank" class="listen-spotify" href="http://open.spotify.com/track/{{spotify_id}}">
+							<img src="http://www.spotify.com/favicon.ico">
+							<span>Escuchar en Spotify</span>
+						</a>
+					{{/if}}
+					<a target="_blank" class="watch-youtube" href="http://www.youtube.com/watch?v={{youtube_id}}">
+						<img src="http://www.youtube.com/favicon.ico">
+						<span>Ver en YouTube</span>
+					</a>
+				</div>
+			</div>
+			<div class="album-art" style="background-image:url({{image_url}});"></div>
+			<div class="info">
+				{{#if artist_name}}
+					<div class="artist">{{artist_name}}</div>
+				{{/if}}
+				<div class="title">{{title}}</div>
+				{{#if subtitle}}
+					<div class="subtitle">{{subtitle}}</div>
+				{{/if}}
+			</div>
+		</div>
+	{{/each}}
+	</div>
+</template>

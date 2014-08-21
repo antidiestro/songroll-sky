@@ -262,8 +262,10 @@ Template.roomPage.events({
 		e.preventDefault();
 		var messageInput = $(e.target).find('input[type="text"]');
 		var messageText = messageInput.val();
-		messageInput.val('');
-		Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
+		if ( $.trim(messageText) != "" ) {
+			messageInput.val('');
+			Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
+		}
 	},
 	'click .proposed-videos-list li': function(){
 		var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: this._id});

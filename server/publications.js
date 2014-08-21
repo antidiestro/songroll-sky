@@ -2,8 +2,23 @@ Meteor.publish('userData', function () {
     return Meteor.users.find({_id: this.userId});
 });
 
-Meteor.publish('userFavorites', function(){
-	return Favorites.find({user_id: this.userId});
+Meteor.publish('userFavorites', function(full){
+	if ( full == true ) {
+		var favorites = Favorites.find({user_id: this.userId});
+		var spotifyIds = [];
+		var youtubeIds = [];
+		favorites.fetch().forEach(function(item, i){
+			youtubeIds.push({ youtube_id: item.youtube_id });
+			if ( item.spotify_id ) {
+				spotifyIds.push({ spotify_id: item.spotify_id });
+			}
+		});
+		var spotifyCache = Cache.Spotify.find({ $or: spotifyIds });
+		var youtubeCache = Cache.YouTube.find({ $or: youtubeIds });
+		return [favorites, spotifyCache, youtubeCache];
+	} else {
+		return Favorites.find({user_id: this.userId});
+	}
 });
 
 Meteor.publish('indexRooms', function(){

@@ -8,7 +8,7 @@ Rooms.allow({
 
 Messages.allow({
 	insert: function(userId, message){
-		if ( userId && message.user_id === userId ) {
+		if ( userId && message.user_id === userId && message.text.trim().length > 0 ) {
 			return true;
 		}
 	}

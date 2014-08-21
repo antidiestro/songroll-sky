@@ -4,8 +4,15 @@
 	{{#if currentUser}}
 		<div id="sky-header">
 			<div class="user pull-right">
-				<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
 				<img class="avatar" src="{{currentUser.avatar}}">
+				<div style="display: none;" class="user-menu">
+					<div class="user-menu-container">
+						<span class="name">{{currentUser.name}}</span>
+						<a href="#">Mis Salas</a>
+						<a href="{{pathFor 'userFavorites'}}">Mis Favoritos</a>
+						<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
+					</div>
+				</div>
 			</div>
 			<div class="buttons-bar pull-right">
 				{{> yield region='pageButtons'}}
