@@ -16,6 +16,9 @@ processRooms = function(array){
           }
         }
       }
+    } else {
+      var img = Math.floor(Math.random() * (9 - 1)) + 1;
+      rooms[i].room_image = '/concert-holders/'+img+'.jpeg';
     }
   });
   return rooms;
@@ -23,11 +26,11 @@ processRooms = function(array){
 
 Template.roomsList.helpers({
   rooms: function() {
-    var rooms = Rooms.find({isPrivate: false, userCount: { $gt: 0 }}, { sort: { userCount: -1 } }).fetch();
+    var rooms = Rooms.find({isPrivate: false, $or: [ { userCount: { $gt: 0 } }, { featured: true } ] }, { sort: { featured: -1, userCount: -1 } }).fetch();
     return processRooms(rooms);
   },
   roomsFiller: function(){
-    var rooms = Rooms.find({isPrivate: false, userCount: { $gt: 0 }}, { sort: { userCount: -1 } }).count();
+    var rooms = Rooms.find({isPrivate: false, $or: [ { userCount: { $gt: 0 } }, { featured: true } ] }).count();
     var filler = [];
     if ( rooms < 9 ) {
       for (var i = 9 -rooms; i > 0; i--) {
@@ -42,6 +45,13 @@ Template.roomsList.helpers({
 });
 
 Template.roomsList.events({
+  'show.bs.modal #roomCreator': function(e){
+    if ( !Meteor.userId() ) {
+      e.preventDefault();
+      $('#loginModal').modal('show');
+      return;
+    }
+  },
   'click .room-item.room-item-filler': function(e){
     e.preventDefault();
     $('#createRoom').click(); 

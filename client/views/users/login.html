@@ -1,18 +1,38 @@
 <template name="login">
+	<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="roomCreatorLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-background" style="background-image:url(/concert-holders/2.jpeg)"></div>
+				<div class="modal-body">
+					<a class="close-this" data-dismiss="modal">&times;</a>
+					<div class="logo">
+						<img alt="Songroll" title="Songroll" src="/logo_iso.png">
+					</div>
+					<h2>Music is better together.</h2>
+					<p class="lead">Watch, listen and discover videos and music in real-time with awesome people around the world.</p>
+					<button id="loginWithTwitter" class="btn-sky inverse">
+						<i class="fa fa-twitter"></i>
+						<span>Login with Twitter</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="roomCreatorLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<a class="close-this" data-dismiss="modal">&times;</a>
-					<h4 class="modal-title" id="roomCreatorLabel">Iniciar sesión</h4>
-				</div>
+				<div class="modal-background" style="background-image:url(/concert-holders/2.jpeg)"></div>
 				<div class="modal-body">
-					<img class="logo" alt="Songroll" title="Songroll" src="/logo_iso_w.png">
-					<h2>Bienvenido a Songroll.</h2>
-					<p class="lead"><strong>Mira, escucha y descubre</strong> videos y música <strong>en tiempo real</strong> con amigos y personas alrededor del mundo.</p>
-					<button id="loginWithTwitter" class="btn-sky">
+					<a class="close-this" data-dismiss="modal">&times;</a>
+					<div class="logo">
+						<img alt="Songroll" title="Songroll" src="/logo_iso.png">
+					</div>
+					<h2>Sign in for more.</h2>
+					<p class="lead">Login to create and bookmark rooms, vote on playlists, chat with awesome people and save your favorite songs and videos.</p>
+					<button id="loginWithTwitter" class="btn-sky inverse">
 						<i class="fa fa-twitter"></i>
-						<span>Entrar con Twitter</span>
+						<span>Login with Twitter</span>
 					</button>
 				</div>
 			</div>

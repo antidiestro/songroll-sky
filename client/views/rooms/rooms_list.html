@@ -1,15 +1,13 @@
 <template name="roomsListTitle">
   <span class="crumb">Songroll</span>
-  <span>Todas las salas</span>
+  <span>All rooms</span>
 </template>
 
 <template name="roomsListButtons">
-  {{#if currentUser}}
-    <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn-sky">
-      <span class="glyphicon glyphicon-plus"></span>
-      <span>Crear una sala</span>
-    </button>
-  {{/if}}
+  <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn-sky">
+    <span class="glyphicon glyphicon-plus"></span>
+    <span>Create a room</span>
+  </button>
 </template>
 
 <template name="roomsList">
@@ -18,32 +16,7 @@
 
   <div class="rooms-list">
   {{#each rooms}}
-  	<a href="{{pathFor 'roomPage'}}" class="room-item">
-      {{#if room_image}}
-        <div class="room-image" style="background-image:url({{room_image}})"></div>
-      {{/if}}
-      <div class="room-info">
-        <div class="title">
-          <span>{{title}}</span>
-        </div>
-        <!-- <div class="description">{{description}}</div> -->
-      </div>
-
-      {{#if now_playing}}
-        <div class="now-playing">
-          <div class="info">
-            <div class="artist">{{now_playing.artist_name}}</div>
-            <div class="title">{{now_playing.title}}</div>
-          </div>
-          <div class="album-art" style="background-image:url({{now_playing.image_url}})"></div>
-        </div>
-      {{/if}}
-
-      <div class="user-count">
-        <span class="glyphicon glyphicon-user"></span>
-        <span class="count">{{userCount}}</span>
-      </div>
-  	</a>
+  	{{> roomItem}}
   {{/each}}
   {{#each roomsFiller}}
     <a href="javascript:void(0);" class="room-item room-item-filler">

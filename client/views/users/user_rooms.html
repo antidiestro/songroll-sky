@@ -1,19 +1,43 @@
 <template name="userRoomsTitle">
-	<a href="/" class="crumb">{{currentUser.name}}</a>
+	<a href="/" class="crumb">You</a>
 	<span>Mis salas</span>
 </template>
 
+<template name="userRoomsButtons">
+  {{#if currentUser}}
+    <button id="createRoom" data-toggle="modal" data-target="#roomCreator" class="btn-sky">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>Create a room</span>
+    </button>
+  {{/if}}
+</template>
+
 <template name="userRooms">
+
+	{{> roomCreator}}
+
 	<div id="my-rooms">
 		<div class="myrooms-title">
 			<ul class="tab-switcher" role="tablist">
-				<li class="active"><a href="#rooms-mine" role="tab" data-toggle="tab">Creadas por mi</a></li>
-				<li><a href="#rooms-saved" role="tab" data-toggle="tab">Guardadas</a></li>
+				<li class="active"><a href="#rooms-saved" role="tab" data-toggle="tab">Bookmarks</a></li>
+				<li><a href="#rooms-mine" role="tab" data-toggle="tab">Created by me</a></li>
 			</ul>
 		</div>
 		<div class="tab-content">
-			<div id="rooms-mine" class="tab-pane active">mias</div>
-			<div id="rooms-saved" class="tab-pane">guardadas</div>
+			<div id="rooms-saved" class="tab-pane active">
+				<div class="rooms-list">
+					{{#each savedRooms}}
+						{{> roomItem}}
+					{{/each}}
+				</div>
+			</div>
+			<div id="rooms-mine" class="tab-pane">
+				<div class="rooms-list">
+					{{#each myRooms}}
+						{{> roomItem}}
+					{{/each}}
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

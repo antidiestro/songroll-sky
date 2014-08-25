@@ -19,6 +19,8 @@ Favorites.allow({
 		var favoriteCheck;
 		if ( favorite.spotify_id ) {
 			favoriteCheck = Favorites.findOne({user_id: userId, youtube_id: favorite.youtube_id, spotify_id: favorite.spotify_id});
+		} else if ( favorite.room_id ) {
+			favoriteCheck = Favorites.findOne({user_id: userId, room_id: favorite.room_id});
 		} else {
 			favoriteCheck = Favorites.findOne({user_id: userId, youtube_id: favorite.youtube_id});
 		}

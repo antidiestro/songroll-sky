@@ -14,19 +14,19 @@
 					<span class="name">{{currentUser.name}}</span>
 					<a href="{{pathFor 'userRooms'}}">
 						<span class="glyphicon glyphicon-th-large"></span>
-						<span>Mis Salas</span>
+						<span>My Rooms</span>
 					</a>
 					<a href="{{pathFor 'userFavorites'}}">
 						<span class="glyphicon glyphicon-heart"></span>
-						<span>Favoritos</span>
+						<span>Favorites</span>
 					</a>
 					<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
 				</div>
 				<div class="close-menu"><i class="fa fa-angle-left"></i></div>
 			{{else}}
-				<button id="login" class="btn-sky btn-clear">
+				<button id="login" class="btn-sky btn-clear inverse">
 					<span class="glyphicon glyphicon-user"></span>
-					<span>Iniciar sesión</span>
+					<span>Sign in</span>
 				</button>
 			{{/if}}
 		</div>

@@ -1,7 +1,13 @@
 Template.layout.rendered = function(){
 	if ( !Meteor.userId() ) {
-		$('#loginModal').modal('show');
+		$('#welcomeModal').modal('show');
 	}
+
+	Deps.autorun(function(){
+		if ( Meteor.userId() && $('#loginModal').is('.in') ) {
+			$('#loginModal, #welcomeModal').modal('hide');
+		}
+	});
 }
 
 Template.layout.events = {

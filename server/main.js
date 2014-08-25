@@ -21,6 +21,11 @@ Meteor.startup(function(){
 	nowPlaying.forEach(function(doc, i){
 		Sky.playNextWhenOver(doc._id);
 	});
+
+	// Insert welcome room
+	if ( !Rooms.findOne({title: 'Welcome to Songroll', featured: true}) ) {
+		Rooms.insert({title: 'Welcome to Songroll', featured: true, description: 'Learn the basics while you listen to awesome music and chat with cool people.', hasRecommendations: true, isPrivate: false});
+	}
 });
 
 cleanVideoName = function(video_title, track, artist){
@@ -261,6 +266,7 @@ Favorites.before.insert(function(userId, doc){
 });
 
 Rooms.before.insert(function(userId, doc){
+	doc.user_id = userId;
 	doc.generatingRecommendations = false;
 	doc.userCount = 0;
 });

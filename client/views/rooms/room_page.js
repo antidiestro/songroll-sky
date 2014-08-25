@@ -47,6 +47,8 @@ toggleScrollProposedRemainder = function(){
 Template.roomPage.rendered = function(){	
 	console.log('Template has been rendered');
 
+	$('.action[data-toggle="tooltip"]:not(.tooltip-active)').addClass('tooltip-active').tooltip();
+	
 	Session.set('videoDisabled', false);
 
 	youtubePlayerReady = false;
@@ -295,6 +297,13 @@ var fullscreenFader = function(){
 }
 
 Template.roomPage.events({
+	'show.bs.modal #videoSearch': function(e){
+		if ( !Meteor.userId() ) {
+			e.preventDefault();
+			$('#loginModal').modal('show');
+			return;
+		}
+	},
 	'mousemove #room-videos': function(){
 		if ( $('body').is('.fullscreen') ) {
 			$('body').addClass('mouseover');
@@ -314,7 +323,7 @@ Template.roomPage.events({
 				$('body').removeClass('fullscreen mouseover');
 			}
 		} else {
-			alert('Tu navegador no soporta pantalla completa. Súbete al DeLorean.');
+			alert('Your browser does not support fullscreen. Get back to the future!');
 		}
 	},
 	'click .action-toggle': function(){
@@ -329,6 +338,12 @@ Template.roomPage.events({
 		$('.share-room').find('input').select();
 	},
 	'submit #sendMessage': function(e){
+		if ( !Meteor.userId() ) {
+			e.preventDefault();
+			$('#loginModal').modal('show');
+			return;
+		}
+
 		e.preventDefault();
 		var messageInput = $(e.target).find('input[type="text"]');
 		var messageText = messageInput.val();
@@ -337,7 +352,27 @@ Template.roomPage.events({
 			Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
 		}
 	},
+	'focus #sendMessage input[type="text"]': function(e){
+		if ( !Meteor.userId() ) {
+			e.preventDefault();
+			$('#loginModal').modal('show');
+			return;
+		}
+	},
+	'keydown #sendMessage input[type="text"]': function(e){
+		if ( e.keyCode == 13 ) {
+			$('#sendMessage button[type="submit"]').addClass('active');
+		}
+	},
+	'keyup #sendMessage input[type="text"]': function(){
+		$('#sendMessage button[type="submit"]').removeClass('active');
+	},
 	'click .proposed-videos-list li': function(){
+		if ( !Meteor.userId() ) {
+			$('#loginModal').modal('show');
+			return;
+		}
+		
 		var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: this._id});
 
 		if ( voteCheck ) {
@@ -347,6 +382,11 @@ Template.roomPage.events({
 		}
 	},
 	'click .action-skip': function(){
+		if ( !Meteor.userId() ) {
+			$('#loginModal').modal('show');
+			return;
+		}
+
 		var skipCheck = Skips.findOne({user_id: Meteor.userId(), video_id: this._id});
 
 		if ( skipCheck ) {
@@ -356,6 +396,11 @@ Template.roomPage.events({
 		}
 	},
 	'click .action-favorite': function(){
+		if ( !Meteor.userId() ) {
+			$('#loginModal').modal('show');
+			return;
+		}
+
 		console.log('User wants to favorite video ID '+this._id);
 
 		var now = Date.now();
@@ -377,3 +422,25 @@ Template.roomPage.events({
 		}
 	}
 });
+
+Template.roomsPageButtons.helpers({
+	isRoomFavorite: function(){
+		var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), room_id: this._id});
+		if ( favoriteCheck ) {
+			return true;
+		}
+	}
+});
+
+Template.roomsPageButtons.events({
+	'click #bookmark-room': function(){
+		console.log('User wants to favorite room ID '+this._id);
+		var now = Date.now();
+		var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), room_id: this._id});
+		if ( favoriteCheck ) {
+			Favorites.remove({_id: favoriteCheck._id});
+		} else {
+			Favorites.insert({user_id: Meteor.userId(), room_id: this._id, createdAt: now});
+		}
+	}
+})

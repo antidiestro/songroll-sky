@@ -13,15 +13,15 @@
 }
 
 #nprogress .spinner {
-	left: 10px;
+	left: 15px;
 	right: auto;
-	top: 10px;
+	top: 15px;
 }
 
 #nprogress .spinner-icon {
 	border-top-color: #A2125D;
 	border-left-color: #A2125D;
-	width: 40px;
-	border-width: 6px;
-	height: 40px;
+	width: 30px;
+	border-width: 3px;
+	height: 30px;
 }

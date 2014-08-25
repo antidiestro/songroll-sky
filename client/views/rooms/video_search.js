@@ -38,9 +38,9 @@ Template.videoSearch.helpers({
 Template.videoSearch.events({
 	'change input[name="searchProvider"]': function(e){
 		if ( $(e.target).val() == 'spotify' ) {
-			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Busca el nombre de una canción o artista...');
+			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Search for a song, artist or both...');
 		} else if ( $(e.target).val() == 'youtube' ) {
-			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Busca un video o pega un enlace de YouTube...');
+			$('#videoSearch').find('input[name="query"]').attr('placeholder', 'Search for a video or paste a YouTube link...');
 		}
 
 		if ( $.trim($('#form-search-video').find('input[name="query"]').val()) != "" ) {

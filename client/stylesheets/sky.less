@@ -403,35 +403,46 @@ html.nprogress-busy #sky-header .logo a img {
 	}
 }
 
-#loginModal {
+#loginModal, #welcomeModal {
 	.modal-dialog {
-		width: 400px;
+		margin-top: 80px;
+
+		.modal-background {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			opacity: 0.15;
+		}
 
 		.modal-body {
-			text-align: center;
-			padding: 40px;
+			padding: 50px 40px;
+			box-shadow: inset 0px 3px #EE007C, inset 0px 0px 200px rgba(0, 0, 0, 0.5);
+			padding-top: 80px;
 
-			img.logo {
-				opacity: 0.1;
-				height: 115px;
+			.logo {
+				background-color: #EE007C;
+				padding: 10px;
+				position: absolute;
+				left: 0;
+				top: 0;
+
+				img {
+					width: 55px;
+					opacity: .4;
+					display: block;
+				}
 			}
 
 			h2 {
-				font-size: 22px;
-				text-transform: uppercase;
-				opacity: .8;
-				letter-spacing: 1px;
+				font-size: 33px;
 			}
 
 			.lead {
-				font-size: 18px;
-				font-weight: 100;
-				opacity: 0.65;
-				letter-spacing: 0.5px;
-
-				strong {
-					font-weight: 400;
-				}
+				font-weight: 200;
+				opacity: .75;
 			}
 		}
 	}
@@ -494,11 +505,45 @@ html.nprogress-busy #sky-header .logo a img {
 			color: #1C1F28;
 			background-color: #CBCADF;
 		}
+
+		&.inverse {
+			background-color: #CBCADF;
+			color: #1C1F28;
+			border-color: #CBCADF;
+
+			&:hover {
+				border-color: white;
+				background-color: white;
+			}
+
+			&:active {
+				background-color: transparent;
+				color: white;
+				border-color: white;
+			}
+		}
 	}
 
 	.glyphicon {
 		font-size: 12px;
 		margin-right: 8px;
+	}
+
+	&.inverse {
+		background-color: #2EB0B6;
+		color: #1C1F28;
+		border-color: #2EB0B6;
+
+		&:hover {
+			border-color: #80E9EE;
+			background-color: #80E9EE;
+		}
+
+		&:active {
+			background-color: transparent;
+			color: #80E9EE;
+			border-color: #80E9EE;
+		}
 	}
 }
 
@@ -528,7 +573,7 @@ html.nprogress-busy #sky-header .logo a img {
 
 			img {
 				height: 40px;
-				opacity: .4;
+				opacity: .5;
 				transition: opacity .15s ease;
 			}
 		}
@@ -733,6 +778,7 @@ html.nprogress-busy #sky-header .logo a img {
 		border-radius: 2px;
 		background-color: #1C1F28;
 		height: 300px;
+		min-height: 33.334%;
 		overflow: hidden;
 		position: relative;
 		font-size: 14px;
@@ -1794,7 +1840,7 @@ html.nprogress-busy #sky-header .logo a img {
 			line-height: 45px;
 			padding: 0 15px 0 13px;
 			font-size: 20px;
-			color: #18A9AF;
+			color: white;
 			opacity: .8;
 
 			.glyphicon {
@@ -1803,6 +1849,11 @@ html.nprogress-busy #sky-header .logo a img {
 
 			&:hover {
 				opacity: 1;
+			}
+
+			&:active, &.active {
+				background-color: white;
+				color: #1C1F28;
 			}
 		}
 	}

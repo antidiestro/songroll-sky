@@ -61,7 +61,7 @@ Template.userFavorites.helpers({
 		return processFavorites(favorites);
 	},
 	favoriteVideos: function(){
-		var favorites = Favorites.find({user_id: Meteor.userId(), spotify_id: { $exists: false }}, { sort: { createdAt: -1 } }).fetch();
+		var favorites = Favorites.find({user_id: Meteor.userId(), spotify_id: { $exists: false }, youtube_id: { $exists: true }}, { sort: { createdAt: -1 } }).fetch();
 		return processFavorites(favorites);
 	}
 });

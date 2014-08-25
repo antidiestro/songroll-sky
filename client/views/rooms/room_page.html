@@ -6,12 +6,19 @@
 <template name="roomsPageButtons">
 	<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
 		<span class="glyphicon glyphicon-plus"></span>
-		<span>Proponer un video</span>
+		<span>Add a video</span>
 	</button>
-	<button id="bookmark-room" class="btn-sky btn-clear">
-		<span class="glyphicon glyphicon-bookmark"></span>
-		<span>Guardar sala</span>
-	</button>
+	{{#if currentUser}}
+		<button id="bookmark-room" class="btn-sky btn-clear {{#if isRoomFavorite}}inverse{{/if}}">
+			{{#if isRoomFavorite}}
+				<span class="glyphicon glyphicon-ok"></span>
+				<span>Room saved</span>
+			{{else}}
+				<span class="glyphicon glyphicon-bookmark"></span>
+				<span>Bookmark</span>
+			{{/if}}
+		</button>
+	{{/if}}
 </template>
 
 
@@ -32,13 +39,13 @@
 					<div class="action action-toggle">
 						<span class="ioscon ioscon-power"></span>
 						<div class="action-label">
-							<span class="active">desactivar</span>
-							<span class="disabled">activar</span>
+							<span class="active">Turn off</span>
+							<span class="disabled">Turn on</span>
 						</div>
 					</div>
 					<div class="action action-fullscreen">
 						<span class="ioscon ioscon-expand1"></span>
-						<div class="action-label">pantalla completa</div>
+						<div class="action-label">Fullscreen</div>
 					</div>
 				</div>
 				<div id="player"></div>
@@ -56,10 +63,10 @@
 								</div>
 							{{/if}}
 							<div class="video-actions">
-								<div class="action action-skip {{#if isSkipping}}active{{/if}}">
+								<div data-toggle="tooltip" data-placement="top" title="Vote to skip" class="action action-skip {{#if isSkipping}}active{{/if}}">
 									<span class="glyphicon glyphicon-fast-forward"></span>
 								</div>
-								<div class="action action-favorite {{#unless isAnalyzed}}not-analyzed{{/unless}} {{#if isFavorite}}active{{/if}}">
+								<div data-toggle="tooltip" data-placement="top" title="{{#if isFavorite}}Remove from favorites{{else}}Add to favorites{{/if}}" class="action action-favorite {{#unless isAnalyzed}}not-analyzed{{/unless}} {{#if isFavorite}}active{{/if}}">
 									<span class="glyphicon glyphicon-heart-empty"></span>
 									<span class="glyphicon glyphicon-heart"></span>
 								</div>
@@ -75,16 +82,10 @@
 					{{/with}}
 				{{else}}
 					<div class="waiting-for-videos">
-						<div>Para comenzar,<br>agrega un video o canción<br>a la lista de reproducción.</div>
+						<div>To begin, add a video<br> or song to the playlist.</div>
 						<button id="search-video" data-toggle="modal" data-target="#videoSearch" class="btn-sky">
 							<span class="glyphicon glyphicon-plus"></span>
-							<span>
-								{{#if nowPlaying}}
-									Proponer un video
-								{{else}}
-									Agregar un video
-								{{/if}}
-							</span>
+							<span>Add a video</span>
 						</button>
 					</div>
 				{{/if}}
@@ -101,13 +102,13 @@
 						<div class="proposed-videos-title">
 							{{#if isGeneratingRecommendations}}
 								<div class="generating-recommendations">
-									<span>Creando recomendaciones...</span>
+									<span>Thinking recommendations...</span>
 									<img class="loader" src="/cyan_loader.gif">
 								</div>
 							{{/if}}
 							{{#if countCursor proposedVideosList}}
-								<span class="title">A continuación</span>
-								<span class="lab">Elige el siguiente video a reproducir</span>
+								<span class="title">Coming up</span>
+								<span class="lab">Vote for the next video.</span>
 							{{/if}}
 						</div>
 						<ul class="proposed-videos-list">
@@ -145,18 +146,18 @@
 											{{/if}}
 											</div>
 											{{#if isSongrollRecommendation}}
-												<div class="recommended">Recomendación</div>
+												<div class="recommended">Recommended</div>
 											{{/if}}
 										</div>
 									</li>
 								{{/each}}
 							{{else}}
 								<div class="proposed-videos-empty">
-									<strong>¡No hay videos propuestos!</strong><br>
+									<strong>The playlist is empty!</strong><br>
 									{{#if hasRecommendations}}
-										<span>Espera que se generen las recomendaciones o <a data-toggle="modal" data-target="#videoSearch">propone un video</a>.</span>
+										<span>Wait for the recommendations or <a data-toggle="modal" data-target="#videoSearch">add a video</a> yourself.</span>
 									{{else}}
-										<span>Sé el primero en <a data-toggle="modal" data-target="#videoSearch">proponer un video</a> para reproducir a continuación.</span>
+										<span>Be the first to <a data-toggle="modal" data-target="#videoSearch">add a video</a> to the playlist.</span>
 									{{/if}}
 								</div>
 							{{/if}}
@@ -182,7 +183,7 @@
 			</div>
 			<form id="sendMessage">
 				<img src="/topic-50.png" class="message-icon">
-				<input type="text" placeholder="Escribe tu mensaje...">
+				<input type="text" placeholder="Write your message...">
 				<button type="submit">
 					<span class="glyphicon glyphicon-send"></span>
 				</button>
