@@ -1,6 +1,5 @@
 Meteor.subscribe('userData');
 Meteor.subscribe('userFavorites');
-Meteor.subscribe('indexRooms');
 
 windowWidth = $(window).width();
 windowWidthDependency = new Deps.Dependency;
