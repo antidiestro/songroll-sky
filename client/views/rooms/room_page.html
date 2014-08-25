@@ -1,5 +1,5 @@
 <template name="roomsPageTitle">
-	<a href="/" class="crumb">Salas</a>
+	<a href="/" class="crumb">Rooms</a>
 	<span>{{title}}</span>
 </template>
 
@@ -91,11 +91,8 @@
 				{{/if}}
 			</div>
 			<div class="coming-up">
-				{{#if hasMoreOptions}}
-					<div class="more-options">
-						<span class="glyphicon glyphicon-chevron-right"></span>
-					</div>
-				{{/if}}
+				<div class="more-options right"><span class="glyphicon glyphicon-chevron-right"></span></div>
+				<div class="more-options left"><span class="glyphicon glyphicon-chevron-left"></span></div>
 
 				{{#if nowPlaying}}
 					<div class="proposed-videos">
@@ -121,10 +118,10 @@
 										type-{{type}}
 										source-{{source}}
 									">
-										{{#if voteCount}}
+										{{#if videoVoteCount}}
 										<div class="vote-count">
 											<span class="glyphicon glyphicon-thumbs-up"></span>
-											<span class="count">{{voteCount}}</span>
+											<span class="count">{{videoVoteCount}}</span>
 										</div>
 										{{/if}}
 

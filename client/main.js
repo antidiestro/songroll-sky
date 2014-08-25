@@ -36,8 +36,4 @@ $(function(){
 		windowWidth = $(window).width();
 		windowWidthDependency.changed();
 	});
-	$(document).on('mousewheel', '.proposed-videos-list', function(event, delta) {
-		this.scrollLeft -= (delta * 30);
-		event.preventDefault();
-	});
 });

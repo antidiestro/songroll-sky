@@ -441,6 +441,7 @@ html.nprogress-busy #sky-header .logo a img {
 			}
 
 			.lead {
+				font-size: 23px;
 				font-weight: 200;
 				opacity: .75;
 			}
@@ -1274,11 +1275,12 @@ html.nprogress-busy #sky-header .logo a img {
 
 	.coming-up {
 		padding-bottom: 3px;
+		padding-left: 24px;
 		background-color: #1C1F28;
 		height: 145px;
 
 		.more-options {
-			position: fixed;
+			position: absolute;
 			width: 25px;
 			height: 145px;
 			z-index: 2;
@@ -1288,8 +1290,18 @@ html.nprogress-busy #sky-header .logo a img {
 			line-height: 145px;
 			font-size: 10px;
 			color: #7B7C85;
-			left: 60%;
-			margin-left: -25px;
+			cursor: pointer;
+
+			&.left { left: 0 }
+			&.right { right: 0; }
+
+			&:hover {
+				background-color: black;
+			}
+
+			&:active {
+				background-color: #15171D;
+			}
 		}
 
 		.proposed-videos {
@@ -1313,6 +1325,7 @@ html.nprogress-busy #sky-header .logo a img {
 					color: #1C1F28;
 					padding: 0 5px 0 8px;
 					border-radius: 20px;
+					margin-right: 24px;
 
 					.loader {
 						position: relative;

@@ -151,25 +151,6 @@ Template.roomPage.helpers({
 	isVideoDisabled: function(){
 		return Session.get('videoDisabled');
 	},
-	hasMoreOptions: function(){
-		var proposedVideos = Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}}).fetch();
-		windowWidthDependency.depend();
-		if ( windowWidth >= 1280 ) {
-			if ( proposedVideos.length > 3 ) {
-				return true;
-				toggleScrollProposedRemainder();
-			} else {
-				return false;
-			}
-		} else {
-			if ( proposedVideos.length > 2 ) {
-				return true;
-				toggleScrollProposedRemainder();
-			} else {
-				return false;
-			}
-		}
-	},
 	isGeneratingRecommendations: function(){
 		var room = Rooms.findOne({_id: context._id});
 		return room.generatingRecommendations;
@@ -216,14 +197,6 @@ Template.roomPage.helpers({
 	},
 	proposedVideosList: function(){
 		var proposedVideos = Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}}).fetch();
-		proposedVideos.forEach(function(item, i){
-			if ( item.voteCount > 0 ) {
-				var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: item._id});
-				if ( voteCheck ) {
-					proposedVideos[i].didVote = true;
-				}
-			}
-		});
 		return proposedVideos;
 	},
 	pastVideosList: function(){
@@ -278,6 +251,13 @@ Template.roomPage.helpers({
 		}
 		return room_image;
 	},
+	didVote: function(){
+		var voteCheck = Votes.findOne({user_id: Meteor.userId(), video_id: this._id});
+		if ( voteCheck ) { return true; }
+	},
+	videoVoteCount: function(){
+		return Votes.find({video_id: this._id}).count();
+	},
 	roomLink: function(){
 		return location.href;
 	}
@@ -297,6 +277,21 @@ var fullscreenFader = function(){
 }
 
 Template.roomPage.events({
+	'mousedown .coming-up .more-options.left': function(e){
+		var scrollLeft = $('.proposed-videos-list').scrollLeft();
+		var width = $('.proposed-videos-list').width()*0.6;
+		var newScroll;
+		newScroll = scrollLeft - width;
+		if ( newScroll < 0 ) { newScroll = 0; }
+		$('.proposed-videos-list').animate({scrollLeft: newScroll});
+	},
+	'mousedown .coming-up .more-options.right': function(e){
+		var scrollLeft = $('.proposed-videos-list').scrollLeft();
+		var width = $('.proposed-videos-list').width()*0.6;
+		var newScroll;
+		newScroll = scrollLeft + width;
+		$('.proposed-videos-list').animate({scrollLeft: newScroll});
+	},
 	'show.bs.modal #videoSearch': function(e){
 		if ( !Meteor.userId() ) {
 			e.preventDefault();

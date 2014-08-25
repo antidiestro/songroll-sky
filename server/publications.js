@@ -1,24 +1,16 @@
 Meteor.publish('userData', function () {
-    return Meteor.users.find({_id: this.userId});
+    var user = Meteor.users.find({_id: this.userId});
+    var votes = Votes.find({user_id: this.userId});
+    var skips = Skips.find({user_id: this.userId});
+    return [user, votes, skips];
 });
 
-Meteor.publish('userFavorites', function(full){
-	/*if ( full == true ) {
-		var favorites = Favorites.find({user_id: this.userId});
-		var spotifyIds = [];
-		var youtubeIds = [];
-		favorites.fetch().forEach(function(item, i){
-			youtubeIds.push({ youtube_id: item.youtube_id });
-			if ( item.spotify_id ) {
-				spotifyIds.push({ spotify_id: item.spotify_id });
-			}
-		});
-		var spotifyCache = Cache.Spotify.find({ $or: spotifyIds });
-		var youtubeCache = Cache.YouTube.find({ $or: youtubeIds });
-		return [favorites, spotifyCache, youtubeCache];
-	} else {*/
-		return Favorites.find({user_id: this.userId});
-	//}
+Meteor.publish('userRooms', function(){
+	return Rooms.find({user_id: this.userId});
+});
+
+Meteor.publish('userFavorites', function(){
+	return Favorites.find({user_id: this.userId});
 });
 
 Meteor.publish('youtubeCache', function(idsArray){
@@ -52,7 +44,7 @@ Meteor.publish('indexRooms', function(){
 				collection: Meteor.users,
 				options: { 
 					limit: 10, 
-					fields: { username: 1, screen_name: 1, avatar: 1 }
+					fields: { username: 1, name: 1, avatar: 1 }
 				}
 			}
 		]
@@ -73,21 +65,22 @@ Meteor.publish('room', function(room_id){
 					{
 						reverse: true,
 						key: 'video_id',
-						collection: Votes,
-						filter: { user_id: this.userId }
+						collection: Votes
 					},
 					{
 						reverse: true,
 						key: 'video_id',
-						collection: Skips,
-						filter: { user_id: this.userId }
+						collection: Skips
 					}
 				]
 			},
 			{
 				reverse: true,
 				key: 'currentRoom',
-				collection: Meteor.users
+				collection: Meteor.users,
+				options: {
+					fields: { username: 1, name: 1, avatar: 1 }
+				}
 			},
 			{
 				reverse: true,
