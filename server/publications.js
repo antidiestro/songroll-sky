@@ -3,7 +3,7 @@ Meteor.publish('userData', function () {
 });
 
 Meteor.publish('userFavorites', function(full){
-	if ( full == true ) {
+	/*if ( full == true ) {
 		var favorites = Favorites.find({user_id: this.userId});
 		var spotifyIds = [];
 		var youtubeIds = [];
@@ -16,10 +16,22 @@ Meteor.publish('userFavorites', function(full){
 		var spotifyCache = Cache.Spotify.find({ $or: spotifyIds });
 		var youtubeCache = Cache.YouTube.find({ $or: youtubeIds });
 		return [favorites, spotifyCache, youtubeCache];
-	} else {
+	} else {*/
 		return Favorites.find({user_id: this.userId});
-	}
+	//}
 });
+
+Meteor.publish('youtubeCache', function(idsArray){
+	return Cache.YouTube.find({youtube_id: { $in: idsArray } });
+});
+
+Meteor.publish('spotifyCache', function(idsArray){
+	return Cache.Spotify.find({spotify_id: { $in: idsArray } });
+});
+
+Meteor.publish('spotifyArtistCache', function(idsArray){
+	return Cache.Spotify.find({spotify_artist_id: { $in: idsArray } });
+})
 
 Meteor.publish('indexRooms', function(){
 	Meteor.publishWithRelations({

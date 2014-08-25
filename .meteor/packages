@@ -18,5 +18,7 @@ publish-with-relations
 auto-nprogress
 iron-router
 server-eval
-kadira
 font-awesome
+publish-composite
+reactive-publish
+service-configuration

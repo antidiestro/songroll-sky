@@ -1,0 +1,18 @@
+<template name="favoriteItem">
+	<a target="_blank" href="{{#if spotify_id}}http://open.spotify.com/track/{{spotify_id}}{{else}}http://www.youtube.com/watch?v={{youtube_id}}{{/if}}" data-placement="top" title="{{#if spotify_id}}Escuchar en Spotify{{else}}Ver en YouTube{{/if}}" class=" favorites-item {{#unless spotify_id}}type-video{{/unless}}">
+		<div class="background-album-art" style="background-image:url({{image_url}});"></div>
+		<div class="album-art" style="background-image:url({{image_url}});"></div>
+		<div class="info">
+			{{#if artist_name}}
+				<div class="artist">{{artist_name}}</div>
+			{{/if}}
+			<div class="title">{{title}}</div>
+			{{#if subtitle}}
+				<div class="subtitle">{{subtitle}}</div>
+			{{/if}}
+			{{#unless spotify_id}}
+				<div class="uploader">Subido por <strong>{{author}}</strong></div>
+			{{/unless}}
+		</div>
+	</a>
+</template>

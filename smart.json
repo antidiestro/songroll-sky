@@ -11,7 +11,8 @@
       "version": "0.8.2"
     },
     "server-eval": {},
-    "kadira": {},
-    "font-awesome": {}
+    "font-awesome": {},
+    "publish-composite": {},
+    "reactive-publish": {}
   }
 }

@@ -1,9 +1,21 @@
 <template name="login">
-	<div id="splash">
-		<div class="logo"><img src="/logo_iso.png"></div>
-		<div class="text">
-			<h1>Escucha música y mira videos<br><strong>en tiempo real</strong> con tus amigos.</h1>
-			{{> loginButtons}}
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="roomCreatorLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close-this" data-dismiss="modal">&times;</a>
+					<h4 class="modal-title" id="roomCreatorLabel">Iniciar sesión</h4>
+				</div>
+				<div class="modal-body">
+					<img class="logo" alt="Songroll" title="Songroll" src="/logo_iso_w.png">
+					<h2>Bienvenido a Songroll.</h2>
+					<p class="lead"><strong>Mira, escucha y descubre</strong> videos y música <strong>en tiempo real</strong> con amigos y personas alrededor del mundo.</p>
+					<button id="loginWithTwitter" class="btn-sky">
+						<i class="fa fa-twitter"></i>
+						<span>Entrar con Twitter</span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

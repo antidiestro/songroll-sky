@@ -10,8 +10,104 @@ body {
 	color: white;
 }
 
+body.fullscreen {
+	padding-top: 0;
+
+	#sky-header {
+		display: none;
+	}
+
+	#room-videos {
+		width: 100%;
+
+		.mouse-capture {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			display: block;
+			z-index: 1;
+		}
+
+		.player-container {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+
+			.actions {
+				margin-top: -130px;
+				z-index: 2;
+				opacity: 0 !important;
+			}
+
+			iframe {
+				opacity: 1 !important;
+			}
+
+			&.video-disabled {
+				iframe { opacity: 0 !important; }
+			}
+		}
+
+		.now-playing {
+			opacity: 0;
+			width: 50%;
+			position: absolute;
+			bottom: 0;
+			padding: 35px 20px;
+			z-index: 2;
+			transition: opacity .3s ease;
+		}
+
+		.coming-up {
+			opacity: 0;
+			padding-bottom: 0;
+			width: 50%;
+			position: absolute;
+			left: 50%;
+			bottom: 0;
+			z-index: 2;
+			transition: opacity .3s ease;
+
+			.more-options {
+				left: auto;
+				right: 0;
+			}
+		}
+	}
+
+	&.mouseover {
+		#room-videos {
+			.player-container {
+				iframe { opacity: .25 !important; }
+				.actions { opacity: 1 !important; }
+
+				&.video-disabled {
+					iframe { opacity: 0 !important; }
+				}
+			}
+
+			.now-playing, .coming-up { opacity: .95; }
+		}
+	}
+
+	&:not(.mouseover) {
+		cursor: none;
+	}
+
+	#room-chat {
+		display: none;
+	}
+}
+
 * {
 	outline: none;
+}
+
+*::selection {
+	background-color: #2EB0B6;
+	color: #0D0E12;
 }
 
 .tooltip {
@@ -295,10 +391,48 @@ html.nprogress-busy #sky-header .logo a img {
 		border-top: none;
 		padding-top: 0;
 
-		button[type="submit"].btn-sky {
+		.btn-sky {
+			.glpyhicon, .fa, .ioscon {
+				margin-right: 6px;
+			}
+
 			width: 100%;
 			font-size: 19px;
 			letter-spacing: 1px;
+		}
+	}
+}
+
+#loginModal {
+	.modal-dialog {
+		width: 400px;
+
+		.modal-body {
+			text-align: center;
+			padding: 40px;
+
+			img.logo {
+				opacity: 0.1;
+				height: 115px;
+			}
+
+			h2 {
+				font-size: 22px;
+				text-transform: uppercase;
+				opacity: .8;
+				letter-spacing: 1px;
+			}
+
+			.lead {
+				font-size: 18px;
+				font-weight: 100;
+				opacity: 0.65;
+				letter-spacing: 0.5px;
+
+				strong {
+					font-weight: 400;
+				}
+			}
 		}
 	}
 }
@@ -316,27 +450,50 @@ html.nprogress-busy #sky-header .logo a img {
 
 .btn-sky {
 	display: inline-block;
-	background-color: #2EB0B6;
-	border: none;
+	color: #2EB0B6;
+	border: 2px solid #2EB0B6;
 	text-transform: uppercase;
-	font-family: 'montserrat';
+	font-family: 'Raleway';
 	vertical-align: middle;
 	font-size: 13px;
-	padding: 8px 16px 10px;
+	background-color: transparent;
+	padding: 9px 16px 9px;
 	letter-spacing: 0.1px;
+	border-radius: 2px;
+	line-height: normal;
 	-webkit-font-smoothing: antialiased;
-	color: white;
-	font-weight: bold;
-	text-shadow: 0px 1px rgba(0,0,0,0.1);
-	box-shadow: inset 0px -2px rgba(0,0,0,0.2);
+	font-weight: 800;
+
+	.glyphicon, .ioscon, .fa {
+		margin-right: 3px;
+	}
 
 	&:hover {
-		box-shadow: inset 0px 50px rgba(255,255,255,.1), inset 0px -2px rgba(0,0,0,0.2);
+		color: #80E9EE;
+		border-color: #80E9EE;
 	}
 
 	&:active {
-		padding: 10px 16px 8px;
-		box-shadow: inset 0px 50px rgba(0,0,0,.2), inset 0px 2px rgba(0,0,0,0.3);
+		background-color: #2EB0B6;
+		color: #1C1F28;
+		border-color: #2EB0B6;
+	}
+
+	&.btn-clear {
+		color: #CBCADF;
+		border-color: #CBCADF;
+		margin-left: 10px;
+
+		&:hover {
+			color: white;
+			border-color: white;
+		}
+
+		&:active {
+			border-color: #CBCADF;
+			color: #1C1F28;
+			background-color: #CBCADF;
+		}
 	}
 
 	.glyphicon {
@@ -355,6 +512,7 @@ html.nprogress-busy #sky-header .logo a img {
 
 	.logo {
 		height: 60px;
+		width: 60px;
 		display: inline-block;
 		vertical-align: top;
 
@@ -383,12 +541,76 @@ html.nprogress-busy #sky-header .logo a img {
 		background-color: #242632;
 		position: relative;
 
-		img.avatar {
-			border-radius: 50%;
-			width: 40px;
-			border: 2px solid whitesmoke;
+		#login {
+			margin: 0 15px;
+		}
+
+		.menu-avatar-toggle {
+			padding: 0 9px 0 12px;
+			position: relative;
+			cursor: pointer;
 			display: inline-block;
 			vertical-align: middle;
+			transition: padding .5s ease;
+
+			img.avatar {
+				border-radius: 50%;
+				width: 40px;
+				border: 2px solid whitesmoke;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.fa-angle-right {
+				font-size: 22px;
+				opacity: 0.75;
+				vertical-align: middle;
+				margin-left: 5px;
+				width: 8px;
+				transition: width .5s ease, margin-left .5s ease;
+				overflow: hidden;
+			}
+
+			&:hover {
+				opacity: .75;
+			}
+		}
+
+		.close-menu {
+			display: inline-block;
+			width: 0px;
+			overflow: hidden;
+			text-align: center;
+			line-height: 60px;
+			vertical-align: middle;
+			background-color: #1C1F28;
+			font-size: 22px;
+			transition: width .5s ease;
+			cursor: pointer;
+
+			.fa {
+				opacity: .5;
+			}
+
+			&:hover {
+				background-color: #111218;
+				.fa { opacity: .75; }
+			}
+		}
+
+		&.open {
+			.menu-avatar-toggle {
+				padding-right: 0;
+
+				.fa-angle-right {
+					width: 0;
+					margin-left: -5px;
+				}
+			}
+
+			.close-menu {
+				width: 25px;
+			}
 		}
 
 		.user-menu {
@@ -409,7 +631,8 @@ html.nprogress-busy #sky-header .logo a img {
 				color: #E7E8E9;
 				text-transform: uppercase;
 				font-weight: 600;
-				padding: 0 15px;
+				padding-right: 15px;
+				padding-left: 5px;
 				display: inline-block;
 				vertical-align: middle;
 			}
@@ -493,53 +716,115 @@ html.nprogress-busy #sky-header .logo a img {
 }
 
 .rooms-list {
-	padding: 20px;
-	text-align: center;
-	letter-spacing: 11px;
+	padding: 0;
+	text-align: left;
+	letter-spacing: 0;
+	font-size: 0;
+	height: 100%;
 
 	.room-item {
 		letter-spacing: normal;
 		text-align: left;
 		display: inline-block;
 		vertical-align: top;
-		width: 330px;
-		border: 2px solid #3D3F4D;
+		width: 33.333%;
 		color: inherit;
 		text-decoration: none;
 		border-radius: 2px;
 		background-color: #1C1F28;
-		height: 210px;
+		height: 300px;
 		overflow: hidden;
 		position: relative;
 		font-size: 14px;
-		margin-bottom: 15px;
+		border-right: 1px solid rgba(255,255,255,.02);
+		border-bottom: 1px solid rgba(255,255,255,.02);
+		-webkit-transform:translate3d(0,0,0);
 
-		&:hover {
-			border-color: #686974;
+		* {
+			-webkit-transform:translate3d(0,0,0);
+		}
+
+		&:nth-child(3n) {
+			border-right: none;
+		}
+
+		&.room-item-filler {
+			line-height: 300px;
+			text-align: center;
+			box-shadow: inset 0px 0px 380px black;
+			font-size: 50px;
+			cursor: pointer;
+
+			.filler-image {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-size: cover;
+				background-position: center;
+				opacity: .1;
+				transition: opacity .3s ease, -webkit-transform .3s ease, -webkit-filter .3s ease;
+			}
+
+			.filler-content {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				box-shadow: inset 0px 0px 200px rgba(0,0,0,0.4);
+
+				.plus {
+					display: inline-block;
+					vertical-align: middle;
+					opacity: 0.3;
+					line-height: 54px;
+					font-weight: 100;
+					font-family: 'Helvetica Neue', 'Arial', sans-serif;
+					border: 2px solid;
+					font-size: 62px;
+					width: 70px;
+					height: 70px;
+					border-radius: 50%;
+					transition: opacity .3s ease, -webkit-transform .3s ease;
+				}
+			}
+
+			&:hover {
+				.filler-image {
+					-webkit-transform: translate3d(0, 0, 0) scale(1.05);
+					opacity: .2;
+				}
+				.plus {
+					-webkit-transform: translate3d(0, 0, 0) scale(1.2);
+					opacity: 1;
+				}
+			}
 		}
 
 		.now-playing {
-			padding: 10px;
-			background-color: #0F1014;
+			padding: 12px 10px;
 			width: 100%;
 			position: absolute;
 			bottom: 0;
 			left: 0;
-			box-shadow: 0px -26px 35px #1C1F28;
+			font-size: 0;
+			z-index: 2;
+			opacity: 0.5;
+			transition: opacity .3s ease;
 
 			.album-art {
-				width: 45px;
-				height: 45px;
+				width: 40px;
+				height: 40px;
 				border-radius: 50%;
 				background-size: cover;
 				display: inline-block;
 				vertical-align: middle;
+				margin-left: 10px;
+				border: 2px solid #3B4257;
 			}
 
 			.info {
 				display: inline-block;
 				vertical-align: middle;
-				padding-left: 8px;
+				padding-left: 5px;
 				width: ~"calc(100% - 50px)";
 
 				.artist {
@@ -563,33 +848,34 @@ html.nprogress-busy #sky-header .logo a img {
 
 		.room-info {
 			padding: 20px;
+			padding-bottom: 47px;
+			height: 100%;
+			font-size: 0;
+			background-color: rgba(28, 31, 40, 0.65);
+			position: relative;
+			z-index: 2;
+			box-shadow: inset 0px 0px 210px rgba(15, 16, 20, 0.5), inset 0px -60px 75px rgba(15, 16, 20, 0.75);
+			transition: background-color 0.3s ease;
+			text-align: center;
+
+			&:before {
+				content: "";
+				display: inline-block;
+				height: 100%;
+				vertical-align: middle;
+			}
 
 			.title {
-				font-size: 21px;
+				font-size: 18px;
 				line-height: 25px;
 				font-weight: 500;
 				opacity: .9;
 				position: relative;
-
-				.user-count {
-					float: right;
-					background-color: #2EB0B6;
-					font-family: 'Helvetica Neue';
-					font-size: 14px;
-					height: 25px;
-					line-height: 25px;
-					padding: 0 8px;
-					border-radius: 3px;
-					color: #1C1E27;
-					font-weight: bold;
-					position: relative;
-					right: -4px;
-					-webkit-font-smoothing: antialiased;
-
-					.glyphicon {
-						font-size: 12px;
-					}
-				}
+				display: inline-block;
+				vertical-align: middle;
+				text-transform: uppercase;
+				-webkit-transform: scale(1);
+				transition: opacity .3s ease, -webkit-transform .3s ease;
 			}
 
 			.description {
@@ -597,6 +883,54 @@ html.nprogress-busy #sky-header .logo a img {
 				font-weight: 300;
 				font-size: 13px;
 				padding-top: 6px;
+			}
+		}
+
+		.user-count {
+			background-color: #2EB0B6;
+			font-family: 'Helvetica Neue';
+			font-size: 14px;
+			height: 25px;
+			line-height: 25px;
+			padding: 0 8px;
+			border-radius: 3px;
+			color: #1C1E27;
+			font-weight: bold;
+			position: absolute;
+			left: 15px;
+			-webkit-font-smoothing: antialiased;
+			top: 15px;
+			z-index: 2;
+
+			.glyphicon {
+				font-size: 12px;
+			}
+		}
+
+		.room-image {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			background-position: center;
+			z-index: 1;
+			transition: opacity .3s ease, -webkit-transform .3s ease, background .3s ease;
+		}
+
+		&:hover {
+
+			.now-playing {
+				opacity: 1;
+			}
+
+			.room-image {
+				-webkit-transform: scale(1.05);
+			}
+
+			.room-info {
+				background-color: rgba(28, 31, 40, 0.4);
+
+				.title { opacity: 0; -webkit-transform: scale(1.05); }
 			}
 		}
 	}
@@ -609,13 +943,111 @@ html.nprogress-busy #sky-header .logo a img {
 	left: 0;
 	top: 0;
 
+	.mouse-capture {
+		display: none;
+	}
+
 	.player-container {
 		height: ~"calc(100% - 250px)";
-		background-color: #0F1014;
+		background-color: black;
+		position: relative;
+		overflow: hidden;
 
 		iframe {
 			height: 100%;
 			width: 100%;
+			transition: -webkit-filter .3s ease, opacity .3s ease;
+		}
+
+		.actions {
+			position: absolute;
+			z-index: 2;
+			font-size: 80px;
+			width: 400px;
+			height: 145px;
+			text-align: center;
+			opacity: 0;
+			transition: opacity .3s ease;
+			left: 50%;
+			top: 50%;
+			margin-top: -72.5px;
+			margin-left: -200px;
+
+			.action {
+				display: inline-block;
+				margin: 0 15px;
+				opacity: .5;
+
+				.ioscon {
+					width: 120px;
+					height: 120px;
+					text-align: center;
+					line-height: 120px;
+					font-size: 60px;
+					border: 2px solid white;
+					border-radius: 50%;
+					margin-bottom: 11px;
+				}
+
+				.action-label {
+					font-size: 13px;
+					-webkit-font-smoothing: antialiased;
+					font-weight: bold;
+					text-transform: uppercase;
+
+					span.disabled {
+						display: none;
+					}
+				}
+
+				&.action-toggle {
+					.glyphicon-eye-open { display: none; }
+				}
+
+				&:hover {
+					cursor: pointer;
+					opacity: 1;
+				}
+
+				&:active {
+					.ioscon {
+						background-color: white;
+						color: black;
+					}
+				}
+			}
+		}
+
+		&:hover {
+			.actions {
+				opacity: 1;
+			}
+
+			iframe {
+				opacity: 0.25;
+				// -webkit-filter: blur(10px);
+			}
+		}
+
+		&.video-disabled {
+			.actions {
+				opacity: 1;
+
+				.action-toggle {
+					.action-label {
+						span.active { display: none; }
+						span.disabled { display: inline; }
+					}
+				}
+
+				.action-fullscreen {
+					display: none;
+				}
+			}
+
+			iframe {
+				opacity: 0;
+			}
 		}
 	}
 
@@ -629,7 +1061,7 @@ html.nprogress-busy #sky-header .logo a img {
 			.video-actions {
 				font-size: 14px;
 				line-height: 75px;
-				padding-right: 17px;
+				padding-left: 17px;
 				display: inline-block;
 				vertical-align: middle;
 
@@ -734,16 +1166,17 @@ html.nprogress-busy #sky-header .logo a img {
 				height: 75px;
 				background-size: cover;
 				background-position: center;
+				border-radius: 50%;
 				border: 2px solid #3B4257;
-				transition: width .3s ease;
+				transition: width .3s ease, border-radius .3s ease;
 				position: relative;
 
 				.source {
 					width: 16px;
 					height: 16px;
 					position: absolute;
-					bottom: 7px;
-					right: 7px;
+					bottom: 0;
+					left: 0;
 				}
 			}
 
@@ -779,7 +1212,15 @@ html.nprogress-busy #sky-header .logo a img {
 			}
 
 			&.type-video {
-				.album-art { width: 133px; }
+				.album-art { 
+					width: 133px;
+					border-radius: 3px;
+
+					.source {
+						left: 7px;
+						bottom: 7px;
+					}
+				}
 				.info { width: ~"calc(100% - 360px)" }
 			}
 		}
@@ -1070,19 +1511,108 @@ html.nprogress-busy #sky-header .logo a img {
 	top: 0;
 	background-color: #0F1014;
 
+	.room-image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		background-size: cover;
+		background-position: center;
+		-webkit-filter: grayscale(1);
+	}
+
 	.room-messages {
 		height: ~"calc(100% - 96px)";
 		overflow-x: hidden;
 		overflow-y: auto;
+		background-color: rgba(14, 15, 19, 0.95);
+		position: relative;
+		z-index: 1;
 	}
 
 	.room-users {
-		background-color: #242632;
-		padding: 10px 12px;
+		background-color: rgba(36, 38, 50, 0.95);
+		position: relative;
+		z-index: 2;
+		height: 54px;
+
+		.share-room {
+			height: 54px;
+			line-height: 54px;
+			font-size: 0;
+			display: inline-block;
+			background-color: transparent;
+			transition: background-color .3s ease;
+
+			&:hover {
+				cursor: pointer;
+				background-color: #0D0E12;
+
+				input {
+					width: 320px;
+					color: rgba(255,255,255,.6);
+					opacity: 1;
+				}
+
+				.glyphicon-link {
+					color: rgba(255,255,255,.75)
+				}
+			}
+
+			.glyphicon-link {
+				line-height: 54px;
+				vertical-align: top;
+				height: 54px;
+				width: 50px;
+				top: 0;
+				text-align: center;
+				font-size: 18px;
+				color: rgba(255, 255, 255, 0.55);
+			}
+
+			input {
+				cursor: pointer;
+				box-sizing: border-box;
+				height: 54px;
+				padding: 0;
+				width: 0;
+				margin: 0;
+				background-color: transparent;
+				border: 0;
+				display: inline-block;
+				vertical-align: top;
+				color: rgba(255, 255, 255, 0.36);
+				font-size: 15px;
+				font-family: 'Helvetica Neue', 'Arial', sans-serif;
+				-webkit-font-smoothing: antialiased;
+				transition: opacity .3s ease, width .3s ease;
+				opacity: 0;
+			}
+		}
+
+		.room-actions {
+			.action {
+				background-color: #15171D;
+				color: #555C68;
+				height: 32px;
+				width: 32px;
+				display: inline-block;
+				line-height: 36px;
+				text-align: center;
+				font-size: 17px;
+				border-radius: 50%;
+				text-decoration: none;
+
+				&:hover {
+					background-color: #0F1014;
+					color: #A2A39F;
+				}
+			}
+		}
 
 		ul {
 			margin: 0;
-			padding: 0;
+			padding: 10px 12px;
 			list-style: none;
 
 			li {
@@ -1091,15 +1621,16 @@ html.nprogress-busy #sky-header .logo a img {
 				vertical-align: middle;
 
 				&.user-count {
-					background-color: #0F1014;
-					padding: 5px 15px 6px;
+					background-color: #2EB0B6;
+					padding: 0 15px;
+					height: 32px;
+					line-height: 32px;
 					border-radius: 33px;
-					color: #C4C3D7;
+					color: #15171D;
 					font-size: 15px;
 					font-family: 'Helvetica Neue', 'Arial', sans-serif;
 					font-weight: bold;
 					-webkit-font-smoothing: antialiased;
-					margin-right: 7px;
 
 					.glyphicon {
 						font-size: 11px;
@@ -1111,6 +1642,7 @@ html.nprogress-busy #sky-header .logo a img {
 					border-radius: 50%;
 					height: 32px;
 					width: 32px;
+					cursor: pointer;
 				}
 			}
 		}
@@ -1227,7 +1759,8 @@ html.nprogress-busy #sky-header .logo a img {
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		background-color: #242632;
+		background-color: rgba(36, 38, 50, 0.95);
+		z-index: 1;
 
 		.message-icon {
 			position: absolute;
@@ -1260,17 +1793,16 @@ html.nprogress-busy #sky-header .logo a img {
 			border: none;
 			line-height: 45px;
 			padding: 0 15px 0 13px;
-			font-size: 17px;
-			color: white;
-			background-color: #18A9AF;
-			text-shadow: 0px 2px rgba(0,0,0,0.2);
+			font-size: 20px;
+			color: #18A9AF;
+			opacity: .8;
 
 			.glyphicon {
 				top: 3px;
 			}
 
 			&:hover {
-				color: white;
+				opacity: 1;
 			}
 		}
 	}
@@ -1284,7 +1816,6 @@ html.nprogress-busy #sky-header .logo a img {
 	form#form-search-video {
 		position: relative;
 		margin: 20px;
-		margin-bottom: 0;
 
 		.glyphicon-search {
 			position: absolute;
@@ -1380,6 +1911,9 @@ html.nprogress-busy #sky-header .logo a img {
 	}
 
 	.search-results {
+		margin-top: -20px;
+		margin-bottom: 20px;
+
 		.loader {
 			text-align: center;
 			padding-top: 20px;
@@ -1401,10 +1935,6 @@ html.nprogress-busy #sky-header .logo a img {
 				padding: 20px 25px;
 				border-bottom: 1px solid #2E313A;
 				cursor: pointer;
-
-				&:last-child {
-					border-bottom: none;
-				}
 
 				&:hover {
 					background-color: rgba(255,255,255,.1);
@@ -1493,24 +2023,105 @@ html.nprogress-busy #sky-header .logo a img {
 	}
 }
 
+.tab-switcher {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		opacity: 0.33;
+		text-transform: uppercase;
+		font-size: 29px;
+		letter-spacing: 1px;
+		font-weight: 100;
+		display: inline-block;
+		margin-right: 25px;
+
+		a {
+			text-decoration: none;
+			color: #C3C2D6;
+		}
+
+		&:hover {
+			cursor: pointer;
+			opacity: .66;
+		}
+
+		&.active {
+			opacity: 1;
+		}
+	}
+}
+
 .favorites-container {
-	width: 650px;
-	margin: 30px auto;
+	padding: 0 15px;
+
+	.favorites-title {
+		margin: 0 auto;
+		padding: 25px 0 20px;
+
+		.fav-count {
+			background-color: #EE007C;
+			color: #242632;
+			font-family: 'Helvetica Neue', 'Arial', sans-serif;
+			font-weight: bold;
+			font-size: 16px;
+			padding: 4px 10px;
+			border-radius: 3px;
+
+			.glyphicon {
+				font-size: 14px;
+				margin-left: 3px;
+			}
+		}
+	}
+
+	.favorite-items-container {
+		margin: 0 auto;
+		font-size: 0;
+	}
 
 	.favorites-item {
-		padding: 20px 0;
-		border-bottom: 1px solid rgba(255,255,255,.1);
+		border: 2px solid #484B55;
 		font-size: 0;
+		opacity: .4;
+		width: 235px;
+		// background-color: #1C1F28;
+		border-radius: 2px;
+		font-size: 14px;
+		height: 275px;
+		text-decoration: none;
+		display: inline-block;
+		margin-bottom: 20px;
+		margin-right: 20px;
+		overflow: hidden;
+		position: relative;
+		left: 10px;
+		// box-shadow: inset 0px 0px 200px rgba(0, 0, 0, 0.74);
 
-		.album-art {
-			height: 75px;
-			width: 75px;
+		.background-album-art {
+			position: absolute;
+			width: 100%;
+			height: 100%;
 			background-size: cover;
 			background-position: center;
-			display: inline-block;
+			opacity: 0;
+		}
+
+		.album-art {
+			height: 160px;
+			width: 160px;
+			background-size: cover;
+			background-position: center;
+			display: block;
 			vertical-align: middle;
+			border-radius: 50%;
 			box-sizing: content-box;
-			border: 2px solid #393B45;
+			margin: 25px auto;
+			position: relative;
+			z-index: 1;
+			box-sizing: border-box;
+			border: 2px solid #7E7F85;
 		}
 
 		.info {
@@ -1519,8 +2130,12 @@ html.nprogress-busy #sky-header .logo a img {
 			font-size: 20px;
 			font-weight: 300;
 			color: #E0E0E2;
-			width: 495px;
+			text-align: center;
+			width: 100%;
 			white-space: nowrap;
+			padding: 0 10px;
+			position: relative;
+			z-index: 1;
 
 			.artist {
 				font-size: 12px;
@@ -1532,62 +2147,66 @@ html.nprogress-busy #sky-header .logo a img {
 			.artist, .title {
 				overflow: hidden;
 				text-overflow: ellipsis;
-				padding-right: 20px;
-			}
-		}
-
-		.actions-container {
-			width: 75px;
-			display: inline-block;
-			vertical-align: middle;
-			font-size: 14px;
-
-			.actions {
-				a {
-					display: inline-block;
-					color: white;
-					font-weight: 600;
-					margin-right: 6px;
-					opacity: 0.15;
-					font-size: 23px;
-
-					&:hover {
-						text-decoration: none;
-						opacity: 0.6;
-					}
-
-					.fa {
-						display: inline-block;
-						vertical-align: middle;
-						text-align: center;
-					}
-
-					span {
-						display: inline-block;
-						vertical-align: middle;
-						padding-right: 3px;
-					}
-				}
-			}
-
-			.time {
-				display: none;
-			}
-		}
-
-		&:hover {
-			.actions-container {
-				opacity: 1;
 			}
 		}
 
 		&.type-video {
+			height: 215px;
+			padding-top: 132px;
+			line-height: 78px;
+			
 			.album-art {
-				height: 42px;
+				border-radius: 2px 2px 0 0;
+				width: 235px;
+				height: 132px;
+				margin: 0;
+				border: none;
+				position: absolute;
+				left: 0;
+				top: 0;
 			}
+
 			.info {
-				font-size: 17px;
+				white-space: normal;
+				font-size: 14px;
+				padding: 15px;
+				text-align: left;
+				display: inline-block;
+				vertical-align: top;
+				line-height: normal;
+
+				.uploader {
+					font-size: 11px;
+					text-transform: uppercase;
+					opacity: .5;
+					margin-top: 5px;
+
+					strong { font-weight: 600; }
+				}
 			}
 		}
+
+		&:hover {
+			opacity: 1;
+			cursor: pointer;
+			z-index: 3;
+			// border-color: #7E7F85;
+
+			.background-album-art {
+				opacity: 0;
+			}
+		}
+	}
+}
+
+#my-rooms {
+	.myrooms-title {
+		padding: 25px;
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.rooms-list .room-item {
+		width: 33.33%;
 	}
 }

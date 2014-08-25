@@ -8,6 +8,10 @@
 		<span class="glyphicon glyphicon-plus"></span>
 		<span>Proponer un video</span>
 	</button>
+	<button id="bookmark-room" class="btn-sky btn-clear">
+		<span class="glyphicon glyphicon-bookmark"></span>
+		<span>Guardar sala</span>
+	</button>
 </template>
 
 
@@ -22,7 +26,21 @@
 					player-idle
 				{{/unless}}
 				">
-			<div class="player-container">
+			<div class="mouse-capture"></div>
+			<div class="player-container {{#if isVideoDisabled}}video-disabled{{/if}}">
+				<div class="actions">
+					<div class="action action-toggle">
+						<span class="ioscon ioscon-power"></span>
+						<div class="action-label">
+							<span class="active">desactivar</span>
+							<span class="disabled">activar</span>
+						</div>
+					</div>
+					<div class="action action-fullscreen">
+						<span class="ioscon ioscon-expand1"></span>
+						<div class="action-label">pantalla completa</div>
+					</div>
+				</div>
 				<div id="player"></div>
 			</div>
 			<div class="now-playing">
@@ -31,6 +49,11 @@
 						<div class="now-playing-video type-{{type}} source-{{source}}">
 							{{#if timeRemaining}}
 								<div class="pull-right time-remaining">{{timeRemaining}}</div>
+							{{/if}}
+							{{#if image_url}}
+								<div class="album-art" style="background-image:url({{image_url}})">
+									<img class="source" src="{{sourceIcon source}}">
+								</div>
 							{{/if}}
 							<div class="video-actions">
 								<div class="action action-skip {{#if isSkipping}}active{{/if}}">
@@ -41,11 +64,6 @@
 									<span class="glyphicon glyphicon-heart"></span>
 								</div>
 							</div>
-							{{#if image_url}}
-								<div class="album-art" style="background-image:url({{image_url}})">
-									<img class="source" src="{{sourceIcon source}}">
-								</div>
-							{{/if}}
 							<div class="info">
 								<div class="artist">{{artist_name}}</div>
 								<div class="title">{{title}}</div>
@@ -149,16 +167,18 @@
 		</div>
 
 		<div id="room-chat">
+			<div class="room-image" style="background-image:url({{roomImage}});"></div>
 			<div class="room-users">
-				<ul class="user-list">
+				<ul class="user-list pull-right">
 					<li class="user-count">
 						<span class="glyphicon glyphicon-user"></span>
 						<span class="count">{{roomUserCount}}</span>
 					</li>
-					{{#each userList}}
-						{{> userAvatar}}
-					{{/each}}
 				</ul>
+				<div class="share-room">
+					<span class="glyphicon glyphicon-link"></span>
+					<input type="text" readonly value="{{roomLink}}">
+				</div>
 			</div>
 			<form id="sendMessage">
 				<img src="/topic-50.png" class="message-icon">

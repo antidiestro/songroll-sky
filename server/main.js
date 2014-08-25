@@ -289,6 +289,8 @@ Videos.after.insert(function(userId, doc){
 		Meteor.setTimeout(function(){
 			Sky.api.spotify.checkVideoForMusic(doc);
 		}, 0);
+	} else if ( doc.type == 'track' && doc.source == 'spotify' ) {
+		Sky.api.spotify.cacheArtistData(doc.spotify_artist_id);
 	}
 });
 

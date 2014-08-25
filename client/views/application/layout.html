@@ -1,34 +1,45 @@
 <template name="layout">
 	<div id="backdrop"></div>
 
-	{{#if currentUser}}
-		<div id="sky-header">
-			<div class="user pull-right">
-				<img class="avatar" src="{{currentUser.avatar}}">
-				<div class="user-menu">
+	{{> login}}
+
+	<div id="sky-header">
+		<div class="user pull-right">
+			{{#if currentUser}}
+				<div class="menu-avatar-toggle">
+					<img class="avatar" src="{{currentUser.avatar}}">
+					<i class="fa fa-angle-right"></i>
+				</div>
+				<div style="width: 0;" class="user-menu">
 					<span class="name">{{currentUser.name}}</span>
-					<a href="#">
+					<a href="{{pathFor 'userRooms'}}">
 						<span class="glyphicon glyphicon-th-large"></span>
 						<span>Mis Salas</span>
 					</a>
 					<a href="{{pathFor 'userFavorites'}}">
 						<span class="glyphicon glyphicon-heart"></span>
-						<span>Mis Favoritos</span>
+						<span>Favoritos</span>
 					</a>
 					<div class="logout"><span class="glyphicon glyphicon-off"></span></div>
 				</div>
-			</div>
-			<div class="buttons-bar pull-right">
-				{{> yield region='pageButtons'}}
-			</div>
-			<div class="logo">
-				<a href="{{pathFor 'roomsList'}}"><img src="/logo_iso.png"></a>
-			</div>
-			<div class="title-bar">
-				{{> yield region='pageTitle'}}
-			</div>
+				<div class="close-menu"><i class="fa fa-angle-left"></i></div>
+			{{else}}
+				<button id="login" class="btn-sky btn-clear">
+					<span class="glyphicon glyphicon-user"></span>
+					<span>Iniciar sesión</span>
+				</button>
+			{{/if}}
 		</div>
-	{{/if}}
+		<div class="buttons-bar pull-right">
+			{{> yield region='pageButtons'}}
+		</div>
+		<div class="logo">
+			<a href="{{pathFor 'roomsList'}}"><img src="/logo_iso.png"></a>
+		</div>
+		<div class="title-bar">
+			{{> yield region='pageTitle'}}
+		</div>
+	</div>
 
 	{{> yield}}
 </template>

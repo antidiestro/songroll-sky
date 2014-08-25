@@ -5,35 +5,27 @@
 
 <template name="userFavorites">
 	<div class="favorites-container">
-	{{#each favorites}}
-		<div class="favorites-item {{#unless spotify_id}}type-video{{/unless}}">
-			<div class="actions-container">
-				<div class="actions">
-					{{#if spotify_id}}
-						<a data-toggle="tooltip" data-placement="top" title="Escuchar en Spotify" target="_blank" class="listen-spotify" href="http://open.spotify.com/track/{{spotify_id}}">
-							<i class="fa fa-spotify"></i>
-						</a>
-					{{/if}}
-					<a  data-toggle="tooltip" data-placement="top" title="Ver en YouTube" target="_blank" class="watch-youtube" href="http://www.youtube.com/watch?v={{youtube_id}}">
-						<i class="fa fa-youtube-play"></i>
-					</a>
-				</div>
-				<div class="time">
-					<span>{{createdAt}}</span>
-					<span class="glyphicon glyphicon-time"></span>
-				</div>
+		<div class="favorites-title masonry-adjust">
+			<div class="pull-right fav-count">
+				<span class="count">{{favoriteSongs.length}}</span>
+				<span class="glyphicon glyphicon-heart"></span>
 			</div>
-			<div class="info">
-				{{#if artist_name}}
-					<div class="artist">{{artist_name}}</div>
-				{{/if}}
-				<div class="title">{{title}}</div>
-				{{#if subtitle}}
-					<div class="subtitle">{{subtitle}}</div>
-				{{/if}}
-			</div>
-			<div class="album-art" style="background-image:url({{image_url}});"></div>
+			<ul class="tab-switcher" role="tablist">
+				<li class="active"><a href="#favorites-music" role="tab" data-toggle="tab">Música</a></li>
+				<li><a href="#favorites-video" role="tab" data-toggle="tab">Videos</a></li>
+			</ul>
 		</div>
-	{{/each}}
+		<div class="tab-content">
+			<div class="tab-pane active favorite-items-container masonry" id="favorites-music">
+				{{#each favoriteSongs}}
+					{{> favoriteItem}}
+				{{/each}}
+			</div>
+			<div class="tab-pane favorite-items-container masonry" id="favorites-video">
+				{{#each favoriteVideos}}
+					{{> favoriteItem}}
+				{{/each}}
+			</div>
+		</div>
 	</div>
 </template>

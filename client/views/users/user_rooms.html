@@ -1,0 +1,19 @@
+<template name="userRoomsTitle">
+	<a href="/" class="crumb">{{currentUser.name}}</a>
+	<span>Mis salas</span>
+</template>
+
+<template name="userRooms">
+	<div id="my-rooms">
+		<div class="myrooms-title">
+			<ul class="tab-switcher" role="tablist">
+				<li class="active"><a href="#rooms-mine" role="tab" data-toggle="tab">Creadas por mi</a></li>
+				<li><a href="#rooms-saved" role="tab" data-toggle="tab">Guardadas</a></li>
+			</ul>
+		</div>
+		<div class="tab-content">
+			<div id="rooms-mine" class="tab-pane active">mias</div>
+			<div id="rooms-saved" class="tab-pane">guardadas</div>
+		</div>
+	</div>
+</template>

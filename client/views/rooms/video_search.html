@@ -21,12 +21,14 @@
 						</div>
 						<input name="query" type="text" placeholder="Busca el nombre de una canción o artista...">
 					</form>
-					<div class="search-results">
-						{{#if isSearching}}
+					{{#if isSearching}}
+						<div class="search-results">
 							<div class="loader"><img src="/loader-dark.gif"></div>
-						{{/if}}
+						</div>
+					{{/if}}
 
-						{{#if spotifySearchResults}}
+					{{#if spotifySearchResults}}
+						<div class="search-results">
 							<ul class="search-results-spotify">
 								{{#each spotifySearchResults}}
 									<li id="spotify-{{id}}">
@@ -40,9 +42,11 @@
 									</li>
 								{{/each}}
 							</ul>
-						{{/if}}
+						</div>
+					{{/if}}
 
-						{{#if youtubeSearchResults}}
+					{{#if youtubeSearchResults}}
+						<div class="search-results">
 							<ul class="search-results-youtube">
 								{{#each youtubeSearchResults}}
 									<li>
@@ -57,8 +61,8 @@
 									</li>
 								{{/each}}
 							</ul>
-						{{/if}}
-					</div>
+						</div>
+					{{/if}}
 				</div>
 			</div>
 		</div>

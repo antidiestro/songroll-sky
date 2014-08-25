@@ -44,8 +44,10 @@ toggleScrollProposedRemainder = function(){
 	}
 }
 
-Template.roomPage.rendered = function(){
+Template.roomPage.rendered = function(){	
 	console.log('Template has been rendered');
+
+	Session.set('videoDisabled', false);
 
 	youtubePlayerReady = false;
 	youtubePlayerDependency.changed();
@@ -83,26 +85,32 @@ Template.roomPage.rendered = function(){
 			contextDependency.depend();
 			youtubePlayerDependency.depend();
 			if ( typeof context !== 'undefined' && youtubePlayerReady == true ) {
-				currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
-				if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
-					clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
-					Session.set('currentVideoRemainingTime', false);
-				}
-				if ( typeof currentVideo !== 'undefined' ) {
-					var videoInPlayer = ''; 
-					if ( typeof Sky.player.el.getVideoData() !== 'undefined' ) {
-						videoInPlayer = Sky.player.el.getVideoData().video_id;
+				var videoDisabled = Session.get('videoDisabled');
+				if ( videoDisabled ) {
+					Sky.player.el.stopVideo();
+					Sky.player.el.cueVideoById('0');
+				} else {
+					currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
+					if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
+						clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
+						Session.set('currentVideoRemainingTime', false);
 					}
-					console.log('YouTube has video '+videoInPlayer);
-					Meteor.call('serverTime', function(e, checkTime){
-						var startAt = checkTime-currentVideo.playTime;
-						startAt = Math.floor(startAt/1000);
-						secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
-						updateTimeRemaining();
-						if ( videoInPlayer != currentVideo.youtube_id ) {
-							Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+					if ( typeof currentVideo !== 'undefined' ) {
+						var videoInPlayer = ''; 
+						if ( typeof Sky.player.el.getVideoData() !== 'undefined' ) {
+							videoInPlayer = Sky.player.el.getVideoData().video_id;
 						}
-					});
+						console.log('YouTube has video '+videoInPlayer);
+						Meteor.call('serverTime', function(e, checkTime){
+							var startAt = checkTime-currentVideo.playTime;
+							startAt = Math.floor(startAt/1000);
+							secondsToEnd = parseInt(currentVideo.duration)-startAt+1;
+							updateTimeRemaining();
+							if ( videoInPlayer != currentVideo.youtube_id ) {
+								Sky.player.el.loadVideoById(currentVideo.youtube_id, startAt);
+							}
+						});
+					}
 				}
 			}
 		});
@@ -110,6 +118,8 @@ Template.roomPage.rendered = function(){
 }
 
 Template.roomPage.destroyed = function(){
+	$('body').removeClass('fullscreen mouseover');
+
 	console.log('Template has been destroyed');
 
 	if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
@@ -136,6 +146,9 @@ Template.roomPage.destroyed = function(){
 }
 
 Template.roomPage.helpers({
+	isVideoDisabled: function(){
+		return Session.get('videoDisabled');
+	},
 	hasMoreOptions: function(){
 		var proposedVideos = Videos.find({room_id: this._id, didPlay: false, nowPlaying: false}, {sort: {voteCount: -1}}).fetch();
 		windowWidthDependency.depend();
@@ -245,6 +258,26 @@ Template.roomPage.helpers({
 				if ( favoriteCheck ) { return true; }
 			}
 		}
+	},
+	roomImage: function(){
+		var video = Videos.findOne({room_id: this._id, nowPlaying: true});
+		var room_image = false;
+		if ( video ) {
+			room_image = video.image_url;
+			if ( video.spotify_artist_id ) {
+				var artist = Cache.Spotify.findOne({spotify_artist_id: video.spotify_artist_id});
+				if ( artist && artist.cacheData.images[0] ) {
+					room_image = artist.cacheData.images[0].url;
+				} else {
+					localCache.spotifyArtists.push(video.spotify_artist_id);
+					localCacheDeps.spotifyArtists.changed();
+				}
+			}
+		}
+		return room_image;
+	},
+	roomLink: function(){
+		return location.href;
 	}
 });
 
@@ -257,7 +290,44 @@ Template.roomPage.helpers({
 	}
 });
 
+var fullscreenFader = function(){
+	$('body').removeClass('mouseover');
+}
+
 Template.roomPage.events({
+	'mousemove #room-videos': function(){
+		if ( $('body').is('.fullscreen') ) {
+			$('body').addClass('mouseover');
+			clearTimeout(Template.roomPage.fullscreenFader);
+			Template.roomPage.fullscreenFader = setTimeout(fullscreenFader, 3500);
+		}
+	},
+	'click .action-fullscreen': function(){
+		if ( screenfull.enabled ) {
+			if ( !$('body').is('.fullscreen') ) {
+				screenfull.request();
+				Template.roomPage.fullscreenFader = setTimeout(fullscreenFader, 3500);
+				$('body').addClass('fullscreen mouseover');
+			} else {
+				screenfull.exit();
+				clearTimeout(Template.roomPage.fullscreenFader);
+				$('body').removeClass('fullscreen mouseover');
+			}
+		} else {
+			alert('Tu navegador no soporta pantalla completa. Súbete al DeLorean.');
+		}
+	},
+	'click .action-toggle': function(){
+		var videoDisabled = Session.get('videoDisabled');
+		if ( !videoDisabled ) {
+			Session.set('videoDisabled', true);
+		} else {
+			Session.set('videoDisabled', false);
+		}
+	},
+	'click .share-room': function(){
+		$('.share-room').find('input').select();
+	},
 	'submit #sendMessage': function(e){
 		e.preventDefault();
 		var messageInput = $(e.target).find('input[type="text"]');
