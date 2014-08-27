@@ -13,6 +13,7 @@
     "server-eval": {},
     "font-awesome": {},
     "publish-composite": {},
-    "reactive-publish": {}
+    "reactive-publish": {},
+    "user-status": {}
   }
 }

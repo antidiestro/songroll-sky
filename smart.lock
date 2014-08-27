@@ -15,7 +15,8 @@
       "server-eval": {},
       "font-awesome": {},
       "publish-composite": {},
-      "reactive-publish": {}
+      "reactive-publish": {},
+      "user-status": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -78,6 +79,11 @@
         "tag": "v0.1.6",
         "commit": "dd8c149f109a1f3d1cac7e36293cf5904538ca90"
       },
+      "user-status": {
+        "git": "https://github.com/mizzao/meteor-user-status.git",
+        "tag": "v0.6.0",
+        "commit": "dba80d742522ac104f2155f1db852922e4249f96"
+      },
       "nprogress": {
         "git": "https://github.com/zhouzhuojie/meteor-nprogress.git",
         "tag": "v0.0.5",
@@ -92,6 +98,11 @@
         "git": "https://github.com/Diggsey/meteor-server-deps.git",
         "tag": "v0.1.2",
         "commit": "2db5d15fad9240723549cbbc5260a74b6b7e1c61"
+      },
+      "timesync": {
+        "git": "https://github.com/mizzao/meteor-timesync.git",
+        "tag": "v0.2.1",
+        "commit": "fa4abd511f4e32a3c5d22795ce2c1e8369428fac"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

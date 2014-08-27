@@ -7,7 +7,7 @@ processRooms = function(array){
       rooms[i].room_image = currentVideo.image_url;
       if ( currentVideo.spotify_artist_id ) {
         var artistData = Cache.Spotify.findOne({spotify_artist_id: currentVideo.spotify_artist_id});
-        if ( artistData ) {
+        if ( artistData && artistData.cacheData.images[0] ) {
           rooms[i].room_image = artistData.cacheData.images[0].url;
         } else {
           if ( localCache.spotifyArtists.indexOf(currentVideo.spotify_artist_id) == -1 ) {

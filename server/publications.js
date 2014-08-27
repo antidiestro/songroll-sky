@@ -85,7 +85,16 @@ Meteor.publish('room', function(room_id){
 			{
 				reverse: true,
 				key: 'room_id',
-				collection: Messages
+				collection: Messages,
+				mappings: [
+					{
+						key: 'user_id',
+						collection: Meteor.users,
+						options: {
+							fields: { username: 1, name: 1, avatar: 1 }
+						}
+					}
+				]
 			}
 		]
     });

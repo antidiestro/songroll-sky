@@ -4,7 +4,7 @@ Template.layout.rendered = function(){
 	}
 
 	Deps.autorun(function(){
-		if ( Meteor.userId() && $('#loginModal').is('.in') ) {
+		if ( Meteor.userId() ) {
 			$('#loginModal, #welcomeModal').modal('hide');
 		}
 	});

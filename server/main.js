@@ -1,15 +1,3 @@
-OAuth = Meteor.require('oauth');
-
-twitter = new OAuth.OAuth(
-    'https://api.twitter.com/oauth/request_token',
-    'https://api.twitter.com/oauth/access_token',
-    'bmtHFRpbZg5ek4uhC1v1kMsls',
-    'inM3POvVn1uNeOdGhRgQbxrLa8TvmwNlLOyaQaJ8JbItul6DDX',
-    '1.0A',
-    null,
-    'HMAC-SHA1'
-);
-
 Handlebars.registerHelper('equalsTo', function(a, b){
 	return a == b;
 });
@@ -210,6 +198,15 @@ Accounts.onLogin(function(e) {
 });
 
 
+// Kick users on exit
+UserStatus.events.on("connectionLogout", function(fields) {
+	var userCheck = Meteor.users.findOne({_id: fields.userId, 'status.online': true});
+	if ( !userCheck ) {
+		Meteor.users.update({_id: fields.userId}, { $set: { currentRoom: 0 } })
+	}
+});
+
+
 // Collection handlers
 
 Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
@@ -225,6 +222,7 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
 				}
 
 				if ( nextRoom ) {
+					Meteor.users.update({'status.online': false, currentRoom: nextRoom._id}, {$set: {currentRoom: 0}});
 					var nextRoomCount = Meteor.users.find({currentRoom: nextRoom._id}).count();
 					Rooms.update({_id: nextRoom._id}, { $set: { userCount: nextRoomCount } });
 				}
