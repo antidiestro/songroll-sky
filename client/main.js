@@ -1,3 +1,4 @@
+Meteor.subscribe('allUsers');
 Meteor.subscribe('userData');
 Meteor.subscribe('userFavorites');
 

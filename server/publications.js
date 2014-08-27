@@ -1,3 +1,7 @@
+Meteor.publish('allUsers', function(){
+	return Meteor.users.find({}, {username: 1, name: 1, avatar: 1});
+});
+
 Meteor.publish('userData', function () {
     var user = Meteor.users.find({_id: this.userId});
     var votes = Votes.find({user_id: this.userId});
@@ -85,16 +89,7 @@ Meteor.publish('room', function(room_id){
 			{
 				reverse: true,
 				key: 'room_id',
-				collection: Messages,
-				mappings: [
-					{
-						key: 'user_id',
-						collection: Meteor.users,
-						options: {
-							fields: { username: 1, name: 1, avatar: 1 }
-						}
-					}
-				]
+				collection: Messages
 			}
 		]
     });
