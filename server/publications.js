@@ -65,32 +65,16 @@ Meteor.publish('room', function(room_id){
 				reverse: true,
 				key: 'room_id',
 				collection: Videos,
-				mappings: [
-					{
-						reverse: true,
-						key: 'video_id',
-						collection: Votes
-					},
-					{
-						reverse: true,
-						key: 'video_id',
-						collection: Skips
-					}
-				]
-			},
-			{
-				reverse: true,
-				key: 'currentRoom',
-				collection: Meteor.users,
-				options: {
-					fields: { username: 1, name: 1, avatar: 1 }
-				}
-			},
-			{
-				reverse: true,
-				key: 'room_id',
-				collection: Messages
+				filter: { nowPlaying: true }
 			}
 		]
     });
+});
+
+Meteor.publish('roomVideos', function(room_id){
+	return Videos.find({room_id: room_id});
+})
+
+Meteor.publish('roomMessages', function(room_id){
+	return Messages.find({room_id: room_id});
 });

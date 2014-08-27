@@ -65,15 +65,13 @@ Template.roomPage.rendered = function(){
 		resizePlayer();
 	});
 
-	if ( Meteor.isClient ) {
-		Template.roomPage.userCatcher = Deps.autorun(function(){
-			contextDependency.depend();
-			if ( Meteor.userId() && context ) {
-				console.log('User is now on room '+context._id);
-				Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: context._id } });
-			}
-		});
-	}
+	Template.roomPage.userCatcher = Deps.autorun(function(){
+		contextDependency.depend();
+		if ( Meteor.userId() && context ) {
+			console.log('User is now on room '+context._id);
+			Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: context._id } });
+		}
+	});
 
 	Template.roomPage.videoSetup = Deps.autorun(function(){
 		youtubeApiDependency.depend();
