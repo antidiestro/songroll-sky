@@ -76,5 +76,5 @@ Meteor.publish('roomVideos', function(room_id){
 })
 
 Meteor.publish('roomMessages', function(room_id){
-	return Messages.find({room_id: room_id});
+	return Messages.find({room_id: room_id}, { limit: 100, sort: {createdAt: -1} });
 });

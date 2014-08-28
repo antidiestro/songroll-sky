@@ -178,7 +178,7 @@ Template.roomPage.helpers({
 		}
 	},
 	messageList: function(){
-		var messages = Messages.find({room_id: this._id}).fetch();
+		var messages = Messages.find({room_id: this._id}, { sort: { createdAt: 1 } }).fetch();
 		messages.forEach(function(item, i){
 			var user = Meteor.users.findOne({_id: item.user_id});
 			if ( user ) {
@@ -342,7 +342,7 @@ Template.roomPage.events({
 		var messageText = messageInput.val();
 		if ( $.trim(messageText) != "" ) {
 			messageInput.val('');
-			Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText});
+			Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText, createdAt: Date.now()});
 		}
 	},
 	'focus #sendMessage input[type="text"]': function(e){

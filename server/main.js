@@ -219,12 +219,14 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
 				if ( pastRoom ) {
 					var pastRoomCount = Meteor.users.find({currentRoom: pastRoom._id}).count();
 					Rooms.update({_id: pastRoom._id}, { $set: { userCount: pastRoomCount } });
+					Messages.insert({user_id: doc._id, room_id: pastRoom._id, isActivityMessage: true, activityType: 'leave'});
 				}
 
 				if ( nextRoom ) {
 					Meteor.users.update({'status.online': false, currentRoom: nextRoom._id}, {$set: {currentRoom: 0}});
 					var nextRoomCount = Meteor.users.find({currentRoom: nextRoom._id}).count();
 					Rooms.update({_id: nextRoom._id}, { $set: { userCount: nextRoomCount } });
+					Messages.insert({user_id: doc._id, room_id: nextRoom._id, isActivityMessage: true, activityType: 'join'});
 				}
 
 				console.log('User is in room '+this.previous.currentRoom+', changing to room '+modifier.$set.currentRoom);
@@ -279,6 +281,10 @@ Videos.before.insert(function(userId, doc){
 
 Videos.after.insert(function(userId, doc){
 	console.log('Hey there, I have received '+doc.title);
+
+	if ( userId ) {
+		Messages.insert({room_id: doc.room_id, video_id: doc._id, user_id: userId, isActivityMessage: true, activityType: 'addVideo'});		
+	}
 
 	var now = Date.now();
 

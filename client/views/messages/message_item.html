@@ -1,7 +1,7 @@
 <template name="messageItem">
-	<li class="{{#if mine}}my-message{{/if}} {{#if isRoomMessage}}room-message{{/if}}" data-user-id="{{user._id}}">
-		{{#if isRoomMessage}}
-			{{text}}
+	<li class="{{#if mine}}my-message{{/if}} {{#if isActivityMessage}}activity-message{{/if}}" data-user-id="{{#unless isActivityMessage}} {{user._id}} {{/unless}}">
+		{{#if isActivityMessage}}
+			{{{activityText}}}
 		{{else}}
 			<div class="text">{{text}}</div>
 			<div class="info">
