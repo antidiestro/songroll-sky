@@ -9,8 +9,6 @@ Template.userRooms.helpers({
 		favoriteRooms.forEach(function(favorite){
 			roomIds.push(favorite.room_id);
 		});
-		console.log('rooms: ');
-		console.log(roomIds);
 		var rooms = Rooms.find({_id: { $in: roomIds }}).fetch();
 		return processRooms(rooms);
 	}

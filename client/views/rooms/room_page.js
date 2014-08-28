@@ -44,9 +44,7 @@ toggleScrollProposedRemainder = function(){
 	}
 }
 
-Template.roomPage.rendered = function(){	
-	console.log('Template has been rendered');
-
+Template.roomPage.rendered = function(){
 	$('.action[data-toggle="tooltip"]:not(.tooltip-active)').addClass('tooltip-active').tooltip();
 	
 	Session.set('videoDisabled', false);
@@ -66,10 +64,9 @@ Template.roomPage.rendered = function(){
 	});
 
 	Template.roomPage.userCatcher = Deps.autorun(function(){
-		contextDependency.depend();
-		if ( Meteor.userId() && context ) {
-			console.log('User is now on room '+context._id);
-			Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: context._id } });
+		var currentRoom = Router.current().data();
+		if ( Meteor.userId() && currentRoom ) {
+			Meteor.users.update({_id: Meteor.userId()}, { $set: { currentRoom: currentRoom._id } });
 		}
 	});
 
@@ -82,15 +79,15 @@ Template.roomPage.rendered = function(){
 
 	if ( typeof Template.roomPage.videoSeeker === 'undefined' || Template.roomPage.videoSeeker.stopped == true ) {
 		Template.roomPage.videoSeeker = Deps.autorun(function(){
-			contextDependency.depend();
+			var currentRoom = Router.current().data();
 			youtubePlayerDependency.depend();
-			if ( typeof context !== 'undefined' && youtubePlayerReady == true ) {
+			if ( typeof currentRoom !== 'undefined' && youtubePlayerReady == true ) {
 				var videoDisabled = Session.get('videoDisabled');
 				if ( videoDisabled ) {
 					Sky.player.el.stopVideo();
 					Sky.player.el.cueVideoById('0');
 				} else {
-					currentVideo = Videos.findOne({room_id: context._id, nowPlaying: true});
+					currentVideo = Videos.findOne({room_id: currentRoom._id, nowPlaying: true});
 					if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
 						clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
 						Session.set('currentVideoRemainingTime', false);
@@ -100,7 +97,6 @@ Template.roomPage.rendered = function(){
 						if ( typeof Sky.player.el.getVideoData() !== 'undefined' ) {
 							videoInPlayer = Sky.player.el.getVideoData().video_id;
 						}
-						console.log('YouTube has video '+videoInPlayer);
 						Meteor.call('serverTime', function(e, checkTime){
 							var startAt = checkTime-currentVideo.playTime;
 							startAt = Math.floor(startAt/1000);
@@ -119,8 +115,6 @@ Template.roomPage.rendered = function(){
 
 Template.roomPage.destroyed = function(){
 	$('body').removeClass('fullscreen mouseover');
-
-	console.log('Template has been destroyed');
 
 	if ( typeof Template.roomPage.currentVideoRemainingTimeTimeout !== 'undefined' ) {
 		clearTimeout(Template.roomPage.currentVideoRemainingTimeTimeout);
@@ -150,7 +144,8 @@ Template.roomPage.helpers({
 		return Session.get('videoDisabled');
 	},
 	isGeneratingRecommendations: function(){
-		var room = Rooms.findOne({_id: context._id});
+		var currentRoom = Router.current().data();
+		var room = Rooms.findOne({_id: currentRoom._id});
 		return room.generatingRecommendations;
 	},
 	sourceIcon: function(source){
@@ -170,8 +165,9 @@ Template.roomPage.helpers({
 		return cursor.length;
 	},
 	roomUserCount: function(){
-		if ( context ) {
-			var room = Rooms.findOne({_id: context._id});
+		var currentRoom = Router.current().data();
+		if ( currentRoom ) {
+			var room = Rooms.findOne({_id: currentRoom._id});
 			return room.userCount;
 		} else {
 			return 0;
@@ -342,7 +338,8 @@ Template.roomPage.events({
 		var messageText = messageInput.val();
 		if ( $.trim(messageText) != "" ) {
 			messageInput.val('');
-			Messages.insert({user_id: Meteor.userId(), room_id: context._id, text: messageText, createdAt: Date.now()});
+			var currentRoom = Router.current().data();
+			Messages.insert({user_id: Meteor.userId(), room_id: currentRoom._id, text: messageText, createdAt: Date.now()});
 		}
 	},
 	'focus #sendMessage input[type="text"]': function(e){
@@ -394,8 +391,6 @@ Template.roomPage.events({
 			return;
 		}
 
-		console.log('User wants to favorite video ID '+this._id);
-
 		var now = Date.now();
 
 		if ( this.spotify_id ) {
@@ -427,7 +422,6 @@ Template.roomsPageButtons.helpers({
 
 Template.roomsPageButtons.events({
 	'click #bookmark-room': function(){
-		console.log('User wants to favorite room ID '+this._id);
 		var now = Date.now();
 		var favoriteCheck = Favorites.findOne({user_id: Meteor.userId(), room_id: this._id});
 		if ( favoriteCheck ) {

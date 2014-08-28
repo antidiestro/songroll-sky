@@ -54,11 +54,13 @@ Template.videoSearch.events({
 		$('#videoSearch .tab-pane.active .search-container input').focus().select();
 	},
 	'click #videoSearch .search-results-spotify li': function(){
-		Meteor.call('insertSpotifySong', this, context._id);
+		var currentRoom = Router.current().data();
+		Meteor.call('insertSpotifySong', this, currentRoom._id);
 		$('#videoSearch').modal('hide');
 	},
 	'click #videoSearch .search-results-youtube li': function(){
-		Meteor.call('insertYouTubeVideo', this, context._id);
+		var currentRoom = Router.current().data();
+		Meteor.call('insertYouTubeVideo', this, currentRoom._id);
 		$('#videoSearch').modal('hide');
 	},
 	'submit #form-search-video': function(e){

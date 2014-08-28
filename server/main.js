@@ -228,8 +228,6 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
 					Rooms.update({_id: nextRoom._id}, { $set: { userCount: nextRoomCount } });
 					Messages.insert({user_id: doc._id, room_id: nextRoom._id, isActivityMessage: true, activityType: 'join'});
 				}
-
-				console.log('User is in room '+this.previous.currentRoom+', changing to room '+modifier.$set.currentRoom);
 			}
 		}
 	}
@@ -280,7 +278,6 @@ Videos.before.insert(function(userId, doc){
 });
 
 Videos.after.insert(function(userId, doc){
-	console.log('Hey there, I have received '+doc.title);
 
 	if ( userId ) {
 		Messages.insert({room_id: doc.room_id, video_id: doc._id, user_id: userId, isActivityMessage: true, activityType: 'addVideo'});		
