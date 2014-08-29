@@ -4,23 +4,23 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-bootstrap-3
 http
-moment
-collection-hooks
+mrt:moment@2.8.1
 accounts-base
 accounts-ui-unstyled
 accounts-twitter
-twitter-api
-npm
 less
-publish-with-relations
-auto-nprogress
-iron-router
-server-eval
-font-awesome
-publish-composite
-reactive-publish
+mrt:server-eval@0.5.0
 service-configuration
-user-status
-kadira
+mrt:publish-with-relations@0.1.5
+mizzao:bootstrap-3
+matb33:collection-hooks
+meteorhacks:npm
+daniel:auto-nprogress
+iron:router
+natestrauser:font-awesome
+mizzao:user-status
+meteorhacks:kadira
+
+
+npm-container
