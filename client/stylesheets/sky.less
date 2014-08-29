@@ -865,8 +865,10 @@ html.nprogress-busy #sky-header .logo a img {
 				background-size: cover;
 				display: inline-block;
 				vertical-align: middle;
-				margin-left: 10px;
+				margin-right: 6px;
 				border: 2px solid #3B4257;
+				position: relative;
+				top: -2px;
 			}
 
 			.info {
@@ -890,6 +892,17 @@ html.nprogress-busy #sky-header .logo a img {
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
+
+					&:after {
+						content: "";
+						width: 60px;
+						height: 2px;
+						background: white;
+						position: absolute;
+						left: 50%;
+						bottom: -10px;
+						margin-left: -30px;
+					}
 				}
 			}
 		}

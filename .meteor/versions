@@ -43,6 +43,7 @@ mizzao:bootstrap-3@3.2.0
 mizzao:timesync@0.2.2
 mizzao:user-status@0.6.2
 mongo-livedata@1.0.3
+mrt:joyride@0.0.1
 mrt:moment@2.8.1
 mrt:nprogress@0.0.5
 mrt:publish-with-relations@0.1.5

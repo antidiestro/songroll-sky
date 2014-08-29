@@ -12,11 +12,11 @@
 
     {{#if now_playing}}
       <div class="now-playing">
+        <div class="album-art" style="background-image:url({{now_playing.image_url}})"></div>
         <div class="info">
           <div class="artist">{{now_playing.artist_name}}</div>
           <div class="title">{{now_playing.title}}</div>
         </div>
-        <div class="album-art" style="background-image:url({{now_playing.image_url}})"></div>
       </div>
     {{/if}}
 
