@@ -44,7 +44,6 @@ cleanVideoName = function(video_title, track, artist){
 		removeChars.forEach(function(char){
 			trackNamePartFiltered = trackNamePartFiltered.replace(char, '');
 		});
-		console.log(trackNamePartFiltered.trim());
 		var regex = new RegExp(trackNamePartFiltered.trim(), 'gi');
 		removeRegex.push(regex);
 	});
