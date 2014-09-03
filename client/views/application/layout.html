@@ -41,5 +41,9 @@
 		</div>
 	</div>
 
-	{{> yield}}
+	{{#if firstLoad}}
+		cargando...
+	{{else}}
+		{{> yield}}
+	{{/if}}
 </template>

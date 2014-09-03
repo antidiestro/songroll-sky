@@ -10,6 +10,12 @@ Template.layout.rendered = function(){
 	});
 }
 
+Template.layout.helpers({
+	firstLoad: function(){
+		return Session.get('firstLoad');
+	}
+})
+
 Template.layout.events = {
 	'click #login': function(){
 		$('#loginModal').modal('show');

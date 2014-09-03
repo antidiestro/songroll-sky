@@ -13,6 +13,10 @@ Meteor.publish('userRooms', function(){
 	return Rooms.find({user_id: this.userId});
 });
 
+Meteor.publish('userFavoriteRooms', function(idsArray){
+	return Rooms.find({_id: { $in: idsArray }});
+});
+
 Meteor.publish('userFavorites', function(){
 	return Favorites.find({user_id: this.userId});
 });
