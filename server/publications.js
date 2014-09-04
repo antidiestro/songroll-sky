@@ -77,7 +77,11 @@ Meteor.publish('room', function(room_id){
 
 Meteor.publish('roomVideos', function(room_id){
 	return Videos.find({room_id: room_id});
-})
+});
+
+Meteor.publish('roomVotes', function(room_id){
+	return Votes.find({room_id: room_id});
+});
 
 Meteor.publish('roomMessages', function(room_id){
 	return Messages.find({room_id: room_id}, { limit: 100, sort: {createdAt: -1} });

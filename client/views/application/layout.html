@@ -1,4 +1,7 @@
 <template name="layout">
+
+	<div id="overlay-loader"><img src="/loader-dark.gif"></div>
+
 	<div id="backdrop"></div>
 
 	{{> login}}
@@ -41,9 +44,5 @@
 		</div>
 	</div>
 
-	{{#if firstLoad}}
-		cargando...
-	{{else}}
-		{{> yield}}
-	{{/if}}
+	{{> yield}}
 </template>

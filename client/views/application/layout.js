@@ -8,13 +8,13 @@ Template.layout.rendered = function(){
 			$('#loginModal, #welcomeModal').modal('hide');
 		}
 	});
-}
 
-Template.layout.helpers({
-	firstLoad: function(){
-		return Session.get('firstLoad');
-	}
-})
+	Deps.autorun(function(){
+		if ( Session.get('firstLoaded') === true ) {
+			$('#overlay-loader').fadeOut();
+		}
+	});
+}
 
 Template.layout.events = {
 	'click #login': function(){

@@ -232,6 +232,13 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
 	}
 });
 
+Votes.before.insert(function(userId, doc){
+	var video = Videos.findOne({_id: doc.video_id});
+	if ( video ) {
+		doc.room_id = video.room_id;
+	}
+});
+
 Votes.after.insert(function(userId, doc){
 	var videoVoteCount = Votes.find({video_id: doc.video_id}).count();
 	Videos.update({_id: doc.video_id}, { $set: { voteCount: videoVoteCount } });
