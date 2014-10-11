@@ -1,0 +1,8 @@
+APIKeys = {
+  echonest: '',
+  twitter: {
+    consumerKey: '',
+    secret: ''
+  },
+  youtube: ''
+}
