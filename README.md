@@ -11,6 +11,8 @@ To run Sky locally you will need to have Meteor installed. If you don't know wha
 - Copy the ```api_keys.js.example``` file on the ```/lib``` folder as ```api_keys.js``` and add your own API keys there.
 - That's it! You can now run ```meteor``` on the project's folder and you're done.
 
+Please note that **you need keys for all services** on the ```api_keys.js``` file. Missing keys will result in the app not working properly.
+
 ## Getting my API keys
 
 In case you don't know where to get keys for the services, here are some links with instructions:
