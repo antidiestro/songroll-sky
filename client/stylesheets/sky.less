@@ -10,6 +10,26 @@ body {
 	color: white;
 }
 
+#overlay-loader {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 6000;
+	background-color: #242632;
+	top: 0;
+	left: 0;
+
+	img {
+		display: block;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 30px;
+		margin-left: -15px;
+		margin-top: -15px;
+	}
+}
+
 body.fullscreen {
 	padding-top: 0;
 

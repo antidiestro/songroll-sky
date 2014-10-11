@@ -2,10 +2,6 @@ Meteor.subscribe('allUsers');
 Meteor.subscribe('userData');
 Meteor.subscribe('userFavorites');
 
-Meteor.startup(function(){
-	Session.set('firstLoad', true);
-});
-
 windowWidth = $(window).width();
 windowWidthDependency = new Deps.Dependency;
 

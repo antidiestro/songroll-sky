@@ -43,4 +43,3 @@ UserStatus.events.on("connectionLogout", function(fields) {
 		Meteor.users.update({_id: fields.userId}, { $set: { currentRoom: 0 } })
 	}
 });
-

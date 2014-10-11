@@ -1,4 +1,5 @@
 // Collection handlers
+
 Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
   if ( modifier.$set ) {
     if ( typeof modifier.$set.currentRoom !== 'undefined' ) {
@@ -20,6 +21,13 @@ Meteor.users.after.update(function(userId, doc, fieldNames, modifier){
         }
       }
     }
+  }
+});
+
+Votes.before.insert(function(userId, doc){
+  var video = Videos.findOne({_id: doc.video_id});
+  if ( video ) {
+    doc.room_id = video.room_id;
   }
 });
 
